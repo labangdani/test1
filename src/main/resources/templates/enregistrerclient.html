@@ -1,0 +1,87 @@
+
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>EAT FAST</title>
+    <meta name="description" content="Free Bootstrap Theme by ProBootstrap.com">
+    <meta name="keywords" content="free website templates, free bootstrap themes, free template, free bootstrap, free website template">
+
+    <link href="https://fonts.googleapis.com/css?family=Raleway:300,400,500,700|Open+Sans" rel="stylesheet">
+    <link rel="stylesheet" th:href="@{/css/styles-merged.css}">
+    <link rel="stylesheet" th:href="@{/css/style.min.css}">
+    <link rel="stylesheet" th:href="@{/css/custom.css}">
+
+    <!--[if lt IE 9]>
+    <script th:src="@{/js/vendor/html5shiv.min.js}"></script>
+    <script th:src="@{/js/vendor/respond.min.js}"></script>
+    <![endif]-->
+</head>
+<body>
+
+<div class="probootstrap-page-wrapper">
+
+    <section class="probootstrap-section probootstrap-section-sm">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="row probootstrap-gutter0">
+                        <div class="col-md-7 col-md-push-1  probootstrap-animate" id="probootstrap-content">
+                          <p><h2><b> Créer un compte </b></h2></p>
+                            <p>Les champs en * sont obloigatoire</p>
+                            <form class="probootstrap-form"   th:method="post" th:object="${utilisateurDto}"  th:action="@{/User/enregistrerUser}">
+                                <div class="form-group">
+                                    <label >Username *</label>
+                                    <input type="text" class="form-control"  name="nomU" >
+                                <div class="form-group">
+                                    <label >E-mail *</label>
+                                    <input type="email" placeholder="adresse@gmail.com" class="form-control"  name="mailU" >
+                                </div>
+                                <div class="form-group">
+                                    <label >Mot de passe *</label>
+                                    <input type="password" class="form-control"   name="password" required>
+                                </div>
+                                <div class="form-group">
+                                    <label >Téléphone *</label>
+                                    <input type="tel" class="form-control" placeholder="+237 696 074 190"  name="telU">
+                                </div>
+                                    <div class="form-group">
+                                        <label >Sexe *</label>
+                                        <select class="form-control"  name="sexe">
+                                            <option value="feminin">F</option>
+                                            <option value="masculin">M</option>
+                                        </select>
+                                    </div>
+                                    <div class="form-group">
+                                        <label >Role *</label>
+                                        <select class="form-control"  name="role">
+                                            <option value="client">Client</option>
+                                            <option value="gestionnaire">Gestionnaire de restaurant </option>
+                                        </select>
+                                    </div>
+                                <div class="form-group">
+                                    <input type="submit" class="btn btn-primary btn-lg" id="submit" name="valider" value="Enregistrer">
+                                </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+   
+
+</div>
+<!-- END wrapper -->
+
+
+<script th:src="@{/js/scripts.min.js}"></script>
+<script th:src="@{/js/main.min.js}"></script>
+<script th:src="@{/js/custom.js}"></script>
+
+</body>
+</html>

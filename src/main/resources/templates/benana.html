@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="fr" xmlns:th="http://www.w3.org/1999/xhtml">
+
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+<title>RESTOFIND</title>
+<meta name="keywords" content="">
+<meta name="description" content="">
+<meta name="author" content="">
+
+<link th:href="@{/css/bootstrap.css}" rel="stylesheet">
+
+<link th:href="@{/css/font-awesome.min.css}" rel="stylesheet">
+
+<link th:href="@{/style1.css}" rel="stylesheet">
+
+<link th:href="@{/css/responsive.css}" rel="stylesheet">
+
+<link th:href="@{/css/version/marketing.css}" rel="stylesheet">
+
+
+</head>
+<body>
+<section class="section lb m3rem">
+    <div class="container">
+
+<!--        <div class="row">-->
+            <div class="col-lg-8 col-md-12 col-sm-12 col-xs-12">
+
+                <div class="page-wrapper">
+                    <div  class="blog-title-area">
+
+                        <ol class="breadcrumb hidden-xs-down">
+                            <li class="breadcrumb-item"><a href="#">Accueil</a></li>
+                            <li class="breadcrumb-item"><a href="#">Restaurant</a></li>
+                            <li class="breadcrumb-item active">Nous sommes à votre service</li>
+                        </ol>
+
+                        <span class="color-yellow"><a href="marketing-category.html" title="">Note: 9/10</a></span>
+
+                        <h3 th:text="${restaurant.nom}">nom </h3>
+
+
+                        <div class="post-sharing">
+                            <ul class="list-inline">
+                                <li><a href="#" class="fb-button btn btn-primary"><i class="fa fa-facebook"></i> <span class="down-mobile">Partagez sur Facebook</span></a></li>
+                                <li><a href="#" class="tw-button btn btn-primary"><i class="fa fa-twitter"></i> <span class="down-mobile">Tweetez sur Twitter</span></a></li>
+                                <li><a href="#" class="gp-button btn btn-primary"><i class="fa fa-google-plus"></i></a></li>
+                            </ul>
+                        </div><!-- lien de pages -->
+                    </div><!-- fin titre -->
+
+                    <div class="single-post-media">
+                        <img th:src="${restaurant.image}" alt="" class="img-fluid">
+                    </div><!-- fin media -->
+
+                    <div class="blog-content">
+                        <div class="pp">
+
+
+                            <h3><strong> <p th:text="${restaurant.description}">Description</p>
+                            </strong></h3>
+                        </div><!-- fin pp -->
+
+                    </div>
+                </div>
+
+            </div>
+
+
+
+
+
+<!--            <% listresto.forEach(function(restaurant, index) { %>-->
+            <div class="col-lg-4 col-md-12 col-sm-12 col-xs-12">
+
+                <div class="sidebar">
+                    <div class="widget-no-style">
+                        <div class="newsletter-widget text-center align-self-center">
+
+                            <h3 th:text="${restaurant.nom}">nom</h3>
+                            <p>passez vos commandes dès maintenant</p>
+                            <p th:text="${restaurant.nom}">, Votre Meilleur restaurant ou manger</p>
+                            ADRESSE : <span th:text="${restaurant.localisation}"></span>
+                            CONTACT : <span th:text="${restaurant.contact}"></span>
+                        </div><!-- fin newsletter -->
+
+                    </div>
+                </div>
+            </div>
+<!--            <% }); %>-->
+        </div>
+
+    </div>
+</section>
+</body>
+</html>

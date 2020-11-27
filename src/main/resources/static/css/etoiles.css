@@ -1,0 +1,21 @@
+.fa-star {
+	color: gray;
+	cursor: pointer;
+	padding: 0.0625rem;
+}
+
+.fa-star.gold {
+	color: #ffdc0f;
+}
+
+.rating {
+	display : flex;
+	flex-direction: column;
+	align-items: center;
+}
+
+.stars {
+	display: inline-flex;
+	justify-content: center;
+	font-size: 3em;
+}
