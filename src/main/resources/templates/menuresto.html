@@ -72,7 +72,7 @@
                             <p align="left" th:text="${plat.getPrix()}">prix</p>
                             <p align="right">
                                 <a th:href="@{'/restaurant/facture'}" class="btn btn-primary btn-sm">Modifier</a>
-                                <a th:href="@{'/restaurant/facture'}" class="btn btn-primary btn-sm">Supprimer</a>
+                                <a onclick="return alert('Etes vous sûre de vouloir supprimer?')" th:href="@{'/plat/delete(${plat.getIdplat})'}" class="btn btn-primary btn-sm">Supprimer</a>
                             </p>
 
                         </div>

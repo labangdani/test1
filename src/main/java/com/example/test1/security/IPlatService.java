@@ -1,4 +1,4 @@
-package com.example.test1.security.service;
+package com.example.test1.security;
 
 import com.example.test1.modele.DTO.PlatDto;
 import com.example.test1.modele.Entity.Plat;
@@ -27,4 +27,11 @@ public class IPlatService implements PlatService {
     public Plat Platidentique(String nomP) {
         return platRepository.findAllByNomP(nomP);
     }
+
+    @Override
+    public Plat findOne(Long idplat) {
+        return platRepository.findByIdplat(idplat);
+    }
+
+
 }

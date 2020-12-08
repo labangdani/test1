@@ -1,10 +1,13 @@
-package com.example.test1.security.service;
+package com.example.test1.security;
 
 
 import com.example.test1.modele.DTO.CommandeDto;
 import com.example.test1.modele.Entity.Commande;
 import com.example.test1.repository.CommandeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -29,8 +32,8 @@ public class ICommandeService implements CommandeService {
     }
 
     @Override
-    public List<Commande> listCommande(String nomR) {
+    public Page<Commande> listCommande(String nomR, Pageable pageable) {
 
-        return commandeRepository.findAllByRestaurant(nomR);
+        return commandeRepository.findAllByRestaurant(nomR, pageable);
     }
 }

@@ -28,27 +28,21 @@ public class Utilisateur {
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(name = "user_roles",
             joinColumns = @JoinColumn(name = "idU"),
-            inverseJoinColumns = @JoinColumn(name = "idresto"))
+            inverseJoinColumns = @JoinColumn(name = "idrole"))
     private Set<Role> roles = new HashSet<>();
 
     public Utilisateur() {
     }
 
-    public Utilisateur(String username, String mailU, String password, int telU, String adresse, String sexe, Set<Role> roles) {
+    public Utilisateur(String username, String mailU, String password, int telU, String adresse, String sexe) {
         this.username = username;
         this.mailU = mailU;
         this.password = password;
         this.telU = telU;
         this.adresse = adresse;
         this.sexe = sexe;
-        this.roles = roles;
     }
 
-    public Utilisateur(String username, String mailU, String password) {
-        this.username = username;
-        this.mailU = mailU;
-        this.password = password;
-    }
 
     public Long getIdU() {
         return idU;

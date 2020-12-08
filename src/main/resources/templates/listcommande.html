@@ -59,24 +59,29 @@
                 <th>Nom</th>
                 <th>Plat</th>
                 <th>Quantité</th>
-                <th>Adresse</th>
+                <th>Total</th>
                 <th>Téléphone</th>
                 <th>Mail</th>
+                <th>Validité</th>
             </tr>
             </thead>
             <tbody>
-            <tr>
-                <td>1</td>
-                <td>Anna</td>
-                <td>Eru</td>
-                <td>3</td>
-                <td>New York</td>
-                <td>622222222</td>
-                <td>dan@gmail.com</td>
-
+            <tr th:each="p:${listcommande}">
+                <td th:text>"${p.idcom}"</td>
+                <td th:text>"${p.user_id}"</td>
+                <td th:text>"${p.nbrplat}"</td>
+                <td th:text>"${p.total}"</td>
+                <td th:text>"${p.fraislivraison}"</td>
             </tr>
             </tbody>
         </table>
+    </div>
+    <div class="container">
+    <ul class="nav nav-pills">
+        <li th:class="{${pageCourant}==${status.index}?'active':''" th:each="pa,status:${pages}">
+        <a th:href="@{index(page=${status.index},size=${size})}" th:text="${status.index}"></a>
+        </li>
+    </ul>
     </div>
 </div>
         </div>

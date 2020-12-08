@@ -1,14 +1,10 @@
 package com.example.test1.modele.DTO;
 
-import com.example.test1.modele.Entity.Role;
 
 import javax.persistence.*;
-import java.util.HashSet;
 import java.util.Set;
 
-    @Entity
-    @Table(name="utilisateur", uniqueConstraints = {@UniqueConstraint(columnNames = "username"),
-            @UniqueConstraint(columnNames = "mailU")})
+
     public class UtilisateurDto {
         @Id
         @GeneratedValue(strategy = GenerationType.AUTO)
@@ -26,24 +22,21 @@ import java.util.Set;
         private String adresse;
         @Column(name = "sexe")
         private String sexe;
-        @ManyToMany(fetch = FetchType.LAZY)
-        @JoinTable(name = "user_roles",
-                joinColumns = @JoinColumn(name = "idU"),
-                inverseJoinColumns = @JoinColumn(name = "idresto"))
-        private Set<Role> roles = new HashSet<>();
+        private Set<String> role;
 
         public UtilisateurDto() {
         }
 
-        public UtilisateurDto(String username, String mailU, String password, int telU, String adresse, String sexe, Set<Role> roles) {
+        public UtilisateurDto(String username, String mailU, String password, int telU, String adresse, String sexe) {
             this.username = username;
             this.mailU = mailU;
             this.password = password;
             this.telU = telU;
             this.adresse = adresse;
             this.sexe = sexe;
-            this.roles = roles;
         }
+
+
 
         public Long getIdU() {
             return idU;
@@ -101,11 +94,11 @@ import java.util.Set;
             this.sexe = sexe;
         }
 
-        public Set<Role> getRoles() {
-            return roles;
+        public Set<String> getRole() {
+            return this.role;
         }
 
-        public void setRoles(Set<Role> roles) {
-            this.roles = roles;
+        public void setRole(Set<String> role) {
+            this.role = role;
         }
     }

@@ -1,4 +1,4 @@
-package com.example.test1.security.service;
+package com.example.test1.security;
 
 
 import com.example.test1.modele.DTO.RestaurantDto;
@@ -39,5 +39,10 @@ public class IRestaurantService implements RestaurantService {
     @Override
     public Restaurant rechercherRestaurant(String nom, String localisation) {
         return restaurantRepository.findByNomRAndLocalisation(nom, localisation);
+    }
+
+    @Override
+    public Restaurant findOne(Long idresto) {
+        return restaurantRepository.findByIdresto(idresto);
     }
 }

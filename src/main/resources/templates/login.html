@@ -16,10 +16,10 @@
       <div class="hero-body has-text-centered">
         <div class="login">
           <img th:src="@{/images/login_logo.jpg}" width="325px" />
-          <form th:method="post"  th:action="@{/User/redirection}"  >
+          <form th:method="post" th:object="${utilisateurDto}" th:action="@{/login}"  >
             <div class="field">
               <div class="control">
-                <input class="input is-medium is-rounded" type="text" name="nomu" placeholder="username" autocomplete="username" required />
+                <input class="input is-medium is-rounded" type="text" name="username" placeholder="username" autocomplete="username" required />
               </div>
             </div>
             <div class="field">

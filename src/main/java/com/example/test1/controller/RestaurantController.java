@@ -2,16 +2,16 @@ package com.example.test1.controller;
 
 import com.example.test1.modele.DTO.RestaurantDto;
 import com.example.test1.modele.Entity.Restaurant;
-import com.example.test1.security.service.RestaurantService;
+import com.example.test1.security.RestaurantService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+
+import javax.validation.Valid;
 
 @Controller
 @RequestMapping("/resto")
@@ -19,8 +19,8 @@ public class RestaurantController {
     @Autowired
     private RestaurantService restoservice;
 
-    @PostMapping("/enregistrerResto")
-    public String RestoAccount(@ModelAttribute("restaurant") @Validated RestaurantDto restaurantDto,
+    @RequestMapping(value="/save", method= RequestMethod.POST)
+    public String RestoAccount(@ModelAttribute("restaurant") @Valid RestaurantDto restaurantDto,
                                   BindingResult result){
         Restaurant existing = restoservice.rechercherRestaurant(restaurantDto.getNomR(), restaurantDto.getLocalisation());
         if(existing != null){
@@ -34,7 +34,14 @@ public class RestaurantController {
         return "menuresto";
     }
 
-    @GetMapping("/remplirForm")
+    @RequestMapping(value="/edit", method = RequestMethod.GET)
+    public String edit (Model model, Long idresto){
+        Restaurant restaurant = restoservice.findOne(idresto);
+        model.addAttribute("restaurant", restaurant);
+        return "EditResto";
+    }
+
+    @RequestMapping(value="/remplirForm", method=RequestMethod.GET)
     public String pageEngregistrerRestaurant(Model model) {
 
         model.addAttribute("restaurantDto", new RestaurantDto());

@@ -1,17 +1,32 @@
 package com.example.test1.controller;
 
+import com.example.test1.modele.DTO.UserDetailsImpl;
 import com.example.test1.modele.DTO.UtilisateurDto;
+import com.example.test1.modele.Entity.ERole;
+import com.example.test1.modele.Entity.Role;
 import com.example.test1.modele.Entity.Utilisateur;
-import com.example.test1.security.service.UtilisateurService;
+import com.example.test1.repository.RoleRepository;
+import com.example.test1.repository.UtilisateurRepository;
+import com.example.test1.security.UtilisateurService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+
+import javax.validation.Valid;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 
 @Controller
@@ -19,32 +34,109 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class UtilisateurController {
     @Autowired
     private UtilisateurService utilisateurservice;
+    @Autowired
+    private UtilisateurRepository utilisateurRepository;
+    @Autowired
+    private RoleRepository roleRepository;
+    @Autowired
+    private PasswordEncoder encoder;
 
-    @PostMapping("/enregistrerUser")
-    public String UserAccount(@ModelAttribute("utilisateur") @Validated UtilisateurDto utilisateurDto,
-                               BindingResult result){
-        Utilisateur existing = utilisateurservice.rechercherUtilisateur(utilisateurDto.getMailU());
-        if(existing != null){
-            result.rejectValue("mail", null, "There is already an account registered with that matricule");
-        }
-        if (result.hasErrors()){
-            return "enregistrerclient";
-        }
-        utilisateurservice.save(utilisateurDto);
-        return "redirect:connexion";
-    }
-
-    @GetMapping("/remplirUserForm")
-    public String pageEngregistrerUtilisateur(Model model) {
-
-        model.addAttribute("utilisateurDto", new UtilisateurDto());
+    @RequestMapping(value="/remplirUserForm", method = RequestMethod.GET)
+    public String pageEngregistrerUtilisateur() {
 
         return "enregistrerclient";
     }
 
-    @GetMapping("/connexion")
+    @RequestMapping(value="/connexion", method = RequestMethod.GET)
     public String pagedeconnexion() {
 
         return "login";
     }
+    @RequestMapping(value="/403", method = RequestMethod.GET)
+    public String accessDenied() {
+        return "403";
+    }
+
+    @RequestMapping(value="/edit", method = RequestMethod.GET)
+    public String edit (Model model, Long idu){
+        Utilisateur utilisateur = utilisateurservice.findOne(idu);
+        model.addAttribute("utilisateur", utilisateur);
+        return "EditUser";
+    }
+
+    @RequestMapping(value="/", method = RequestMethod.GET)
+    public String home() {
+        return "index";
+    }
+
+    @RequestMapping(value="/signup", method = RequestMethod.POST)
+    public String registerUser(@ModelAttribute("utilisateur") @Valid UtilisateurDto utilisateurDto, BindingResult result) {
+        System.out.println("Bonjour");
+        if (utilisateurRepository.existsByUsername(utilisateurDto.getUsername())) {
+            result.rejectValue("Username", null, "Username is already taken!");
+        }
+
+        if (utilisateurRepository.existsByMailU(utilisateurDto.getMailU())) {
+            result.rejectValue("MailU", null, "MailU is already taken!");
+        }
+
+        // Create new user's account
+        Utilisateur utilisateur = new Utilisateur(utilisateurDto.getUsername(),
+                utilisateurDto.getMailU(),
+                encoder.encode(utilisateurDto.getPassword()),
+                utilisateurDto.getTelU(),
+                utilisateurDto.getAdresse(),
+                utilisateurDto.getSexe());
+
+        Set<String> strRoles = utilisateurDto.getRole();
+        Set<Role> roles = new HashSet<>();
+
+        if (strRoles == null) {
+            Role userRole = roleRepository.findByName(ERole.USER)
+                    .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
+            roles.add(userRole);
+        } else {
+            strRoles.forEach(role -> {
+                switch (role) {
+                    case "admin":
+                        Role adminRole = roleRepository.findByName(ERole.ADMIN)
+                                .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
+                        roles.add(adminRole);
+
+                        break;
+                    case "mod":
+                        Role modRole = roleRepository.findByName(ERole.MODERATOR)
+                                .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
+                        roles.add(modRole);
+
+                        break;
+                    default:
+                        Role userRole = roleRepository.findByName(ERole.USER)
+                                .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
+                        roles.add(userRole);
+                }
+            });
+        }
+
+        utilisateur.setRoles(roles);
+        utilisateurRepository.save(utilisateur);
+        return "redirect:connexion";
+    }
+
+
+   /* @RequestMapping(value="/signin", method = RequestMethod.POST)
+    public String authenticateUser(@ModelAttribute("utilisateur")@Valid UtilisateurDto utilisateurDto) {
+
+        Authentication authentication = authenticationManager.authenticate(
+                new UsernamePasswordAuthenticationToken(utilisateurDto.getUsername(), utilisateurDto.getPassword()));
+
+        SecurityContextHolder.getContext().setAuthentication(authentication);
+
+        UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
+        List<String> roles = userDetails.getAuthorities().stream()
+                .map(item -> item.getAuthority())
+                .collect(Collectors.toList());
+
+        return "redirect:home";
+    }*/
 }

@@ -48,6 +48,9 @@
                 <li class="nav-item"><a href="#section-about" class="nav-link">A propos</a></li>
                 <li class="nav-item"><a href="#section-offer" class="nav-link">Nos services</a></li>
                 <li class="nav-item"><a href="#section-contact" class="nav-link">Contact</a></li>
+                <li class="nav-item"><a th:href="@{/Login?Logout}" th:type="text">
+                    [[${#httpServletRequest.remoteUser}]]
+                </a></li>
                 <!-- Trigger the modal with a button -->
                <td> <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#compteModal">Mon Compte</button></td>
             </ul>

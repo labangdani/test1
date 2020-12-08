@@ -1,4 +1,4 @@
-package com.example.test1.security.service;
+package com.example.test1.security;
 
 
 import com.example.test1.modele.DTO.UtilisateurDto;
@@ -12,7 +12,7 @@ public class IUtilisateurService implements UtilisateurService {
     @Autowired
     private UtilisateurRepository utilisateurRepository;
 
-    @Override
+   /* @Override
     public Utilisateur save(UtilisateurDto utilisateurDto) {
         Utilisateur utilisateur = new Utilisateur();
         utilisateur.setUsername(utilisateurDto.getUsername());
@@ -24,12 +24,16 @@ public class IUtilisateurService implements UtilisateurService {
         utilisateur.setRoles(utilisateurDto.getRoles());
 
         return utilisateurRepository.save(utilisateur);
-    }
+    }*/
 
     @Override
     public Utilisateur rechercherUtilisateur(String email) {
-
         return utilisateurRepository.findByMailU(email);
+    }
+
+    @Override
+    public Utilisateur findOne(Long idu) {
+        return utilisateurRepository.findByIdU(idu);
     }
 
 }
