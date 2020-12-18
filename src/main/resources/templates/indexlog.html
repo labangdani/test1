@@ -45,9 +45,12 @@
         <div class="collapse navbar-collapse" id="site-nav">
             <ul class="navbar-nav ml-auto">
                 <li class="nav-item active"><a href="#section-home" class="nav-link">Accueil</a></li>
-                <li class="nav-item"><a th:href="@{/Login?Logout}" th:type="text">
-                    [[${#httpServletRequest.remoteUser}]]
+                <li class="nav-item"><a th:href="@{/Login?Logout}" th:text="${#HttpServletRequest.getRemoteUser()}">
                 </a></li>
+              <!--  <tr th:each="user:${Utilisateur}">
+                    <td>
+                        <label th:text="${user.username}" th:value="${user.username}" th:field="*{username}"></label>
+                    </td>-->
                 <!-- Trigger the modal with a button -->
                <td> <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#compteModal">Mon Compte</button></td>
             </ul>

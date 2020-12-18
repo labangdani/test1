@@ -192,6 +192,13 @@ $(document).ready(function($) {
 	$('#m_time').timepicker();
 
 
+	function listerestaurant(restaurant) {
+		localStorage.removeItem("restaurant");
+		localStorage.setItem("restaurant", JSON.stringify(restaurant));
+		localStorage.getItem("restaurant");
+	};
+
+
 
 });
 

@@ -6,27 +6,22 @@ import com.example.test1.repository.PlatRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class IPlatService implements PlatService {
     @Autowired
     private PlatRepository platRepository;
 
     @Override
-    public Plat save(PlatDto platDto) {
-        Plat plat = new Plat();
-        plat.setIdplat(platDto.getIdplat());
-        plat.setDescription(platDto.getDescription());
-        plat.setImage(platDto.getImage());
-        plat.setNomP(platDto.getNomR());
-        plat.setPrix(platDto.getPrix());
-        plat.setRestaurant(platDto.getRestaurant());
-        return platRepository.save(plat);
-    }
-
-    @Override
     public Plat Platidentique(String nomP) {
         return platRepository.findAllByNomP(nomP);
     }
+
+    /*@Override
+    public List<Plat> rechercherplat(Long idresto) {
+        return platRepository.rechercherplats(idresto);
+    }*/
 
     @Override
     public Plat findOne(Long idplat) {

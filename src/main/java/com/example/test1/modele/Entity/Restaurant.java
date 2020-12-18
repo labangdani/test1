@@ -1,12 +1,11 @@
 package com.example.test1.modele.Entity;
 
 import javax.persistence.*;
-import java.util.Collection;
+import java.util.HashSet;
 import java.util.List;
-import java.util.Objects;
 import java.util.Set;
 
-@Entity
+@Entity(name = "restaurant")
 @Table(name = "restaurant")
 public class Restaurant {
     @Id
@@ -28,22 +27,27 @@ public class Restaurant {
     @Column(name = "type")
     private String type;
     @Column(name = "lundi")
-    private Boolean lundi;
+    private Boolean lundi = false;
     @Column(name = "mardi")
-    private Boolean mardi;
+    private Boolean mardi = false;
     @Column(name = "mercredi")
-    private Boolean mercredi;
+    private Boolean mercredi = false;
     @Column(name = "jeudi")
-    private Boolean jeudi;
+    private Boolean jeudi = false;
     @Column(name = "vendredi")
-    private Boolean vendredi;
+    private Boolean vendredi = false;
     @Column(name = "samedi")
-    private Boolean samedi;
+    private Boolean samedi = false;
     @Column(name = "dimanche")
-    private Boolean dimanche;
-   /* @OneToMany(mappedBy = "restaurant", cascade = CascadeType.ALL)
-    @JoinColumn(name = "idcom")
-    private Set<Commande> commandes;*/
+    private Boolean dimanche = false;
+    @OneToMany(cascade = CascadeType.ALL,fetch = FetchType.EAGER,mappedBy = "restaurants")
+    //un sommaire peut avoir plusieur matieres
+    private List<Plat> plat;
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(name = "user_resto",
+            joinColumns = @JoinColumn(name = "idresto"),
+            inverseJoinColumns = @JoinColumn(name = "idU"))
+    private Set<Utilisateur> utilisateurs = new HashSet<>();
 
     public Restaurant() {
     }
@@ -185,31 +189,20 @@ public class Restaurant {
         this.dimanche = dimanche;
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof Restaurant)) return false;
-        Restaurant that = (Restaurant) o;
-        return getTel() == that.getTel() &&
-                Objects.equals(getIdresto(), that.getIdresto()) &&
-                Objects.equals(getNomR(), that.getNomR()) &&
-                Objects.equals(getLocalisation(), that.getLocalisation()) &&
-                Objects.equals(getImage(), that.getImage()) &&
-                Objects.equals(getDescription(), that.getDescription()) &&
-                Objects.equals(getMailR(), that.getMailR()) &&
-                Objects.equals(getType(), that.getType()) &&
-                Objects.equals(getLundi(), that.getLundi()) &&
-                Objects.equals(getMardi(), that.getMardi()) &&
-                Objects.equals(getMercredi(), that.getMercredi()) &&
-                Objects.equals(getJeudi(), that.getJeudi()) &&
-                Objects.equals(getVendredi(), that.getVendredi()) &&
-                Objects.equals(getSamedi(), that.getSamedi()) &&
-                Objects.equals(getDimanche(), that.getDimanche());
+    public List<Plat> getPlat() {
+        return plat;
     }
 
-    @Override
-    public int hashCode() {
-        return Objects.hash(getIdresto(), getNomR(), getLocalisation(), getImage(), getDescription(), getMailR(), getTel(), getType(), getLundi(), getMardi(), getMercredi(), getJeudi(), getVendredi(), getSamedi(), getDimanche());
+    public void setPlat(List<Plat> plat) {
+        this.plat = plat;
+    }
+
+    public Set<Utilisateur> getUtilisateurs() {
+        return utilisateurs;
+    }
+
+    public void setUtilisateurs(Set<Utilisateur> utilisateurs) {
+        this.utilisateurs = utilisateurs;
     }
 
     @Override
@@ -230,6 +223,7 @@ public class Restaurant {
                 ", vendredi=" + vendredi +
                 ", samedi=" + samedi +
                 ", dimanche=" + dimanche +
+                ", plat=" + plat +
                 '}';
     }
 }

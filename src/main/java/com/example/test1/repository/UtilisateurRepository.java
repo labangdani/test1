@@ -4,8 +4,6 @@ import com.example.test1.modele.Entity.Utilisateur;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-import java.util.Optional;
-
 
 @Repository
 public interface UtilisateurRepository extends JpaRepository<Utilisateur, Long> {
@@ -13,8 +11,8 @@ public interface UtilisateurRepository extends JpaRepository<Utilisateur, Long> 
     public Utilisateur findByMailU(String mailU);
     public Utilisateur findByIdU(Long idu);
 
-    Optional<Utilisateur> findByUsername(String username);
-
+   public  Utilisateur findByUsername(String username);
+    public Utilisateur findByUsernameAndPassword(String username, String password);
     Boolean existsByUsername(String username);
 
     Boolean existsByMailU(String mailu);

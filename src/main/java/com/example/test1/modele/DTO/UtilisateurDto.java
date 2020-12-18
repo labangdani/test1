@@ -1,6 +1,8 @@
 package com.example.test1.modele.DTO;
 
 
+import com.example.test1.modele.Entity.Restaurant;
+
 import javax.persistence.*;
 import java.util.Set;
 
@@ -18,8 +20,6 @@ import java.util.Set;
         private String password;
         @Column(name = "telU")
         private int telU;
-        @Column(name = "adresse")
-        private String adresse;
         @Column(name = "sexe")
         private String sexe;
         private Set<String> role;
@@ -27,12 +27,11 @@ import java.util.Set;
         public UtilisateurDto() {
         }
 
-        public UtilisateurDto(String username, String mailU, String password, int telU, String adresse, String sexe) {
+        public UtilisateurDto(String username, String mailU, String password, int telU, String sexe) {
             this.username = username;
             this.mailU = mailU;
             this.password = password;
             this.telU = telU;
-            this.adresse = adresse;
             this.sexe = sexe;
         }
 
@@ -78,14 +77,6 @@ import java.util.Set;
             this.telU = telU;
         }
 
-        public String getAdresse() {
-            return adresse;
-        }
-
-        public void setAdresse(String adresse) {
-            this.adresse = adresse;
-        }
-
         public String getSexe() {
             return sexe;
         }
@@ -101,4 +92,5 @@ import java.util.Set;
         public void setRole(Set<String> role) {
             this.role = role;
         }
+
     }

@@ -13,5 +13,5 @@ public interface RestaurantRepository extends JpaRepository<Restaurant, Long> {
 
     public Restaurant findByNomRAndLocalisation(String nom, String localisation);
     public Restaurant findByIdresto(Long idresto);
-
+    public List<Restaurant> findByLocalisation(String localisation);
 }

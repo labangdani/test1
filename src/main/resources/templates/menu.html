@@ -38,82 +38,66 @@
                 <li class="nav-item"><a th:href="@{/index.html#section-about}" class="nav-link">A propos</a></li>
                 <li class="nav-item"><a th:href="@{/index.html#section-offer}" class="nav-link">Nos services</a></li>
                 <li class="nav-item"><a th:href="@{/index.html#section-contact}" class="nav-link">Contact</a></li>
-                <li class="nav-item active"><a href="/restaurant/listeresto" class="nav-link">Menu</a></li>
             </ul>
         </div>
     </div>
 </nav>
 <section class="site-section bg-light" id="section-news">
     <div class="container">
-         <div class="row">
-<!--             <div class="col-md-7 mb-5 site-animate">-->
+        <div th:each="restaurant : ${listRestaurant}">
+            <div class="row">
+                <div class="main">
+                    <div class="col-md-12 text-center mb-5 site-animate">
+                        <h2 class="display-4" th:text="${restaurant.getNomR()}">
+                        nom
+                        </h2>
+                        <div class="row justify-content-center">
+                            <div class="col-md-7">
+                                <p class="lead">Bienvenue dans notre menu</p>
+                            </div>
+                        </div>
+                    </div>
 
-            <div class="main">
-              <div class="col-md-12 text-center mb-5 site-animate">
-                 <h2 class="display-4">Socrat</h2>
-                  <div class="row justify-content-center">
-                      <div class="col-md-7">
-                          <p class="lead">Bienvenue dans notre menu</p>
-                      </div>
-                  </div>
-              </div>
+                    <div th:each="plat: ${listPlat}">
+                        <div class="media d-block mb-4 site-media site-animate"><div class="media-body p-md-5 p-4">
+                            <div class="media">
+                                <div class="media-left">
+                                    <a href="#">
+                                        <img class="media-object" th:src="${plat.image}" alt="Free Template by colorlib.com">
+                                    </a>
+                                </div>
+                                <div  class="media-body">
+                                    <h4 class="media-heading" th:text="${plat.getNomP()}">nom</h4>
+                                    <p class="mb-4" th:text="${plat.getDescription()}">description</p>
+                                    <p align="left" class="mb-4" th:text="${plat.getPrix()}">prix</p>
+                                    <p align="right"> <a th:href="@{'/restaurant/facture'}" class="btn btn-primary btn-sm">Ajouter</a></p>
+                                </div>
+                            </div>
+                        </div></div>
+                    </div>
 
-
-             <div class="media d-block mb-4 site-media site-animate"><div class="media-body p-md-5 p-4">
-              <div class="media">
-                <div class="media-left">
-                    <a href="#">
-                        <img class="media-object" th:src="@{/images/menu_1.jpg}" alt="Free Template by colorlib.com">
-                    </a>
                 </div>
-                <div class="media-body">
-                    <h4 class="media-heading"> Media heading</h4>
-                     azertyuiopqsdfghjklmSAZERTYUIOPSDggggggggggggggggggggggggggggg
-                   <p align="right"> <a th:href="@{'/restaurant/facture'}" class="btn btn-primary btn-sm">Ajouter</a></p>
-                </div>
-            </div>
-        </div>
-             </div>
 
-        <div class="media d-block mb-4 site-media site-animate"><div class="media-body p-md-5 p-4">
-            <div class="media">
-                <div class="media-left">
-                    <a href="#">
-                        <img class="media-object" th:src="@{/images/menu_3.jpg}" alt="Free Template by colorlib.com">
-                    </a>
-                </div>
-                <div class="media-body">
-                    <h4 class="media-heading">Media heading</h4>
-                    azertyuiopqsdfghjklmSAZERTYUIOPSDFHKJLMXCV
-                    azerrrrrryuifdghfgjhkhjkljkl
-                    <p align="right"> <a th:href="@{'/restaurant/facture'}" class="btn btn-primary btn-sm">Ajouter</a></p>
-                </div>
-            </div>
-        </div>
-    </div>
-
-
-            </div>
-            </div>
 <!--       <div class="col-md-1"></div>-->
-            <div class="sidenav">
-                 <p class="text-black">
+                 <div class="sidenav">
+                     <p class="text-black">
                      <h4 align="center"> Votre panier </h4>
                      <hr>
                      <div class="flex-column">
                          <div>
-                             <td><span>Plat</span></td>
+                              <td><span>Plat</span></td>
                               <td><span>Plat</span></td>
                               <td><span><i class="fas fa-plus-circle" style="font-size:24px;color:royalblue;align:right;" ></i></span></td>
                               <td><span><i class="fas fa-minus-circle" style="font-size:24px;color:royalblue;align:right;"></i></span></td>
                               <td><span><i class="fas fa-trash-alt" style="font-size:24px;color:royalblue;align:right;"></i></span></td>
                          </div>
-                       <hr>  <h6>Sous total:
-                         <br><br>Frais de livraison:
-                         <br><br>Montant total:    1500</h6>
-                     <hr>
-                     <p align="center"> <a th:href="/restaurant/connexion" class="btn btn-primary btn-lg">Commander</a></p>
-                 </div>
+                         <hr>
+                         <h6>Sous total:
+                             <br><br>Frais de livraison:
+                             <br><br>Montant total:    1500</h6>
+                         <hr>
+                         <p align="center"> <a th:href="/restaurant/connexion" class="btn btn-primary btn-lg">Commander</a></p>
+                     </div>
                  </div>
              </div>
          </div>

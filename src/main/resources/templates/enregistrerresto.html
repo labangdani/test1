@@ -30,17 +30,17 @@
                         <div class="col-md-7 col-md-push-1  probootstrap-animate" id="probootstrap-content">
                             <p><h2><b> Créer un compte pour votre restaurant </b></h2></p>
                             <p>Les champs en * sont obloigatoire</p>
-                            <form class="probootstrap-form"   th:method="post" th:object="${restaurantDto}" th:action="@{/resto/enregistrerResto}">
+                            <form class="probootstrap-form"   th:method="post" th:object="${restaurantDto}" th:action="@{/resto/save}" autocomplete="on">
                                 <div class="form-group">
                                     <label >Nom du restaurant *</label>
                                     <input type="text" class="form-control"  name="nomR" >
                                     <div class="form-group">
                                         <label >Localisation *</label>
-                                        <input type="text" placeholder="Localisation" class="form-control"  name="localisation" >
+                                        <input type="text" placeholder="Localisation" class="form-control"  name="localisation" size="40" >
                                     </div>
                                     <div class="form-group">
                                         <label >image*</label>
-                                        <input type="text" class="form-control"   name="image" >
+                                        <input type="file" class="form-control" name="image" >
                                     </div>
                                     <div class="form-group">
                                         <label >Description *</label>
@@ -67,19 +67,19 @@
                                     </div>
                                     <div class="form-group">
                                         <label >Jour ouvrable *</label><br>
-                                        <input type="checkbox" id="lundi" name="lundi" value="1">
+                                        <input type="checkbox" id="lundi" name="lundi" value="true">
                                         <label for="lundi"> Lundi</label><br>
-                                        <input type="checkbox" id="mardi" name="mardi" value="1">
+                                        <input type="checkbox" id="mardi" name="mardi" value="true">
                                         <label for="mardi"> Mardi</label><br>
-                                        <input type="checkbox" id="mercredi" name="mercredi" value="1">
+                                        <input type="checkbox" id="mercredi" name="mercredi" value="true">
                                         <label for="mercredi"> Mercredi</label><br>
-                                        <input type="checkbox" id="jeudi" name="jeudi" value="1">
+                                        <input type="checkbox" id="jeudi" name="jeudi" value="true">
                                         <label for="jeudi"> Jeudi</label><br>
-                                        <input type="checkbox" id="vendredi" name="vendredi" value="1">
+                                        <input type="checkbox" id="vendredi" name="vendredi" value="true">
                                         <label for="vendredi"> Vendredi</label><br>
-                                        <input type="checkbox" id="samedi" name="samedi" value="1">
+                                        <input type="checkbox" id="samedi" name="samedi" value="true">
                                         <label for="samedi"> Samedi</label><br>
-                                        <input type="checkbox" id="dimanche" name="dimanche" value="1">
+                                        <input type="checkbox" id="dimanche" name="dimanche" value="true">
                                         <label for="dimanche"> Dimanche</label>
                                     </div>
 

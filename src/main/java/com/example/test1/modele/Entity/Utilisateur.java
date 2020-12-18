@@ -21,8 +21,6 @@ public class Utilisateur {
     private String password;
     @Column(name = "telU")
     private int telU;
-    @Column(name = "adresse")
-    private String adresse;
     @Column(name = "sexe")
     private String sexe;
     @ManyToMany(fetch = FetchType.LAZY)
@@ -31,15 +29,15 @@ public class Utilisateur {
             inverseJoinColumns = @JoinColumn(name = "idrole"))
     private Set<Role> roles = new HashSet<>();
 
+
     public Utilisateur() {
     }
 
-    public Utilisateur(String username, String mailU, String password, int telU, String adresse, String sexe) {
+    public Utilisateur(String username, String mailU, String password, int telU, String sexe) {
         this.username = username;
         this.mailU = mailU;
         this.password = password;
         this.telU = telU;
-        this.adresse = adresse;
         this.sexe = sexe;
     }
 
@@ -82,14 +80,6 @@ public class Utilisateur {
 
     public void setTelU(int telU) {
         this.telU = telU;
-    }
-
-    public String getAdresse() {
-        return adresse;
-    }
-
-    public void setAdresse(String adresse) {
-        this.adresse = adresse;
     }
 
     public String getSexe() {

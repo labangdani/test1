@@ -15,8 +15,16 @@
     <section class="hero is-fullheight">
       <div class="hero-body has-text-centered">
         <div class="login">
+          <div class="container">
+                <span class="red" th:if="${param.error}">
+                  Incorrect username or password
+                </span>
+            <span class="red" th:if="${param.logout}">
+                  You have been logged out
+                </span>
+          </div>
           <img th:src="@{/images/login_logo.jpg}" width="325px" />
-          <form th:method="post" th:object="${utilisateurDto}" th:action="@{/login}"  >
+          <form th:method="post" th:action="@{/login}"  >
             <div class="field">
               <div class="control">
                 <input class="input is-medium is-rounded" type="text" name="username" placeholder="username" autocomplete="username" required />
@@ -31,7 +39,6 @@
             <button class="button is-block is-fullwidth is-primary is-medium is-rounded" type="submit" >
               Login
             </button>
-            <span th:text="${msgerr}"></span>
           </form>
 
 
@@ -44,7 +51,7 @@
             </div>
             <div class="level-item has-text-centered">
               <div>
-                <a href="/restaurant/client">Create an Account</a>
+                <a href="/User/remplirUserForm">Create an Account</a>
               </div>
             </div>
           </nav>

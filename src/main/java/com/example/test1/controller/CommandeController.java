@@ -15,12 +15,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-import java.util.function.Function;
 
 
 @Controller
@@ -35,7 +30,7 @@ public class CommandeController {
         return "redirect:paiement";
     }
 
-    @RequestMapping(value="/listecommande", method = RequestMethod.GET)
+   /* @RequestMapping(value="/listecommande", method = RequestMethod.GET)
     public String listCommande(Model model, String nomR, @RequestParam(name = "page", defaultValue = "0")int p,
                                @RequestParam(name = "size", defaultValue = "5")int s) {
 
@@ -125,7 +120,7 @@ public class CommandeController {
 
         };
 
-  /*      for (Commande commandes:commande) {
+  *//*      for (Commande commandes:commande) {
             CommandeDto commandeDto = new CommandeDto();
             commandeDto.setNbrplat(commandes.getNbrplat());
             commandeDto.setTotal(commandes.getTotal());
@@ -136,7 +131,7 @@ public class CommandeController {
             commandeDto.setUser(commandes.getUser());
 
             dtos.add(commandeDto);
-        }*/
+        }*//*
 
         model.addAttribute("listCommande", dtos.getContent());
         int[] pages = new int [dtos.getTotalPages()];
@@ -145,5 +140,5 @@ public class CommandeController {
         model.addAttribute("pageCourante", p);
 
         return "listcommande";
-    }
+    }*/
 }

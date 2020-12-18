@@ -4,9 +4,9 @@ import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
 import javax.persistence.*;
-import java.util.Objects;
+import java.util.Optional;
 
-@Entity
+@Entity(name = "plat")
 @Table(name = "plat")
 public class Plat {
     @Id
@@ -24,7 +24,7 @@ public class Plat {
     @ManyToOne(fetch = FetchType.LAZY, optional = true)
     @JoinColumn(name = "idresto", nullable = false)
     @OnDelete(action = OnDeleteAction.NO_ACTION)
-    private Restaurant restaurant;
+    private Restaurant restaurants;
     /*@ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
     @JoinTable(name = "plat_commande",
             joinColumns = {
@@ -38,12 +38,11 @@ public class Plat {
     public Plat() {
     }
 
-    public Plat(String nomP, int prix, String description, String image, Restaurant restaurant) {
+    public Plat(String nomP, int prix, String description, String image) {
         this.nomP = nomP;
         this.prix = prix;
         this.description = description;
         this.image = image;
-        this.restaurant = restaurant;
     }
 
     public Long getIdplat() {
@@ -86,41 +85,12 @@ public class Plat {
         this.image = image;
     }
 
-    public Restaurant getRestaurant() {
-        return restaurant;
+    public Restaurant getRestaurants() {
+        return restaurants;
     }
 
-    public void setRestaurant(Restaurant restaurant) {
-        this.restaurant = restaurant;
+    public void setRestaurants(Restaurant restaurant) {
+        this.restaurants = restaurant;
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof Plat)) return false;
-        Plat plat = (Plat) o;
-        return getPrix() == plat.getPrix() &&
-                Objects.equals(getIdplat(), plat.getIdplat()) &&
-                Objects.equals(getNomP(), plat.getNomP()) &&
-                Objects.equals(getDescription(), plat.getDescription()) &&
-                Objects.equals(getImage(), plat.getImage()) &&
-                Objects.equals(getRestaurant(), plat.getRestaurant());
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(getIdplat(), getNomP(), getPrix(), getDescription(), getImage(), getRestaurant());
-    }
-
-    @Override
-    public String toString() {
-        return "Plat{" +
-                "idplat=" + idplat +
-                ", nomP='" + nomP + '\'' +
-                ", prix=" + prix +
-                ", description='" + description + '\'' +
-                ", image='" + image + '\'' +
-                ", restaurant=" + restaurant +
-                '}';
-    }
 }

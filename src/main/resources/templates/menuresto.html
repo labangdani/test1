@@ -39,7 +39,8 @@
                 <li class="nav-item"><a th:href="@{/index.html#section-offer}" class="nav-link">Nos services</a></li>
                 <li class="nav-item"><a th:href="@{/index.html#section-contact}" class="nav-link">Contact</a></li>
                 <li class="nav-item"><a href="/restaurant/listecommande" class="nav-link">Commande</a></li>
-                <li class="nav-item active"><a href="/restaurant/menurestos" class="nav-link">Menu</a></li>
+
+                <li class="nav-item active"><a href="/plat/remplirPlatForm" class="nav-link">Ajouter Plat</a></li>
             </ul>
         </div>
     </div>
@@ -47,6 +48,8 @@
 
 <section class="site-section bg-light" id="section-news">
     <div class="container">
+        <div th:each="restaurant : ${listRestaurant}">
+            <div th:each="plat : ${listPlat}">
         <div class="row">
             <!--             <div class="col-md-7 mb-5 site-animate">-->
                 <div class="col-md-12 text-center mb-5 site-animate">
@@ -63,7 +66,7 @@
                     <div class="media">
                         <div class="media-left">
                             <a th:href="@{'/plat/commande/' + ${restaurant.getIdresto()}}">
-                                <img class="media-object" th:src="${plat.image}" alt="Free Template by colorlib.com" class="img-fluid">
+                                <img class="media-object img-fluid" th:src="${plat.image}" alt="Free Template by colorlib.com">
                             </a>
                         </div>
                         <div class="media-body">
@@ -81,6 +84,7 @@
 
 
             </div>
+        </div>
         </div>
     </div>
 </section>

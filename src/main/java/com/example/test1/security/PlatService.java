@@ -3,8 +3,10 @@ package com.example.test1.security;
 import com.example.test1.modele.DTO.PlatDto;
 import com.example.test1.modele.Entity.Plat;
 
+import java.util.List;
+
 public interface PlatService {
-    public Plat save(PlatDto platDto);
     public Plat Platidentique(String nomP);
+//    public List<Plat> rechercherplat(Long idresto);
     public Plat findOne(Long idplat);
 }

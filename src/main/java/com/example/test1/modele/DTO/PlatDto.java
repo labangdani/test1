@@ -11,8 +11,8 @@ public class PlatDto {
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "idplat")
     private Long idplat;
-    @Column(name = "nomR")
-    private String nomR;
+    @Column(name = "nomP")
+    private String nomP;
     @Column(name = "prix")
     private int prix;
     @Column(name = "description")
@@ -36,12 +36,11 @@ public class PlatDto {
     public PlatDto() {
     }
 
-    public PlatDto(String nomR, int prix, String description, String image, Restaurant restaurant) {
-        this.nomR = nomR;
+    public PlatDto(String nomP, int prix, String description, String image) {
+        this.nomP = nomP;
         this.prix = prix;
         this.description = description;
         this.image = image;
-        this.restaurant = restaurant;
     }
 
     public Long getIdplat() {
@@ -53,11 +52,11 @@ public class PlatDto {
     }
 
     public String getNomR() {
-        return nomR;
+        return nomP;
     }
 
     public void setNomR(String nomR) {
-        this.nomR = nomR;
+        this.nomP = nomR;
     }
 
     public int getPrix() {

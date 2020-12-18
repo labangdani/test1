@@ -1,32 +1,26 @@
 package com.example.test1.controller;
 
+import com.example.test1.modele.DTO.RestaurantDto;
 import com.example.test1.modele.DTO.UserDetailsImpl;
 import com.example.test1.modele.DTO.UtilisateurDto;
 import com.example.test1.modele.Entity.ERole;
+import com.example.test1.modele.Entity.Restaurant;
 import com.example.test1.modele.Entity.Role;
 import com.example.test1.modele.Entity.Utilisateur;
 import com.example.test1.repository.RoleRepository;
 import com.example.test1.repository.UtilisateurRepository;
 import com.example.test1.security.UtilisateurService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
-import javax.validation.Valid;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
-import java.util.stream.Collectors;
+import java.util.*;
 
 
 @Controller
@@ -43,7 +37,6 @@ public class UtilisateurController {
 
     @RequestMapping(value="/remplirUserForm", method = RequestMethod.GET)
     public String pageEngregistrerUtilisateur() {
-
         return "enregistrerclient";
     }
 
@@ -52,6 +45,7 @@ public class UtilisateurController {
 
         return "login";
     }
+
     @RequestMapping(value="/403", method = RequestMethod.GET)
     public String accessDenied() {
         return "403";
@@ -64,13 +58,13 @@ public class UtilisateurController {
         return "EditUser";
     }
 
-    @RequestMapping(value="/", method = RequestMethod.GET)
+    @RequestMapping(value="/home", method = RequestMethod.GET)
     public String home() {
-        return "index";
+        return "indexlog";
     }
 
     @RequestMapping(value="/signup", method = RequestMethod.POST)
-    public String registerUser(@ModelAttribute("utilisateur") @Valid UtilisateurDto utilisateurDto, BindingResult result) {
+    public String registerUser(@ModelAttribute("utilisateur") @Validated UtilisateurDto utilisateurDto, BindingResult result) {
         System.out.println("Bonjour");
         if (utilisateurRepository.existsByUsername(utilisateurDto.getUsername())) {
             result.rejectValue("Username", null, "Username is already taken!");
@@ -85,7 +79,6 @@ public class UtilisateurController {
                 utilisateurDto.getMailU(),
                 encoder.encode(utilisateurDto.getPassword()),
                 utilisateurDto.getTelU(),
-                utilisateurDto.getAdresse(),
                 utilisateurDto.getSexe());
 
         Set<String> strRoles = utilisateurDto.getRole();
@@ -123,7 +116,27 @@ public class UtilisateurController {
         return "redirect:connexion";
     }
 
+    @RequestMapping(value="/listeuser", method = RequestMethod.GET)
+    public String listUtilisateur(Model model, String username, String password) {
 
+        //recuperation de la liste des Restaurants
+
+        final Utilisateur utilisateur = utilisateurRepository.findByUsernameAndPassword(username, password);
+
+        UtilisateurDto dtos= new UtilisateurDto();
+
+        dtos.setUsername(utilisateur.getUsername());
+        dtos.setMailU(utilisateur.getMailU());
+        dtos.setPassword(utilisateur.getPassword());
+        dtos.setTelU(utilisateur.getTelU());
+        dtos.setSexe(utilisateur.getSexe());
+        System.out.println("l'utilisateur est : "+utilisateur.getUsername());
+
+
+        //enregistrement dans le model
+        model.addAttribute("Utilisateur", dtos);
+        return "indexlog";
+    }
    /* @RequestMapping(value="/signin", method = RequestMethod.POST)
     public String authenticateUser(@ModelAttribute("utilisateur")@Valid UtilisateurDto utilisateurDto) {
 

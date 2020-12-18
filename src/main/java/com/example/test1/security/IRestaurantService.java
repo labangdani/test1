@@ -7,6 +7,8 @@ import com.example.test1.repository.RestaurantRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class IRestaurantService implements RestaurantService {
 
@@ -42,7 +44,14 @@ public class IRestaurantService implements RestaurantService {
     }
 
     @Override
+    public List<Restaurant> rechercherlocalisation(String localisation) {
+        return restaurantRepository.findByLocalisation(localisation);
+    }
+
+
+       @Override
     public Restaurant findOne(Long idresto) {
         return restaurantRepository.findByIdresto(idresto);
     }
+
 }
