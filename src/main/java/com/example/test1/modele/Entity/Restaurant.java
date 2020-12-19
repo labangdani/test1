@@ -3,6 +3,7 @@ package com.example.test1.modele.Entity;
 import javax.persistence.*;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Objects;
 import java.util.Set;
 
 @Entity(name = "restaurant")
@@ -40,10 +41,10 @@ public class Restaurant {
     private Boolean samedi = false;
     @Column(name = "dimanche")
     private Boolean dimanche = false;
-    @OneToMany(cascade = CascadeType.ALL,fetch = FetchType.EAGER,mappedBy = "restaurants")
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy = "restaurants")
     //un sommaire peut avoir plusieur matieres
     private List<Plat> plat;
-    @ManyToMany(fetch = FetchType.LAZY)
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "user_resto",
             joinColumns = @JoinColumn(name = "idresto"),
             inverseJoinColumns = @JoinColumn(name = "idU"))
@@ -210,20 +211,10 @@ public class Restaurant {
         return "Restaurant{" +
                 "idresto=" + idresto +
                 ", nomR='" + nomR + '\'' +
-                ", localisation='" + localisation + '\'' +
-                ", image='" + image + '\'' +
-                ", description='" + description + '\'' +
-                ", mailR='" + mailR + '\'' +
-                ", tel=" + tel +
-                ", type='" + type + '\'' +
-                ", lundi=" + lundi +
-                ", mardi=" + mardi +
-                ", mercredi=" + mercredi +
-                ", jeudi=" + jeudi +
-                ", vendredi=" + vendredi +
-                ", samedi=" + samedi +
-                ", dimanche=" + dimanche +
-                ", plat=" + plat +
                 '}';
     }
+
+
+
+
 }

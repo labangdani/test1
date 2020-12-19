@@ -18,11 +18,6 @@ public class IPlatService implements PlatService {
         return platRepository.findAllByNomP(nomP);
     }
 
-    /*@Override
-    public List<Plat> rechercherplat(Long idresto) {
-        return platRepository.rechercherplats(idresto);
-    }*/
-
     @Override
     public Plat findOne(Long idplat) {
         return platRepository.findByIdplat(idplat);

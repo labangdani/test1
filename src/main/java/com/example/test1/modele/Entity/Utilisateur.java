@@ -1,5 +1,7 @@
 package com.example.test1.modele.Entity;
 
+import lombok.Data;
+
 import javax.persistence.*;
 import java.util.HashSet;
 import java.util.Set;
@@ -28,6 +30,11 @@ public class Utilisateur {
             joinColumns = @JoinColumn(name = "idU"),
             inverseJoinColumns = @JoinColumn(name = "idrole"))
     private Set<Role> roles = new HashSet<>();
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(name = "user_resto",
+            joinColumns = @JoinColumn(name = "idU"),
+            inverseJoinColumns = @JoinColumn(name = "idresto"))
+    private Set<Restaurant> restaurants = new HashSet<>();
 
 
     public Utilisateur() {
@@ -96,5 +103,13 @@ public class Utilisateur {
 
     public void setRoles(Set<Role> roles) {
         this.roles = roles;
+    }
+
+    public Set<Restaurant> getRestaurants() {
+        return restaurants;
+    }
+
+    public void setRestaurants(Set<Restaurant> restaurants) {
+        this.restaurants = restaurants;
     }
 }

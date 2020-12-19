@@ -7,6 +7,5 @@ import java.util.List;
 
 public interface PlatService {
     public Plat Platidentique(String nomP);
-//    public List<Plat> rechercherplat(Long idresto);
     public Plat findOne(Long idplat);
 }

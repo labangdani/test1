@@ -23,6 +23,7 @@ import java.util.Set;
         @Column(name = "sexe")
         private String sexe;
         private Set<String> role;
+        private Set<String> restaurant;
 
         public UtilisateurDto() {
         }
@@ -93,4 +94,11 @@ import java.util.Set;
             this.role = role;
         }
 
+        public Set<String> getRestaurant() {
+            return restaurant;
+        }
+
+        public void setRestaurant(Set<String> restaurant) {
+            this.restaurant = restaurant;
+        }
     }

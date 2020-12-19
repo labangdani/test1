@@ -71,7 +71,37 @@ public class RestaurantController {
         utilisateurs.add(utilisateur);
         restaurant.setUtilisateurs(utilisateurs);
         restaurantRepository.save(restaurant);
-        return "menuresto";
+        return "redirect:/resto/allresto";
+    }
+
+    @RequestMapping(value = "/allresto", method = RequestMethod.GET)
+    public String listeresto(Model model){
+        Authentication auth = (Authentication) SecurityContextHolder.getContext().getAuthentication();
+        System.out.println(auth.getName());
+
+        Utilisateur utilisateur = utilisateurRepository.findByUsername(auth.getName());
+
+        System.out.println(utilisateur.getIdU());
+        utilisateur.getRestaurants();
+        List<RestaurantDto> dtos= new ArrayList<RestaurantDto>();
+        for (Restaurant restaurants:utilisateur.getRestaurants()) {
+            RestaurantDto restoDto = new RestaurantDto();
+            restoDto.setIdresto(restaurants.getIdresto());
+            restoDto.setNomR(restaurants.getNomR());
+            restoDto.setDescription(restaurants.getDescription());
+            restoDto.setImage(restaurants.getImage());
+            restoDto.setLocalisation(restaurants.getLocalisation());
+            restoDto.setMailR(restaurants.getMailR());
+            restoDto.setTel(restaurants.getTel());
+            restoDto.setType(restaurants.getType());
+            System.out.println("les images de mes restos sont : "+restaurants.getImage());
+
+            dtos.add(restoDto);
+        }
+
+        //enregistrement dans le model
+        model.addAttribute("listResto", dtos);
+        return "listeresto";
     }
 
     @RequestMapping(value="/edit", method = RequestMethod.GET)

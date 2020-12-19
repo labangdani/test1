@@ -14,8 +14,5 @@ public interface PlatRepository extends JpaRepository<Plat, Long> {
     public Plat findAllByNomP(String nomP);
     public Plat findByIdplat(Long idplat);
 
-    /*@Query(value="select p from plat p where p.idresto=?1")
-    public List<Plat> rechercherplats(Long idresto);
-*/
     void deleteByIdplat(Long idplat);
 }

@@ -21,7 +21,7 @@ public class Plat {
     private String description;
     @Column(name = "image")
     private String image;
-    @ManyToOne(fetch = FetchType.LAZY, optional = true)
+    @ManyToOne(fetch = FetchType.EAGER, optional = true)
     @JoinColumn(name = "idresto", nullable = false)
     @OnDelete(action = OnDeleteAction.NO_ACTION)
     private Restaurant restaurants;

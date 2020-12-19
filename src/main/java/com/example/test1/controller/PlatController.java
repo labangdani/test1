@@ -14,6 +14,7 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -36,7 +37,7 @@ public class PlatController {
     private PlatService platService;
 
    @RequestMapping(value="/save", method = RequestMethod.POST)
-    public String CreatePlat(@ModelAttribute("plat") @Validated PlatDto platDto, BindingResult result)
+    public String CreatePlat(@ModelAttribute("plat") @Validated PlatDto platDto, BindingResult result, Long idresto)
     {
         Plat existing = platRepository.findAllByNomP(platDto.getNomR());
         if(existing != null){
@@ -50,17 +51,9 @@ public class PlatController {
                 platDto.getPrix(),
                 platDto.getDescription(),
                 platDto.getImage());
-        Authentication auth = (Authentication) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        System.out.println(auth.getName());
-        Utilisateur utilisateur = utilisateurRepository.findByUsername(auth.getName());
-
-        System.out.println(utilisateur.getIdU());
-
-        List<String> restaurant = restaurantRepository.chercherresto(utilisateur.getIdU());
-        System.out.println(restaurant);
 
 
-//        Restaurant restaurant = restaurantRepository.findByIdresto(platDto.getRestaurant().getIdresto());
+       Restaurant restaurant = restaurantRepository.findByIdresto(platDto.getRestaurant().getIdresto());
 
         platRepository.save(plat);
         return "redirect:/menuResto";
@@ -90,16 +83,17 @@ public class PlatController {
         return "menuresto";
     }
 
-/*    @RequestMapping(value="/listeplat", method = RequestMethod.GET)
-    public String listPlats(Model model, Long idresto) {
+    @RequestMapping(value="/listeplat/{nomR}", method = RequestMethod.GET)
+    public String listPlats(@PathVariable(name = "nomR") String nomR, Model model) {
 
         //recuperation de la liste des Restaurants
 
-        final List<Plat> plat = platService.rechercherplat(idresto);
+        Restaurant restaurant = restaurantRepository.findByNomR(nomR);
+        restaurant.getPlat();
 
         List<PlatDto> dtos = new ArrayList<PlatDto>();
 
-        for (Plat plats : plat) {
+        for (Plat plats : restaurant.getPlat()) {
             PlatDto platDto = new PlatDto();
             platDto.setNomR(plats.getNomP());
             platDto.setDescription(plats.getDescription());
@@ -112,6 +106,6 @@ public class PlatController {
         //enregistrement dans le model
         model.addAttribute("listPlat", dtos);
         return "menu";
-    }*/
+    }
 
 }
