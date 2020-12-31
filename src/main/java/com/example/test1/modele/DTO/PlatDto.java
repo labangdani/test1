@@ -19,7 +19,7 @@ public class PlatDto {
     private String description;
     @Column(name = "image")
     private String image;
-    @ManyToOne(fetch = FetchType.LAZY, optional = true)
+    @ManyToOne(fetch = FetchType.EAGER, optional = true)
     @JoinColumn(name = "idresto", nullable = false)
     @OnDelete(action = OnDeleteAction.NO_ACTION)
     private Restaurant restaurant;
@@ -51,12 +51,12 @@ public class PlatDto {
         this.idplat = idplat;
     }
 
-    public String getNomR() {
+    public String getNomP() {
         return nomP;
     }
 
-    public void setNomR(String nomR) {
-        this.nomP = nomR;
+    public void setNomP(String nomP) {
+        this.nomP = nomP;
     }
 
     public int getPrix() {

@@ -4,6 +4,7 @@ import lombok.Data;
 
 import javax.persistence.*;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 
@@ -25,7 +26,10 @@ public class Utilisateur {
     private int telU;
     @Column(name = "sexe")
     private String sexe;
-    @ManyToMany(fetch = FetchType.LAZY)
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy = "utilisateur")
+    //un sommaire peut avoir plusieur matieres
+    private List<Commande> commande;
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "user_roles",
             joinColumns = @JoinColumn(name = "idU"),
             inverseJoinColumns = @JoinColumn(name = "idrole"))
@@ -111,5 +115,13 @@ public class Utilisateur {
 
     public void setRestaurants(Set<Restaurant> restaurants) {
         this.restaurants = restaurants;
+    }
+
+    public List<Commande> getCommande() {
+        return commande;
+    }
+
+    public void setCommande(List<Commande> commande) {
+        this.commande = commande;
     }
 }

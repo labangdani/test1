@@ -3,7 +3,6 @@ package com.example.test1.modele.Entity;
 import javax.persistence.*;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Objects;
 import java.util.Set;
 
 @Entity(name = "restaurant")
@@ -41,9 +40,12 @@ public class Restaurant {
     private Boolean samedi = false;
     @Column(name = "dimanche")
     private Boolean dimanche = false;
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy = "restaurants")
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "restaurants")
     //un sommaire peut avoir plusieur matieres
     private List<Plat> plat;
+   @OneToMany(fetch = FetchType.LAZY, mappedBy = "restaurants")
+    //un sommaire peut avoir plusieur matieres
+    private List<Commande> commande;
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "user_resto",
             joinColumns = @JoinColumn(name = "idresto"),
@@ -204,6 +206,14 @@ public class Restaurant {
 
     public void setUtilisateurs(Set<Utilisateur> utilisateurs) {
         this.utilisateurs = utilisateurs;
+    }
+
+    public List<Commande> getCommande() {
+        return commande;
+    }
+
+    public void setCommande(List<Commande> commande) {
+        this.commande = commande;
     }
 
     @Override

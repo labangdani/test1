@@ -58,20 +58,14 @@
             <div th:each="restaurant : ${listRestaurant}">
                 <div class="row">
                     <div class="media d-block mb-4 text-center site-media site-animate">
-                        <a th:href="@{'/plat/listeplat/' + ${restaurant.getIdresto()}}"><img   th:src="${restaurant.image}" alt="Free Template by colorlib.com" class="img-fluid"></a>
+                        <a th:href="@{'/plat/listeplat/' + ${restaurant.getNomR()}}"><img   th:src="${restaurant.image}" alt="Free Template by colorlib.com" class="img-fluid"></a>
                         <div class="media-body p-md-5 p-4">
                             <h5 class="mt-0 h4" th:text="${restaurant.getNomR()}">nom</h5>
                             <p class="mb-4" th:text="${restaurant.getDescription()}">description</p>
-                            <a th:href="@{'/plat/listeplat' +${restaurant.getIdresto()}}" class="btn btn-primary btn-sm">Choisir</a>
-                            <a th:href="@{'/plat/remplirPlatForm/' +${restaurant.getIdresto()}}" class="btn btn-primary btn-sm">Edit</a></p>
-<!--                            <a th:href="@{'/plat/remplirPlatForm'}" onclick="listerestaurant(restaurant)" class="btn btn-primary btn-sm">Edit</a></p>-->
-
+                            <a th:href="@{'/plat/menuResto/' + ${restaurant.getNomR()}}" class="btn btn-primary btn-sm">choisir</a>
                         </div>
                     </div>
                </div>
-
-                <!--            <% }); %>-->
-
             </div>
         </div>
     </div>

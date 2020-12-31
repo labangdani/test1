@@ -4,7 +4,7 @@ import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
 import javax.persistence.*;
-import java.util.Optional;
+import java.util.List;
 
 @Entity(name = "plat")
 @Table(name = "plat")
@@ -25,15 +25,6 @@ public class Plat {
     @JoinColumn(name = "idresto", nullable = false)
     @OnDelete(action = OnDeleteAction.NO_ACTION)
     private Restaurant restaurants;
-    /*@ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
-    @JoinTable(name = "plat_commande",
-            joinColumns = {
-                    @JoinColumn(name = "idplat", referencedColumnName = "id",
-                            nullable = false, updatable = false)},
-            inverseJoinColumns = {
-                    @JoinColumn(name = "idcom", referencedColumnName = "id",
-                            nullable = false, updatable = false)})
-    private Collection<Commande> commandes;*/
 
     public Plat() {
     }

@@ -35,12 +35,9 @@
         <div class="collapse navbar-collapse" id="site-nav">
             <ul class="navbar-nav ml-auto">
                 <li class="nav-item"><a th:href="@{/index.html#section-home}" class="nav-link">Accueil</a></li>
-                <li class="nav-item"><a th:href="@{/index.html#section-about}" class="nav-link">A propos</a></li>
-                <li class="nav-item"><a th:href="@{/index.html#section-offer}" class="nav-link">Nos services</a></li>
-                <li class="nav-item"><a th:href="@{/index.html#section-contact}" class="nav-link">Contact</a></li>
+                <li class="nav-item"><a href="/resto/allresto" class="nav-link">Mes restaurants</a></li>
                 <li class="nav-item"><a href="/restaurant/listecommande" class="nav-link">Commande</a></li>
-
-                <li class="nav-item active"><a href="/plat/remplirPlatForm" class="nav-link">Ajouter Plat</a></li>
+                <li class="nav-item active"><a th:href="@{'/plat/remplirPlatForm/' +${nomR}}" class="nav-link">Ajouter Plat</a></li>
             </ul>
         </div>
     </div>
@@ -48,12 +45,10 @@
 
 <section class="site-section bg-light" id="section-news">
     <div class="container">
-        <div th:each="restaurant : ${listRestaurant}">
-            <div th:each="plat : ${listPlat}">
         <div class="row">
             <!--             <div class="col-md-7 mb-5 site-animate">-->
                 <div class="col-md-12 text-center mb-5 site-animate">
-                    <h2 class="display-4" th:text="${restaurant.getNomR()}">nom</h2>
+                    <h2 class="display-4" th:text="${nomR}">nom</h2>
                     <div class="row justify-content-center">
                         <div class="col-md-7">
                             <p class="lead">Mettre à jour menu</p>
@@ -61,11 +56,11 @@
                     </div>
                 </div>
 
-
-                <div class="media d-block mb-4 site-media site-animate"><div class="media-body p-md-5 p-4">
+            <div th:each="plat : ${listPlat}">
+                <div class="media d-block mb-3 site-media site-animate"><div class="media-body p-md-3">
                     <div class="media">
                         <div class="media-left">
-                            <a th:href="@{'/plat/commande/' + ${restaurant.getIdresto()}}">
+                            <a th:href="@{'/plat/commande/' + ${nomR}}">
                                 <img class="media-object img-fluid" th:src="${plat.image}" alt="Free Template by colorlib.com">
                             </a>
                         </div>
@@ -74,8 +69,8 @@
                             <p class="mb-4" th:text="${plat.getDescription()}">description</p>
                             <p align="left" th:text="${plat.getPrix()}">prix</p>
                             <p align="right">
-                                <a th:href="@{'/restaurant/facture'}" class="btn btn-primary btn-sm">Modifier</a>
-                                <a onclick="return alert('Etes vous sûre de vouloir supprimer?')" th:href="@{'/plat/delete(${plat.getIdplat})'}" class="btn btn-primary btn-sm">Supprimer</a>
+                                <a th:href="@{'/plat/edit/' +${plat.getNomP()}}" class="btn btn-primary btn-sm">Modifier</a>
+                                <a onclick="return alert('Etes vous sûre de vouloir supprimer?')" th:href="@{'/plat/delete/' + ${plat.getNomP()}}" class="btn btn-primary btn-sm">Supprimer</a>
                             </p>
 
                         </div>

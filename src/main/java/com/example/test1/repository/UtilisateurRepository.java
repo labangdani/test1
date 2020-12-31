@@ -11,7 +11,7 @@ public interface UtilisateurRepository extends JpaRepository<Utilisateur, Long> 
     public Utilisateur findByMailU(String mailU);
     public Utilisateur findByIdU(Long idu);
 
-   public  Utilisateur findByUsername(String username);
+    public  Utilisateur findByUsername(String username);
     public Utilisateur findByUsernameAndPassword(String username, String password);
     Boolean existsByUsername(String username);
 

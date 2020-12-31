@@ -11,6 +11,8 @@ import com.example.test1.repository.RoleRepository;
 import com.example.test1.repository.UtilisateurRepository;
 import com.example.test1.security.UtilisateurService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -19,7 +21,10 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.SessionAttributes;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import java.util.*;
 
 
@@ -37,6 +42,7 @@ public class UtilisateurController {
 
     @RequestMapping(value="/remplirUserForm", method = RequestMethod.GET)
     public String pageEngregistrerUtilisateur() {
+
         return "enregistrerclient";
     }
 
@@ -59,7 +65,9 @@ public class UtilisateurController {
     }
 
     @RequestMapping(value="/home", method = RequestMethod.GET)
-    public String home() {
+    public String home(Model model) {
+        Authentication auth = (Authentication) SecurityContextHolder.getContext().getAuthentication();
+        model.addAttribute("username", auth.getName());
         return "indexlog";
     }
 

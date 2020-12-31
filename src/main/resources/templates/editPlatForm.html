@@ -30,21 +30,21 @@
                         <div class="col-md-7 col-md-push-1  probootstrap-animate" id="probootstrap-content">
                             <p><h2><b> Nouveau plat </b></h2></p>
                             <p>Les champs en * sont obloigatoire </p>
-                            <form class="probootstrap-form"   th:method="post" th:object="${platDto}"  th:action="@{'/plat/save/' +${nomR}}">
+                            <form class="probootstrap-form"   th:method="post" th:object="${plat}"  th:action="@{'/plat/update/' +${plat.getRestaurants().getNomR()}}">
                                 <div class="form-group">
                                     <label > Nom du plat *</label>
-                                    <input type="text" class="form-control"  name="nomP">
+                                    <input type="text" class="form-control"  name="nomP" th:value="${plat.getNomP()}">
                                     <div class="form-group">
                                         <label >Prix *</label>
-                                        <input type="int" class="form-control"  name="prix">
+                                        <input type="int" class="form-control"  name="prix" th:value="${plat.getPrix()}">
                                     </div>
                                     <div class="form-group">
                                         <label >Description *</label>
-                                        <input type="text" class="form-control"   name="description">
+                                        <input type="text" class="form-control"   name="description"  th:value="${plat.getDescription()}">
                                     </div>
                                     <div class="form-group">
                                         <label >Image *</label>
-                                        <input type="file" class="form-control"  name="image">
+                                        <input type="file" class="form-control"  name="image" th:value="${plat.getImage()}">
                                     </div>
                                     <div class="form-group">
                                         <input type="submit" class="btn btn-primary btn-lg" id="submit" name="valider" value="Enregistrer">

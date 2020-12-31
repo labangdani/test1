@@ -1,9 +1,6 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
 <head>
-    <button type="button" class="btn btn-default" >
-        <span class="glyphicon glyphicon-cutlery" aria-hidden="true"></span>
-    </button>
     <title>EAT FAST</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -20,13 +17,6 @@
     <link rel="stylesheet" href="css/bootstrap-datepicker.css">
     <link rel="stylesheet" href="css/jquery.timepicker.css">
     <link rel="stylesheet" href="css/etoiles.css">
-    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/css/select2.min.css" rel="stylesheet" />
-    <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/themes/smoothness/jquery-ui.css">
-
-    <!-- <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css"> -->
-    <!-- <link rel="stylesheet" href="/resources/demos/style.css">-->
-
-
 
     <link rel="stylesheet" href="css/icomoon.css">
     <link rel="stylesheet" href="css/style.css">
@@ -48,9 +38,7 @@
                 <li class="nav-item"><a href="#section-about" class="nav-link">A propos</a></li>
                 <li class="nav-item"><a href="#section-offer" class="nav-link">Nos services</a></li>
                 <li class="nav-item"><a href="#section-contact" class="nav-link">Contact</a></li>
-                <li class="nav-item"><a th:href="@{/Login?Logout}" th:inline="text">
-                    <!--<span th-utext="${user.getName()}"></span>-->
-                </a></li>
+                <li th:text="${username}"></li>
                 <!-- Trigger the modal with a button -->
                <td> <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#compteModal">Mon Compte</button></td>
             </ul>
@@ -399,48 +387,17 @@
 </div>
 
 <!-- END Modal -->
-
-<!-- loader -->
 <div id="site-loader" class="show fullscreen"><svg class="circular" width="48px" height="48px"><circle class="path-bg" cx="24" cy="24" r="22" fill="none" stroke-width="4" stroke="#eeeeee"/><circle class="path" cx="24" cy="24" r="22" fill="none" stroke-width="4" stroke-miterlimit="10" stroke="#F96D00"/></svg></div>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
-<script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/js/select2.min.js"></script>
-<script type="text/javascript">
-    $(document).ready(function() {
 
-        function searchResto(nom) {
-            $.get({
-                url: '/recherche/restos/?nom='+nom,
-                contentType: 'application/json; charset=utf-8',
-                dataType: 'json',
-                success: function (res) {
-                    console.log("res=" + res.data);
-                    //document.getElementById("show-value").innerHTML = res.data;
-                    var table = [res.data];
-                    $( "#rechercher-nom" ).autocomplete({
-                        source: table
-                    });
-                },
-                error: function (request, status, error) {
-                    console.log(request.responseText);
-                }
-            });
-        }
 
-        $('#rechercher-nom').change(function () {
-            var nom = $(this).val();
-        });
-
-    });
-</script>
-        }
-<!--<script src="js/jquery.min.js"></script> -->
+<script src="js/jquery.min.js"></script>
 <script src="js/popper.min.js"></script>
 <script src="js/bootstrap.min.js"></script>
 <script src="js/jquery.easing.1.3.js"></script>
 <script src="js/jquery.waypoints.min.js"></script>
 <script src="js/owl.carousel.min.js"></script>
 <script src="js/jquery.magnific-popup.min.js"></script>
+
 <script src="js/bootstrap-datepicker.js"></script>
 <script src="js/jquery.timepicker.min.js"></script>
 
@@ -450,9 +407,6 @@
 <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBVWaKrjvy3MaE7SQ74_uJiULgl1JY0H2s&sensor=false"></script>
 <script src="js/google-map.js"></script>
 
-
 <script src="js/main.js"></script>
-
-
 </body>
 </html>

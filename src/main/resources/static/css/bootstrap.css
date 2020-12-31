@@ -5107,7 +5107,7 @@ a.badge:focus, a.badge:hover {
 
 .sidenav {
   height: 100%; /* Full-height: remove this if you want "auto" height */
-  width: 400px; /* Set the width of the sidebar */
+  width: 300px; /* Set the width of the sidebar */
   position: fixed; /* Fixed Sidebar (stay in place on scroll) */
   z-index: 1; /* Stay on top */
   top: 10%; /* Stay at the top */
@@ -5115,12 +5115,29 @@ a.badge:focus, a.badge:hover {
   background-color: #FFFFFF; /* White */
   overflow-x: hidden; /* Disable horizontal scroll */
   padding-top: 20px;
-  margin: 0 auto;
+}
+
+@media screen and (max-height: 450px) {
+  .sidenav {padding-top: 15px;}
+  .sidenav a {font-size: 18px;}
 }
 
 .main {
-  margin-right: 200px; /* Same as the width of the sidebar */
+  margin-left: 160px; /* Same width as the sidebar + left position in px */
+  font-size: 18px; /* Increased text to enable scrolling */
   padding: 0px 10px;
+}
+
+.sidenav a{
+  padding: 6px 8px 6px 16px;
+  text-decoration: none;
+  font-size: 25px;
+  color: #818182;
+  display: block;
+}
+
+.sidenav a:hover{
+  color: #f1f1f1;
 }
 
 .sidebar-item {
@@ -5138,6 +5155,7 @@ a.badge:focus, a.badge:hover {
   top:0;
   padding: 0 15px;
 }
+
 
 
 .list-group {

@@ -45,6 +45,11 @@
     }
 }
 
+@media screen and (max-height: 450px){
+    .sidenav {padding-top: 15px;}
+    .sidenav a {font-size: 18px;}
+}
+
 @media (max-width: 768px) {
     .post-sharing .btn {
         padding: 0.6rem !important;

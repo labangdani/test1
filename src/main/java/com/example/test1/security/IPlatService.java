@@ -19,8 +19,8 @@ public class IPlatService implements PlatService {
     }
 
     @Override
-    public Plat findOne(Long idplat) {
-        return platRepository.findByIdplat(idplat);
+    public Plat findOne(String nomp) {
+        return platRepository.findByNomP(nomp);
     }
 
 

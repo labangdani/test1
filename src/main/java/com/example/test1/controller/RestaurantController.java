@@ -1,6 +1,7 @@
 package com.example.test1.controller;
 
 import com.example.test1.modele.DTO.RestaurantDto;
+import com.example.test1.modele.DTO.UtilisateurDto;
 import com.example.test1.modele.Entity.Restaurant;
 import com.example.test1.modele.Entity.Role;
 import com.example.test1.modele.Entity.Utilisateur;
@@ -18,6 +19,8 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import java.util.*;
 
 @Controller
@@ -101,6 +104,8 @@ public class RestaurantController {
 
         //enregistrement dans le model
         model.addAttribute("listResto", dtos);
+        model.addAttribute("username", auth.getName());
+
         return "listeresto";
     }
 

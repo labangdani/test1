@@ -6,6 +6,8 @@ import org.hibernate.annotations.OnDeleteAction;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.HashSet;
+import java.util.List;
 import java.util.Objects;
 import java.util.Set;
 
@@ -26,26 +28,29 @@ public class Commande {
     private int sousmontant;
     @Column(name = "date")
     private LocalDateTime date;
-    @ManyToOne(fetch = FetchType.LAZY, optional = true)
+    @ManyToOne(fetch = FetchType.EAGER, optional = true)
     @JoinColumn(name = "user_id", nullable = false)
     @OnDelete(action = OnDeleteAction.NO_ACTION)
-    private Utilisateur user;
-    @ManyToOne(fetch = FetchType.LAZY, optional = true)
+    private Utilisateur utilisateur;
+    @ManyToOne(fetch = FetchType.EAGER, optional = true)
     @JoinColumn(name = "resto_id", nullable = false)
     @OnDelete(action = OnDeleteAction.NO_ACTION)
-    private Restaurant restaurant;
+    private Restaurant restaurants;
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(name = "plat_commande",
+            joinColumns = @JoinColumn(name = "idcom"),
+            inverseJoinColumns = @JoinColumn(name = "idplat"))
+    private Set<Plat> plats = new HashSet<>();
 
     public Commande() {
     }
 
-    public Commande(int nbrplat, int total, int fraislivraison, int sousmontant, LocalDateTime date, Utilisateur user, Restaurant restaurant) {
+    public Commande(int nbrplat, int total, int fraislivraison, int sousmontant, LocalDateTime date) {
         this.nbrplat = nbrplat;
         this.total = total;
         this.fraislivraison = fraislivraison;
         this.sousmontant = sousmontant;
         this.date = date;
-        this.user = user;
-        this.restaurant = restaurant;
     }
 
     public Long getIdcom() {
@@ -97,19 +102,19 @@ public class Commande {
     }
 
     public Utilisateur getUser() {
-        return user;
+        return utilisateur;
     }
 
     public void setUser(Utilisateur user) {
-        this.user = user;
+        this.utilisateur = user;
     }
 
     public Restaurant getRestaurant() {
-        return restaurant;
+        return restaurants;
     }
 
     public void setRestaurant(Restaurant restaurant) {
-        this.restaurant = restaurant;
+        this.restaurants = restaurant;
     }
 
     @Override
@@ -141,8 +146,6 @@ public class Commande {
                 ", fraislivraison=" + fraislivraison +
                 ", sousmontant=" + sousmontant +
                 ", date=" + date +
-                ", user=" + user +
-                ", restaurant=" + restaurant +
                 '}';
     }
 }
