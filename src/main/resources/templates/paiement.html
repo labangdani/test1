@@ -36,10 +36,7 @@
     <div class="collapse navbar-collapse" id="site-nav">
       <ul class="navbar-nav ml-auto">
         <li class="nav-item"><a th:href="@{/index.html#section-home}" class="nav-link">Accueil</a></li>
-        <li class="nav-item"><a th:href="@{/index.html#section-about}" class="nav-link">A propos</a></li>
-        <li class="nav-item"><a th:href="@{/index.html#section-offer}" class="nav-link">Nos services</a></li>
-        <li class="nav-item"><a th:href="@{/index.html#section-contact}" class="nav-link">Contact</a></li>
-        <li class="nav-item active"><a href="/restaurant/listeresto" class="nav-link">Paiement</a></li>
+        <li class="nav-item active"><a href="#" class="nav-link">Paiement</a></li>
       </ul>
     </div>
   </div>
@@ -62,7 +59,7 @@
 
                         <hr>
                          <p>Où souhaitez-vous faire livrer votre commande?</p>
-                            <div class="probootstrap-form"   th:method="post"  th:action="@{}">
+                            <div class="probootstrap-form"   th:method="post">
                                 <div class="form-group">
                                         <label>Adresse *</label>
                                         <input type="text" class="form-control"  name="Adresse" >
@@ -73,33 +70,43 @@
                                 </div>
                             <hr>
                             <p>Comment pouvons-nous vous joindre?</p>
+                                <div th:if="${user}">
                                 <div class="form-group">
                                     <label >Nom *</label>
-                                    <input type="text" class="form-control"  name="Nom" >
-                                    <div class="form-group">
-                                        <label >Prenom *</label>
-                                        <input type="text"  class="form-control"  name="Prenom" >
-                                    </div>
+                                    <input type="text" class="form-control"  name="username" th:value="${user.getUsername()}">
                                     <div class="form-group">
                                         <label >Téléphone *</label>
-                                        <input type="tel"  class="form-control"  name="Téléphone" >
+                                        <input type="tel"  class="form-control"  name="Téléphone" th:value="${user.getTelU()}">
                                     </div>
                                     <div class="form-group">
                                         <label >Email *</label>
-                                        <input type="email" placeholder="adresse@gmail.com" class="form-control"  name="Email" >
+                                        <input type="email" placeholder="adresse@gmail.com" class="form-control"  name="Email" th:value="${user.getMailU()}" >
                                     </div>
                                     <div class="form-group">
                                         <label >Nom d'entreprise </label>
-                                        <input type="text" placeholder="adresse@gmail.com" class="form-control"  name="Nom_Entreprise" >
+                                        <input type="text" class="form-control"  name="Nom_Entreprise" >
                                     </div>
                                 </div>
                                 <hr>
                                 <p>A quelle heure souhaitez-vous être livrer ?</p>
                                 <div class="form-group">
                                     <label >Heure *</label>
-                                    <input type="datetime-local" class="form-control"  name="heure" >
+                                    <select type="datetime-local" class="form-control" placeholder="sélectionnez une heure de livraison" name="heure" >
+                                        <option value="">12:15</option>
+                                        <option value="">12:30</option>
+                                        <option value="">12:45</option>
+                                        <option value="">13:00</option>
+                                        <option value="">13:15</option>
+                                        <option value="">13:30</option>
+                                        <option value="">13:45</option>
+                                        <option value="">14:00</option>
+                                        <option value="">14:15</option>
+                                        <option value="">14:30</option>
+                                        <option value="">14:45</option>
+                                        <option value="">15:00</option>
+                                    </select>
                                     <div class="form-group">
-                                        <label >Remarque *</label>
+                                        <label >Remarque </label>
                                         <textarea type="text" class="form-control" rows="5" name="Remarque"></textarea>
                                     </div>
                                 </div>
@@ -138,25 +145,28 @@
             </div>
             </div>
 
-    <div class="sidenav">
-      <p class="text-black">
-      <h4 align="center"> Votre panier </h4>
-      <hr>
-      <div class="flex-column">
-          <div>
-              <span>Plat</span>
-              <span>Plat</span>
-              <span><i class="fas fa-plus-circle" style="font-size:24px;color:royalblue;" ></i></span>
-              <span><i class="fas fa-minus-circle" style="font-size:24px;color:royalblue;"></i></span>
-              <span><i class="fas fa-trash-alt" style="font-size:24px;color:royalblue;"></i></span>
-          </div>
-        <hr><h6>Sous total :
-        <br><br>frais de livraison :
-        <br><br>Montant total :    </h6>
-        <hr>
-        <p align="center"> <a th:href="@{'/restaurant/connexion'}" class="btn btn-primary btn-lg">Commander</a></p>
-      </div>
-    </div>
+            <div class="sidenav">
+                <p class="text-black">
+                <h4 align="center"> Votre panier </h4>
+                <hr>
+                <div class="flex-column">
+                    <div th:if="${platinfo}">
+                        <td><span th:text="${platinfo.nomP}"></span></td>
+                        <td><span> Quantité </span></td>
+                        <td><span th:text="${platinfo.prix}"> Prix </span></td>
+                        <td><span><i class="fas fa-plus-circle" style="font-size:24px;color:royalblue;align:right;" ></i></span></td>
+                        <td><span><i class="fas fa-minus-circle" style="font-size:24px;color:royalblue;align:right;"></i></span></td>
+                        <td><span><i class="fas fa-trash-alt" style="font-size:24px;color:royalblue;align:right;"></i></span></td>
+                    </div>
+                    <hr>
+                    <h6>Sous total:
+                        <br><br>Frais de livraison:
+                        <br><br>Montant total:
+                    </h6>
+                    <hr>
+                    <p align="center"> <a th:href="@{/plat/paiement}" class="btn btn-primary btn-lg">Commander</a></p>
+                </div>
+            </div>
         </div>
     </div>
 </section>
@@ -201,18 +211,6 @@
                 <li><a href="#" class="py-2 d-block">Chefs</a></li>
                 <li><a href="#" class="py-2 d-block">Events</a></li>
                 <li><a href="#" class="py-2 d-block">Contact</a></li>
-              </ul>
-            </div>
-          </div>
-          <div class="col-md-2 site-animate">
-            <div class="site-footer-widget mb-4">
-              <h2 class="site-heading-2">Useful links</h2>
-              <ul class="list-unstyled">
-                <li><a href="#" class="py-2 d-block">Foods</a></li>
-                <li><a href="#" class="py-2 d-block">Drinks</a></li>
-                <li><a href="#" class="py-2 d-block">Breakfast</a></li>
-                <li><a href="#" class="py-2 d-block">Brunch</a></li>
-                <li><a href="#" class="py-2 d-block">Dinner</a></li>
               </ul>
             </div>
           </div>

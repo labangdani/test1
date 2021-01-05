@@ -35,8 +35,7 @@
         <div class="collapse navbar-collapse" id="site-nav">
             <ul class="navbar-nav ml-auto">
                 <li class="nav-item"><a th:href="@{/index.html#section-home}" class="nav-link">Accueil</a></li>
-                <li class="nav-item"><a href="/resto/allresto" class="nav-link">Mes restaurants</a></li>
-                <li class="nav-item"><a href="/restaurant/listecommande" class="nav-link">Commande</a></li>
+                <li class="nav-item"><a th:href="@{'/command/listecommand/' +${nomR}}" class="nav-link">Commande</a></li>
                 <li class="nav-item active"><a th:href="@{'/plat/remplirPlatForm/' +${nomR}}" class="nav-link">Ajouter Plat</a></li>
             </ul>
         </div>

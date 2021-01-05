@@ -2,20 +2,24 @@ package com.example.test1.controller;
 
 import com.example.test1.modele.DTO.CommandeDto;
 import com.example.test1.modele.Entity.Commande;
+import com.example.test1.modele.Entity.Restaurant;
+import com.example.test1.modele.Entity.Utilisateur;
+import com.example.test1.repository.RestaurantRepository;
+import com.example.test1.repository.UtilisateurRepository;
 import com.example.test1.security.CommandeService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.convert.converter.Converter;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import java.util.ArrayList;
+import java.util.List;
 
 
 @Controller
@@ -23,122 +27,61 @@ import org.springframework.web.bind.annotation.RequestMethod;
 public class CommandeController {
     @Autowired
     private CommandeService commandeservice;
+    @Autowired
+    private RestaurantRepository restaurantRepository;
+    @Autowired
+    private UtilisateurRepository utilisateurRepository;
+
 
     @RequestMapping(value="/save", method = RequestMethod.POST)
     public String CreerCommande(@ModelAttribute("commande") @Validated CommandeDto commandeDto){
         commandeservice.save(commandeDto);
         return "redirect:paiement";
     }
+    @RequestMapping(value="/listecommand/{nomR}", method = RequestMethod.GET)
+    public String listRestaurants(Model model, @PathVariable(name="nomR") String nomresto) {
 
-   /* @RequestMapping(value="/listecommande", method = RequestMethod.GET)
-    public String listCommande(Model model, String nomR, @RequestParam(name = "page", defaultValue = "0")int p,
-                               @RequestParam(name = "size", defaultValue = "5")int s) {
+        Restaurant restaurant = restaurantRepository.findByNomR(nomresto);
+        //recuperation de la liste des Restaurants
+        final List<Commande> commande = restaurant.getCommande();
 
-        //recuperation de la liste des Enseignants
-        Page<Commande> commande = commandeservice.listCommande(nomR, new PageRequest(p,s));
+        List<CommandeDto> dtos= new ArrayList<CommandeDto>();
 
-        Page<CommandeDto> dtos= new Page<CommandeDto>() {
-            @Override
-            public Iterator<CommandeDto> iterator() {
-                return null;
-            }
-
-            @Override
-            public int getTotalPages() {
-                return 0;
-            }
-
-            @Override
-            public long getTotalElements() {
-                return 0;
-            }
-
-            @Override
-            public <U> Page<U> map(Function<? super CommandeDto, ? extends U> function) {
-                return null;
-            }
-
-            @Override
-            public int getNumber() {
-                return 0;
-            }
-
-            @Override
-            public int getSize() {
-                return 0;
-            }
-
-            @Override
-            public int getNumberOfElements() {
-                return 0;
-            }
-
-            @Override
-            public List<CommandeDto> getContent() {
-                return null;
-            }
-
-            @Override
-            public boolean hasContent() {
-                return false;
-            }
-
-            @Override
-            public Sort getSort() {
-                return null;
-            }
-
-            @Override
-            public boolean isFirst() {
-                return false;
-            }
-
-            @Override
-            public boolean isLast() {
-                return false;
-            }
-
-            @Override
-            public boolean hasNext() {
-                return false;
-            }
-
-            @Override
-            public boolean hasPrevious() {
-                return false;
-            }
-
-            @Override
-            public Pageable nextPageable() {
-                return null;
-            }
-
-            @Override
-            public Pageable previousPageable() {
-                return null;
-            }
-
-        };
-
-  *//*      for (Commande commandes:commande) {
+        for (Commande commandes:commande) {
             CommandeDto commandeDto = new CommandeDto();
+            commandeDto.setUser(commandes.getUser());
             commandeDto.setNbrplat(commandes.getNbrplat());
             commandeDto.setTotal(commandes.getTotal());
-            commandeDto.setFraislivraison(commandes.getFraislivraison());
-            commandeDto.setSousmontant(commandes.getSousmontant());
-            commandeDto.setDate(commandes.getDate());
-            commandeDto.setRestaurant(commandes.getRestaurant());
-            commandeDto.setUser(commandes.getUser());
 
             dtos.add(commandeDto);
-        }*//*
+        }
 
-        model.addAttribute("listCommande", dtos.getContent());
-        int[] pages = new int [dtos.getTotalPages()];
-        model.addAttribute("pages", pages);
-        model.addAttribute("size", s);
-        model.addAttribute("pageCourante", p);
-
+        //enregistrement dans le model
+        model.addAttribute("listecommande", dtos);
         return "listcommande";
-    }*/
+    }
+
+    @RequestMapping(value="/usercommand", method = RequestMethod.GET)
+    public String listCommande(Model model) {
+
+        Authentication auth = (Authentication) SecurityContextHolder.getContext().getAuthentication();
+        Utilisateur utilisateur= utilisateurRepository.findByUsername(auth.getName());
+        //recuperation de la liste des Restaurants
+        final List<Commande> commande = utilisateur.getCommande();
+
+        List<CommandeDto> dtos = new ArrayList<CommandeDto>();
+
+        for (Commande commandes:commande) {
+            CommandeDto commandeDto = new CommandeDto();
+            commandeDto.setUser(commandes.getUser());
+            commandeDto.setNbrplat(commandes.getNbrplat());
+            commandeDto.setTotal(commandes.getTotal());
+
+            dtos.add(commandeDto);
+        }
+
+        //enregistrement dans le model
+        model.addAttribute("listecommande", dtos);
+        return "listcommande";
+    }
 }

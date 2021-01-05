@@ -10,5 +10,4 @@ import java.util.List;
 
 public interface CommandeService {
     public Commande save(CommandeDto commandeDto);
-    public Page<Commande> listCommande(String nomR, Pageable pageable);
 }

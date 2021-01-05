@@ -1,21 +1,19 @@
 package com.example.test1.controller;
 
 import com.example.test1.modele.DTO.PlatDto;
-import com.example.test1.modele.DTO.RestaurantDto;
 import com.example.test1.modele.Entity.*;
 import com.example.test1.repository.PlatRepository;
 import com.example.test1.repository.RestaurantRepository;
+import com.example.test1.repository.UtilisateurRepository;
 import com.example.test1.security.PlatService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-
-import javax.servlet.ServletOutputStream;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -29,15 +27,16 @@ public class PlatController {
     @Autowired
     private RestaurantRepository restaurantRepository;
     @Autowired
+    private UtilisateurRepository utilisateurRepository;
+    @Autowired
     private PlatService platService;
 
     @RequestMapping(value = "/info/{nomp}")
     public String showinfoplat(@PathVariable(name = "nomp")String nomp, Model model){
         Plat plat = platRepository.findByNomP(nomp);
-        String nomR = plat.getRestaurants().getNomR();
         System.out.println(plat);
         model.addAttribute("platinfo", plat);
-        return "redirect:/plat/menuResto/{nomR}";
+        return "menu";
     }
 
    @RequestMapping(value = "/save/{nomR}", method = RequestMethod.POST)
@@ -159,4 +158,12 @@ public class PlatController {
         return "menuresto";
     }
 
+    @RequestMapping(value="/paiement", method = RequestMethod.GET)
+    public String payer(Model model) {
+        Authentication auth = (Authentication) SecurityContextHolder.getContext().getAuthentication();
+        Utilisateur utilisateur = utilisateurRepository.findByUsername(auth.getName());
+        model.addAttribute("username", auth.getName());
+        model.addAttribute("user", utilisateur);
+        return "paiement";
+    }
 }

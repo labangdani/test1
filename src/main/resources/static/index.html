@@ -38,7 +38,6 @@
                 <li class="nav-item"><a href="#section-about" class="nav-link">A propos</a></li>
                 <li class="nav-item"><a href="#section-offer" class="nav-link">Nos services</a></li>
                 <li class="nav-item"><a href="#section-contact" class="nav-link">Contact</a></li>
-                <li th:text="${username}"></li>
                 <!-- Trigger the modal with a button -->
                <td> <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#compteModal">Mon Compte</button></td>
             </ul>
@@ -53,12 +52,10 @@
             <div class="col-md-12">
                 <h1 class="site-heading site-animate mb-3">Faites-vous livrer vos envies</h1>
                 <h2 class="h5 site-subheading mb-5 site-animate">Des milliers d'offres exclusives en livraison</h2>
-                <!-- <p><a href="https://colorlib.com/" target="_blank" class="btn btn-outline-white btn-lg site-animate" data-toggle="modal" data-target="#reservationModal">Reservation</a></p>-->
-                <form action="/resto/listeresto" method="get" autocomplete="on">
-                    <input type="search" id="rechercher-nom" name="localisation" placeholder="Entrer votre adresse" size="40">
-                    <input class="btn btn-primary" type="submit" value="Continuer">
+                <form action="/resto/listeresto" autocomplete="on" method="get">
+                        <input type="search" style="height:53px; border:none; color:#000; font-size:18px; border-radius: 5px; width: 370px;"  id="rechercher-nom" name="localisation" placeholder="Entrer votre adresse">
+                        <input class="btn btn-primary" style="height:53px; border-radius:5px;" type="submit" value="Continuer">
                 </form>
-
             </div>
         </div>
     </div>

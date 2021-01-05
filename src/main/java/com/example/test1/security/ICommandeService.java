@@ -31,9 +31,4 @@ public class ICommandeService implements CommandeService {
         return commandeRepository.save(commande);
     }
 
-    @Override
-    public Page<Commande> listCommande(String nomR, Pageable pageable) {
-
-        return commandeRepository.findAllByRestaurant(nomR, pageable);
-    }
 }

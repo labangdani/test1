@@ -51,10 +51,18 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception{
-       http.formLogin()
-               .loginPage("/User/connexion")
-               .defaultSuccessUrl("/User/home");
-//               .and().logout().logoutUrl("/User/logout").logoutSuccessUrl("/");
+
+        // Configuration for Login Form.
+        http.authorizeRequests().and().formLogin()//
+                //
+                .loginProcessingUrl("/j_spring_security_check") // Submit URL
+                .loginPage("/User/connexion")//
+                .defaultSuccessUrl("/User/home")//
+                .failureUrl("/admin/login?error=true")//
+
+                // Configuration for the Logout page.
+                // (After logout, go to home page)
+                .and().logout().logoutSuccessUrl("/");
 
        http.authorizeRequests().antMatchers("/User/listeuser").hasRole("USER");
        http.authorizeRequests().antMatchers("/plat/remplirPlatForm", "/command/listecommande").hasRole("MODERATOR");
