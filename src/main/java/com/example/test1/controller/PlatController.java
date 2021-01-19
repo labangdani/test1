@@ -5,15 +5,19 @@ import com.example.test1.modele.Entity.*;
 import com.example.test1.repository.PlatRepository;
 import com.example.test1.repository.RestaurantRepository;
 import com.example.test1.repository.UtilisateurRepository;
-import com.example.test1.security.PlatService;
+import com.example.test1.service.PlatService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.util.StringUtils;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -31,33 +35,40 @@ public class PlatController {
     @Autowired
     private PlatService platService;
 
-    @RequestMapping(value = "/info/{nomp}")
+   /* @RequestMapping(value = "/info/{nomp}")
     public String showinfoplat(@PathVariable(name = "nomp")String nomp, Model model){
         Plat plat = platRepository.findByNomP(nomp);
         System.out.println(plat);
         model.addAttribute("platinfo", plat);
         return "menu";
-    }
+    }*/
 
    @RequestMapping(value = "/save/{nomR}", method = RequestMethod.POST)
-    public String CreatePlat(@Validated PlatDto platDto, BindingResult result, @PathVariable(name= "nomR") String nomR)
+    public String CreatePlat(@Validated PlatDto platDto, BindingResult result, @PathVariable(name= "nomR") String nomR, @RequestParam("image") MultipartFile multipartFile)
+           throws IOException
     {
         Plat existing = platRepository.findAllByNomP(platDto.getNomP());
         if(existing != null){
             result.rejectValue("nom", null, "There is already an account registered with that nom");
         }
+        String fileName = StringUtils.cleanPath(multipartFile.getOriginalFilename());
+        System.out.println(fileName);
         if (result.hasErrors()){
             return "enregistrerplat";
         }
         // Create new plat's account
+
         Plat plat = new Plat(platDto.getNomP(),
                 platDto.getPrix(),
-                platDto.getDescription(),
-                platDto.getImage());
+                platDto.getDescription());
+        plat.setImage(fileName);
+        System.out.println(fileName);
         Restaurant restaurant= restaurantRepository.findByNomR(nomR);
         System.out.println(restaurant);
         plat.setRestaurants(restaurant);
         platRepository.save(plat);
+        String uploadDir = "images/";
+//        FileUploadUtil.saveFile(uploadDir, fileName, multipartFile);
         return "redirect:/plat/listeplat/{nomR}";
     }
 
@@ -83,6 +94,7 @@ public class PlatController {
        Restaurant restaurant = restaurantRepository.findByNomR(nomR);
         plat.setRestaurants(restaurant);
         platRepository.save(plats);
+
         return "redirect:/plat/listeplat/{nomR}";
 
     }
@@ -116,16 +128,16 @@ public class PlatController {
             PlatDto platDto = new PlatDto();
             platDto.setNomP(plats.getNomP());
             platDto.setDescription(plats.getDescription());
-            platDto.setImage(plats.getImage());
+            platDto.setImage(plats.getPhotosImagePath());
             platDto.setPrix(plats.getPrix());
             platDto.setRestaurant(plats.getRestaurants());
-            System.out.println("les images de mes restos sont : " + plats.getImage());
+            System.out.println("les images de mes restos sont : " + plats.getPhotosImagePath());
 
             dtos.add(platDto);
         }
         //enregistrement dans le model
         model.addAttribute("listPlat", dtos);
-        model.addAttribute("nomR", nomR);
+        model.addAttribute("restaurant", restaurant);
         return "menu";
     }
 
@@ -145,10 +157,10 @@ public class PlatController {
             PlatDto platDto = new PlatDto();
             platDto.setNomP(plats.getNomP());
             platDto.setDescription(plats.getDescription());
-            platDto.setImage(plats.getImage());
+            platDto.setImage(plats.getPhotosImagePath());
             platDto.setPrix(plats.getPrix());
             platDto.setRestaurant(plats.getRestaurants());
-            System.out.println("les images de mes restos sont : " + plats.getImage());
+            System.out.println("les images de mes restos sont : " + plats.getPhotosImagePath());
 
             dtos.add(platDto);
         }
@@ -158,12 +170,14 @@ public class PlatController {
         return "menuresto";
     }
 
-    @RequestMapping(value="/paiement", method = RequestMethod.GET)
-    public String payer(Model model) {
+    @RequestMapping(value="/paiement/{nomR}", method = RequestMethod.GET)
+    public String payer(Model model, @PathVariable(name = "nomR") String nomR) {
         Authentication auth = (Authentication) SecurityContextHolder.getContext().getAuthentication();
         Utilisateur utilisateur = utilisateurRepository.findByUsername(auth.getName());
+        Restaurant restaurant = restaurantRepository.findByNomR(nomR);
         model.addAttribute("username", auth.getName());
         model.addAttribute("user", utilisateur);
+        model.addAttribute("restaurant", restaurant);
         return "paiement";
     }
 }

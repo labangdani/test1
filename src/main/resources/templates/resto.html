@@ -53,10 +53,11 @@
                     </div>
                 </div>
             </div>
+        </div>
             <!--            <% listresto.forEach(function(restaurant, index) { %>-->
 
-            <div th:each="restaurant : ${listRestaurant}">
-                <div class="row">
+        <div class="row">
+                <div class="col-4" th:each="restaurant : ${listRestaurant}">
                     <div class="media d-block mb-4 text-center site-media site-animate">
                         <a th:href="@{'/plat/listeplat/' + ${restaurant.getNomR()}}"><img   th:src="${restaurant.image}" alt="Free Template by colorlib.com" class="img-fluid"></a>
                         <div class="media-body p-md-5 p-4">
@@ -67,7 +68,7 @@
                     </div>
                </div>
             </div>
-        </div>
+
     </div>
 </section>
 <!--<div class="page">

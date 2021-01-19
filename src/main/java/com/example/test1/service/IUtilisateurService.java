@@ -1,7 +1,6 @@
-package com.example.test1.security;
+package com.example.test1.service;
 
 
-import com.example.test1.modele.DTO.UtilisateurDto;
 import com.example.test1.modele.Entity.Utilisateur;
 import com.example.test1.repository.UtilisateurRepository;
 import org.springframework.beans.factory.annotation.Autowired;

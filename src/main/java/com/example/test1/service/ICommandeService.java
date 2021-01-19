@@ -1,16 +1,11 @@
-package com.example.test1.security;
+package com.example.test1.service;
 
 
 import com.example.test1.modele.DTO.CommandeDto;
 import com.example.test1.modele.Entity.Commande;
 import com.example.test1.repository.CommandeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
 
 @Service
 public class ICommandeService implements CommandeService {

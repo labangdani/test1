@@ -90,4 +90,11 @@ public class PlatDto {
     public void setRestaurant(Restaurant restaurant) {
         this.restaurant = restaurant;
     }
+
+    @Transient
+    public String getPhotosImagePath() {
+        if (image == null) return null;
+
+        return "/images/" + image;
+    }
 }

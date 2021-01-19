@@ -1044,3 +1044,26 @@ textarea.form-control {
   margin: 10px 0px 0px 0px;
   padding: 10px 0px 0px 0px;
 }
+/* css custom dany ft val */
+
+.cart-quantity-input{
+  width: 44px;
+}
+
+.btn-dany{
+  width: 105px;
+  padding-left: 16px;
+}
+
+.row-messi{
+  margin-bottom: 16px;
+}
+
+.sidenav{
+  width: 518px;
+}
+
+.cart-row{
+  margin-bottom: 16px;
+
+}

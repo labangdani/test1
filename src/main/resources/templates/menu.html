@@ -45,7 +45,7 @@
     <div class="container">
             <div class="row">
                 <div class="main">
-                        <h2 class="display-4" align="center" th:text="${nomR}">nom</h2>
+                        <h2 class="display-4" align="center" th:text="${restaurant.getNomR()}">nom</h2>
                         <p class="lead" align="center">Bienvenue dans notre menu</p>
 
                     <div th:each="plat: ${listPlat}">
@@ -53,14 +53,14 @@
                             <div class="media">
                                 <div class="media-left">
                                     <a href="#">
-                                        <img class="media-object" th:src="${plat.image}" alt="Free Template by colorlib.com">
+                                        <img class="media-object shop-item-image"  th:src="${plat.image}"  alt="Free Template by colorlib.com">
                                     </a>
                                 </div>
                                 <div  class="media-body">
-                                    <h4 class="media-heading" th:text="${plat.getNomP()}">nom</h4>
+                                    <h4 class="media-heading shop-item-title" id="${plat.getIdplat()}"  th:text="${plat.getNomP()}">nom</h4>
                                         <br class="mb-4" th:text="${plat.getDescription()}">
-                                        <br align="left" class="mb-4" th:text="${plat.getPrix()}">
-                                     <a align="right" th:href="@{'/plat/info/' +${plat.getNomP()}}" class="btn btn-primary btn-sm"> Ajouter </a>
+                                    <br> <h5 align="left" class="mb-4 prix_plat shop-item-price" th:text="${plat.getPrix()}">prix</h5>
+                                     <a align="right" class="btn btn-primary btn-sm shop-item-button"> Ajouter </a>
                                 </div>
                             </div>
                         </div></div>
@@ -70,25 +70,32 @@
 
                 <!--       <div class="col-md-1"></div>-->
                 <div class="sidenav">
-                    <p class="text-black">
+                        <p class="text-black">
                     <h4 align="center"> Votre panier </h4>
                     <hr>
-                    <div class="flex-column">
-                        <div th:if="${platinfo}">
-                            <td><span th:text="${platinfo.nomP}"></span></td>
-                            <td><span> Quantité </span></td>
-                            <td><span th:text="${platinfo.prix}"> Prix </span></td>
-                            <td><span><i class="fas fa-plus-circle" style="font-size:24px;color:royalblue;align:right;" ></i></span></td>
-                            <td><span><i class="fas fa-minus-circle" style="font-size:24px;color:royalblue;align:right;"></i></span></td>
-                            <td><span><i class="fas fa-trash-alt" style="font-size:24px;color:royalblue;align:right;"></i></span></td>
+                    <div class="flex-column" style="padding: 23px;">
+                        <div class="row row-messi">
+                            <span class="col-4 cart-item cart-header cart-column text-black">PLAT</span>
+                            <span class="col-3 cart-price cart-header cart-column text-black">PRIX</span>
+                            <span class="col-3 cart-quantity cart-header cart-column text-black">QUANTITE</span>
+                            <span class="col-2"></span>
+
                         </div>
+                        <div class="cart-items">
+                        </div>
+
                         <hr>
-                        <h6>Sous total:
-                            <br><br>Frais de livraison:
-                            <br><br>Montant total:
-                        </h6>
+                        <div class="cart-total">
+                            <strong class="cart-total-title text-black">Sous Total:</strong>
+                            <span class="cart-total-price text-black">0Fcfa</span>
+                            <br><strong class="cart-fraislivraison-title text-black">Frais de livraison:</strong>
+                            <span class="cart-fraislivraison-price text-black" th:text="${restaurant.getFraisdelivraison()}">Fcfa</span>
+                            <br><strong class="cart-totalfinal-title text-black">Total:</strong>
+                            <span class="cart-totalfinal-price text-black">0Fcfa</span>
+                        </div>
+                        
                         <hr>
-                        <p align="center"> <a th:href="@{/plat/paiement}" class="btn btn-primary btn-lg">Commander</a></p>
+                        <p align="center"> <a onclick="storage()" th:href="@{'/plat/paiement/' + ${restaurant.getNomR()}}" class="btn btn-primary btn-lg">Commander</a></p>
                     </div>
                 </div>
             </div>
@@ -154,10 +161,9 @@
         </div>
     </div>
 </footer>
-
 <script src='https://kit.fontawesome.com/a076d05399.js'></script>
-<script th:src="@{/js/monfile.js}"></script>-->
 <script th:src="@{/js/jquery.min.js}"></script>
+<script th:src="@{/js/cart.js}"></script>
 <script th:src="@{/js/popper.min.js}"></script>
 <script th:src="@{/js/bootstrap.min.js}"></script>
 <script th:src="@{/js/jquery.easing.1.3.js}"></script>

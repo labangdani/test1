@@ -1,13 +1,11 @@
 package com.example.test1.controller;
 
 import com.example.test1.modele.DTO.RestaurantDto;
-import com.example.test1.modele.DTO.UtilisateurDto;
 import com.example.test1.modele.Entity.Restaurant;
-import com.example.test1.modele.Entity.Role;
 import com.example.test1.modele.Entity.Utilisateur;
 import com.example.test1.repository.RestaurantRepository;
 import com.example.test1.repository.UtilisateurRepository;
-import com.example.test1.security.RestaurantService;
+import com.example.test1.service.RestaurantService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -19,8 +17,6 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
 import java.util.*;
 
 @Controller
@@ -53,6 +49,7 @@ public class RestaurantController {
                 restaurantDto.getMailR(),
                 restaurantDto.getTel(),
                 restaurantDto.getType(),
+                restaurantDto.getFraisdelivraison(),
                 restaurantDto.getLundi(),
                 restaurantDto.getMardi(),
                 restaurantDto.getMercredi(),
@@ -97,6 +94,7 @@ public class RestaurantController {
             restoDto.setMailR(restaurants.getMailR());
             restoDto.setTel(restaurants.getTel());
             restoDto.setType(restaurants.getType());
+            restoDto.setFraisdelivraison(restaurants.getFraisdelivraison());
             System.out.println("les images de mes restos sont : "+restaurants.getImage());
 
             dtos.add(restoDto);
@@ -143,6 +141,7 @@ public class RestaurantController {
             restaurantDto.setMailR(restaurants.getMailR());
             restaurantDto.setTel(restaurants.getTel());
             restaurantDto.setType(restaurants.getType());
+            restaurantDto.setFraisdelivraison(restaurants.getFraisdelivraison());
             System.out.println("les images de mes restos sont : "+restaurants.getImage());
 
             dtos.add(restaurantDto);

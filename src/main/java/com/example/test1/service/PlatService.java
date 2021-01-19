@@ -1,9 +1,6 @@
-package com.example.test1.security;
+package com.example.test1.service;
 
-import com.example.test1.modele.DTO.PlatDto;
 import com.example.test1.modele.Entity.Plat;
-
-import java.util.List;
 
 public interface PlatService {
     public Plat Platidentique(String nomP);

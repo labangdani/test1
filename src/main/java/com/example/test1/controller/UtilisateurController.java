@@ -1,15 +1,12 @@
 package com.example.test1.controller;
 
-import com.example.test1.modele.DTO.RestaurantDto;
-import com.example.test1.modele.DTO.UserDetailsImpl;
 import com.example.test1.modele.DTO.UtilisateurDto;
 import com.example.test1.modele.Entity.ERole;
-import com.example.test1.modele.Entity.Restaurant;
 import com.example.test1.modele.Entity.Role;
 import com.example.test1.modele.Entity.Utilisateur;
 import com.example.test1.repository.RoleRepository;
 import com.example.test1.repository.UtilisateurRepository;
-import com.example.test1.security.UtilisateurService;
+import com.example.test1.service.UtilisateurService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -21,10 +18,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.SessionAttributes;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
 import java.util.*;
 
 
@@ -99,13 +93,13 @@ public class UtilisateurController {
         } else {
             strRoles.forEach(role -> {
                 switch (role) {
-                    case "admin":
+                    case "ADMIN":
                         Role adminRole = roleRepository.findByName(ERole.ADMIN)
                                 .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
                         roles.add(adminRole);
 
                         break;
-                    case "mod":
+                    case "MODERATOR":
                         Role modRole = roleRepository.findByName(ERole.MODERATOR)
                                 .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
                         roles.add(modRole);

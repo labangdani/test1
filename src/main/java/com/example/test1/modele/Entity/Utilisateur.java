@@ -24,6 +24,8 @@ public class Utilisateur {
     private String password;
     @Column(name = "telU")
     private int telU;
+//    @Column(name = "active")
+//    private boolean active;
     @Column(name = "sexe")
     private String sexe;
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy = "utilisateur")

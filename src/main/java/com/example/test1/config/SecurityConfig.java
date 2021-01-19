@@ -1,6 +1,6 @@
-package com.example.test1.repository;
+package com.example.test1.config;
 
-import com.example.test1.security.UserDetailsServiceImpl;
+import com.example.test1.service.UserDetailsServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -43,8 +43,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
       /* auth.jdbcAuthentication()
                .dataSource(dataSource)
-               .usersByUsernameQuery("select username as principal, password as credential, from utilisateur where username=? ")
-               .authoritiesByUsernameQuery("select idrole as role from user_roles where idu=(select idu from utilisateur where username=?)")
+               .usersByUsernameQuery("select username as principal, password as credential, active from utilisateur where username = ?")
+//               .authoritiesByUsernameQuery("select name as role from roles where id = (select idrole as role from user_roles where idu=(select idu from utilisateur where username=?))")
                .passwordEncoder(passwordEncoder)
                .rolePrefix("ROLE_");*/
     }
@@ -56,16 +56,16 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http.authorizeRequests().and().formLogin()//
                 //
                 .loginProcessingUrl("/j_spring_security_check") // Submit URL
-                .loginPage("/User/connexion")//
+//                .loginPage("/User/connexion")//
                 .defaultSuccessUrl("/User/home")//
-                .failureUrl("/admin/login?error=true")//
+//                .failureUrl("/admin/login?error=true")
 
                 // Configuration for the Logout page.
                 // (After logout, go to home page)
                 .and().logout().logoutSuccessUrl("/");
 
-       http.authorizeRequests().antMatchers("/User/listeuser").hasRole("USER");
-       http.authorizeRequests().antMatchers("/plat/remplirPlatForm", "/command/listecommande").hasRole("MODERATOR");
-       http.exceptionHandling().accessDeniedPage("/User/403");
+        http.authorizeRequests().antMatchers("/User/listeuser").hasRole("USER");
+        http.authorizeRequests().antMatchers("/plat/remplirPlatForm", "/command/listecommande").hasRole("MODERATOR");
+        http.exceptionHandling().accessDeniedPage("/User/403");
     }
 }

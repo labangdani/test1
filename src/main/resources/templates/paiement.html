@@ -47,33 +47,32 @@
         <div class="row">
             <div class="col-md-7 mb-5 site-animate">
 
-<!--            <div class="main">-->
-                <div class="col-md-12 text-center mb-5 site-animate">
-                    <h3 class="display-4">Prêt à commander</h3>
+                <div class="col-md-12 text-center mb-5 site-animate"><h3 class="display-4">Prêt à commander</h3>
                     <div class="row justify-content-center">
                         <div class="col-md-7">
-                            <p class="text-black" align="left">Finaliser votre commande</p>
+                            <p class="text-black" align="left">Finalisez votre commande</p>
                         </div>
                     </div>
                 </div>
 
-                        <hr>
+                <form class="probootstrap-form"   th:method="post"  th:action="@{/pay}">
+                    <hr>
                          <p>Où souhaitez-vous faire livrer votre commande?</p>
-                            <div class="probootstrap-form"   th:method="post">
                                 <div class="form-group">
-                                        <label>Adresse *</label>
-                                        <input type="text" class="form-control"  name="Adresse" >
-                                    <div class="form-group">
-                                        <label>Ville *</label>
-                                        <input type="text" class="form-control"  name="Ville" >
-                                    </div>
+                                    <label>Adresse *</label>
+                                    <input type="text" class="form-control"  name="Adresse" >
+                                </div>
+                                <div class="form-group">
+                                    <label>Ville *</label>
+                                    <input type="text" class="form-control"  name="Ville" >
                                 </div>
                             <hr>
                             <p>Comment pouvons-nous vous joindre?</p>
                                 <div th:if="${user}">
-                                <div class="form-group">
-                                    <label >Nom *</label>
-                                    <input type="text" class="form-control"  name="username" th:value="${user.getUsername()}">
+                                    <div class="form-group">
+                                        <label >Nom *</label>
+                                        <input type="text" class="form-control"  name="username" th:value="${user.getUsername()}">
+                                    </div>
                                     <div class="form-group">
                                         <label >Téléphone *</label>
                                         <input type="tel"  class="form-control"  name="Téléphone" th:value="${user.getTelU()}">
@@ -87,8 +86,8 @@
                                         <input type="text" class="form-control"  name="Nom_Entreprise" >
                                     </div>
                                 </div>
-                                <hr>
-                                <p>A quelle heure souhaitez-vous être livrer ?</p>
+                            <hr>
+                            <p>A quelle heure souhaitez-vous être livrer ?</p>
                                 <div class="form-group">
                                     <label >Heure *</label>
                                     <select type="datetime-local" class="form-control" placeholder="sélectionnez une heure de livraison" name="heure" >
@@ -105,13 +104,13 @@
                                         <option value="">14:45</option>
                                         <option value="">15:00</option>
                                     </select>
-                                    <div class="form-group">
-                                        <label >Remarque </label>
-                                        <textarea type="text" class="form-control" rows="5" name="Remarque"></textarea>
-                                    </div>
                                 </div>
-                                <hr>
-                                <p>Comment souhaitez vous payer?</p>
+                                <div class="form-group">
+                                    <label >Remarque </label>
+                                    <textarea type="text" class="form-control" rows="5" name="Remarque"></textarea>
+                                </div>
+                            <hr>
+                            <p>Comment souhaitez vous payer?</p>
                                 <div class="row">
                                     <div class="col-xs-4 col-md-2">
                                         <a href="#" class="thumbnail">
@@ -140,8 +139,9 @@
                                     </div>
                                 </div>
                                 <br />
-                                <p align="right"><a class="btn btn-primary btn-lg">Commander et payer</a></p>
-                            </form>
+                                <p align="right"><input type="submit" value="Commander et payer" class="btn btn-primary btn-lg">
+                                </p>
+                </form>
             </div>
             </div>
 
@@ -149,25 +149,33 @@
                 <p class="text-black">
                 <h4 align="center"> Votre panier </h4>
                 <hr>
-                <div class="flex-column">
-                    <div th:if="${platinfo}">
-                        <td><span th:text="${platinfo.nomP}"></span></td>
-                        <td><span> Quantité </span></td>
-                        <td><span th:text="${platinfo.prix}"> Prix </span></td>
-                        <td><span><i class="fas fa-plus-circle" style="font-size:24px;color:royalblue;align:right;" ></i></span></td>
-                        <td><span><i class="fas fa-minus-circle" style="font-size:24px;color:royalblue;align:right;"></i></span></td>
-                        <td><span><i class="fas fa-trash-alt" style="font-size:24px;color:royalblue;align:right;"></i></span></td>
+                <div class="flex-column" style="padding: 23px;">
+                    <div class="row row-messi">
+                        <span class="col-4 cart-item cart-header cart-column text-black">PLAT</span>
+                        <span class="col-3 cart-price cart-header cart-column text-black">PRIX</span>
+                        <span class="col-3 cart-quantity cart-header cart-column text-black">QUANTITE</span>
+                        <span class="col-2"></span>
+
                     </div>
+                    <div class="cart-items">
+                    </div>
+
                     <hr>
-                    <h6>Sous total:
-                        <br><br>Frais de livraison:
-                        <br><br>Montant total:
-                    </h6>
+                    <div class="cart-total">
+                        <strong class="cart-total-title text-black">Sous Total:</strong>
+                        <span class="cart-total-price text-black">0Fcfa</span>
+                        <br><strong class="cart-fraislivraison-title text-black">Frais de livraison:</strong>
+                        <span class="cart-fraislivraison-price text-black"></span>
+                        <br><strong class="cart-totalfinal-title text-black">Total:</strong>
+                        <span class="cart-totalfinal-price text-black">0Fcfa</span>
+                    </div>
+
                     <hr>
-                    <p align="center"> <a th:href="@{/plat/paiement}" class="btn btn-primary btn-lg">Commander</a></p>
+                    <p align="center"> <a  th:href="@{'/plat/menuResto/' + ${restaurant.getNomR()}}" class="btn btn-primary btn-lg">Commander</a></p>
                 </div>
             </div>
         </div>
+    </div>
     </div>
 </section>
 

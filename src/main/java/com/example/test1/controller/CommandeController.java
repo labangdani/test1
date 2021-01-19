@@ -6,7 +6,7 @@ import com.example.test1.modele.Entity.Restaurant;
 import com.example.test1.modele.Entity.Utilisateur;
 import com.example.test1.repository.RestaurantRepository;
 import com.example.test1.repository.UtilisateurRepository;
-import com.example.test1.security.CommandeService;
+import com.example.test1.service.CommandeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;

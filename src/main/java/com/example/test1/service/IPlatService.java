@@ -1,12 +1,9 @@
-package com.example.test1.security;
+package com.example.test1.service;
 
-import com.example.test1.modele.DTO.PlatDto;
 import com.example.test1.modele.Entity.Plat;
 import com.example.test1.repository.PlatRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
 
 @Service
 public class IPlatService implements PlatService {

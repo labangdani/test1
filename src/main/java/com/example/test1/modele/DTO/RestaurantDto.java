@@ -28,6 +28,8 @@ public class RestaurantDto {
         private int tel;
         @Column(name = "type")
         private String type;
+        @Column(name = "fraisdelivraison")
+        private int fraisdelivraison;
         @Column(name = "lundi")
         private Boolean lundi = false;
         @Column(name = "mardi")
@@ -51,22 +53,23 @@ public class RestaurantDto {
     public RestaurantDto() {
         }
 
-        public RestaurantDto(String nomR, String localisation, String image, String description, String mailR, int tel, String type, Boolean lundi, Boolean mardi, Boolean mercredi, Boolean jeudi, Boolean vendredi, Boolean samedi, Boolean dimanche) {
-            this.nomR = nomR;
-            this.localisation = localisation;
-            this.image = image;
-            this.description = description;
-            this.mailR = mailR;
-            this.tel = tel;
-            this.type = type;
-            this.lundi = lundi;
-            this.mardi = mardi;
-            this.mercredi = mercredi;
-            this.jeudi = jeudi;
-            this.vendredi = vendredi;
-            this.samedi = samedi;
-            this.dimanche = dimanche;
-        }
+        public RestaurantDto(String nomR, String localisation, String image, String description, String mailR, int tel, String type, int fraisdelivraison, Boolean lundi, Boolean mardi, Boolean mercredi, Boolean jeudi, Boolean vendredi, Boolean samedi, Boolean dimanche) {
+        this.nomR = nomR;
+        this.localisation = localisation;
+        this.image = image;
+        this.description = description;
+        this.mailR = mailR;
+        this.tel = tel;
+        this.type = type;
+        this.fraisdelivraison = fraisdelivraison;
+        this.lundi = lundi;
+        this.mardi = mardi;
+        this.mercredi = mercredi;
+        this.jeudi = jeudi;
+        this.vendredi = vendredi;
+        this.samedi = samedi;
+        this.dimanche = dimanche;
+    }
 
         public Long getIdresto() {
             return idresto;
@@ -130,6 +133,14 @@ public class RestaurantDto {
 
         public void setType(String type) {
             this.type = type;
+        }
+
+        public int getFraisdelivraison() {
+            return fraisdelivraison;
+        }
+
+        public void setFraisdelivraison(int fraisdelivraison) {
+            this.fraisdelivraison = fraisdelivraison;
         }
 
         public Boolean getLundi() {

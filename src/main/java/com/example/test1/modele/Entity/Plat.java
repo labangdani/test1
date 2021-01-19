@@ -29,11 +29,10 @@ public class Plat {
     public Plat() {
     }
 
-    public Plat(String nomP, int prix, String description, String image) {
+    public Plat(String nomP, int prix, String description) {
         this.nomP = nomP;
         this.prix = prix;
         this.description = description;
-        this.image = image;
     }
 
     public Long getIdplat() {
@@ -82,6 +81,13 @@ public class Plat {
 
     public void setRestaurants(Restaurant restaurant) {
         this.restaurants = restaurant;
+    }
+
+     @Transient
+    public String getPhotosImagePath() {
+        if (image == null) return null;
+         
+        return "/images/" + image;
     }
 
 }

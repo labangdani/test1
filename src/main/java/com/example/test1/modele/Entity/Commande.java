@@ -26,6 +26,10 @@ public class Commande {
     private int fraislivraison;
     @Column(name = "sousmontant")
     private int sousmontant;
+     @Column(name = "validité")
+    private boolean validité;
+     @Column(name = "heure")
+    private String Heure;
     @Column(name = "date")
     private LocalDateTime date;
     @ManyToOne(fetch = FetchType.EAGER, optional = true)

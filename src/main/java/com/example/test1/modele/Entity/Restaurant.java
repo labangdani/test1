@@ -26,6 +26,8 @@ public class Restaurant {
     private int tel;
     @Column(name = "type")
     private String type;
+    @Column(name = "fraisdelivraison")
+    private int fraisdelivraison;
     @Column(name = "lundi")
     private Boolean lundi = false;
     @Column(name = "mardi")
@@ -55,7 +57,7 @@ public class Restaurant {
     public Restaurant() {
     }
 
-    public Restaurant(String nomR, String localisation, String image, String description, String mailR, int tel, String type, Boolean lundi, Boolean mardi, Boolean mercredi, Boolean jeudi, Boolean vendredi, Boolean samedi, Boolean dimanche) {
+    public Restaurant(String nomR, String localisation, String image, String description, String mailR, int tel, String type, int fraisdelivraison, Boolean lundi, Boolean mardi, Boolean mercredi, Boolean jeudi, Boolean vendredi, Boolean samedi, Boolean dimanche) {
         this.nomR = nomR;
         this.localisation = localisation;
         this.image = image;
@@ -63,6 +65,7 @@ public class Restaurant {
         this.mailR = mailR;
         this.tel = tel;
         this.type = type;
+        this.fraisdelivraison = fraisdelivraison;
         this.lundi = lundi;
         this.mardi = mardi;
         this.mercredi = mercredi;
@@ -134,6 +137,14 @@ public class Restaurant {
 
     public void setType(String type) {
         this.type = type;
+    }
+
+    public int getFraisdelivraison() {
+        return fraisdelivraison;
+    }
+
+    public void setFraisdelivraison(int fraisdelivraison) {
+        this.fraisdelivraison = fraisdelivraison;
     }
 
     public Boolean getLundi() {

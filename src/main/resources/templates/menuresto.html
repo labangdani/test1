@@ -54,8 +54,10 @@
                         </div>
                     </div>
                 </div>
+        </div>
 
-            <div th:each="plat : ${listPlat}">
+        <div class="row">
+            <div class="col-6" th:each="plat : ${listPlat}">
                 <div class="media d-block mb-3 site-media site-animate"><div class="media-body p-md-3">
                     <div class="media">
                         <div class="media-left">
@@ -71,14 +73,10 @@
                                 <a th:href="@{'/plat/edit/' +${plat.getNomP()}}" class="btn btn-primary btn-sm">Modifier</a>
                                 <a onclick="return alert('Etes vous sûre de vouloir supprimer?')" th:href="@{'/plat/delete/' + ${plat.getNomP()}}" class="btn btn-primary btn-sm">Supprimer</a>
                             </p>
-
                         </div>
-                    </div></div>
-                </div>
-
-
+                    </div>
+                </div></div>
             </div>
-        </div>
         </div>
     </div>
 </section>
