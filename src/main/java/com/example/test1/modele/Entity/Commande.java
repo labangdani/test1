@@ -22,16 +22,24 @@ public class Commande {
     private int nbrplat;
     @Column(name = "total")
     private int total;
-    @Column(name = "fraislivraison")
-    private int fraislivraison;
-    @Column(name = "sousmontant")
-    private int sousmontant;
-     @Column(name = "validité")
-    private boolean validité;
+    @Column(name = "currency")
+    private String currency;
+    @Column(name = "intent")
+    private String intent;
+    @Column(name = "validité")
+    private boolean validité = false;
      @Column(name = "heure")
-    private String Heure;
+    private String heure;
+    @Column(name = "mode")
+    private String mode;
+    @Column(name = "adresse")
+    private String adresse;
+    @Column(name = "ville")
+    private String ville = "Yaoundé";
     @Column(name = "date")
     private LocalDateTime date;
+    @Column(name ="remarque")
+    private String remarque;
     @ManyToOne(fetch = FetchType.EAGER, optional = true)
     @JoinColumn(name = "user_id", nullable = false)
     @OnDelete(action = OnDeleteAction.NO_ACTION)
@@ -49,12 +57,21 @@ public class Commande {
     public Commande() {
     }
 
-    public Commande(int nbrplat, int total, int fraislivraison, int sousmontant, LocalDateTime date) {
+    public Commande(int nbrplat, int total, String currency, boolean validité, String heure, String mode, String intent, String adresse, String ville, LocalDateTime date, String remarque, Utilisateur utilisateur, Restaurant restaurants, Set<Plat> plats) {
         this.nbrplat = nbrplat;
         this.total = total;
-        this.fraislivraison = fraislivraison;
-        this.sousmontant = sousmontant;
+        this.currency = currency;
+        this.intent = intent;
+        this.validité = validité;
+        this.heure = heure;
+        this.mode = mode;
+        this.adresse = adresse;
+        this.ville = ville;
         this.date = date;
+        this.remarque = remarque;
+        this.utilisateur = utilisateur;
+        this.restaurants = restaurants;
+        this.plats = plats;
     }
 
     public Long getIdcom() {
@@ -81,20 +98,60 @@ public class Commande {
         this.total = total;
     }
 
-    public int getFraislivraison() {
-        return fraislivraison;
+    public String getCurrency() {
+        return currency;
     }
 
-    public void setFraislivraison(int fraislivraison) {
-        this.fraislivraison = fraislivraison;
+    public String getIntent() {
+        return intent;
     }
 
-    public int getSousmontant() {
-        return sousmontant;
+    public void setIntent(String intent) {
+        this.intent = intent;
     }
 
-    public void setSousmontant(int sousmontant) {
-        this.sousmontant = sousmontant;
+    public void setCurrency(String currency) {
+        this.currency = currency;
+    }
+
+    public boolean isValidité() {
+        return validité;
+    }
+
+    public void setValidité(boolean validité) {
+        this.validité = validité;
+    }
+
+    public String getHeure() {
+        return heure;
+    }
+
+    public void setHeure(String heure) {
+        this.heure = heure;
+    }
+
+    public String getMode() {
+        return mode;
+    }
+
+    public void setMode(String mode) {
+        this.mode = mode;
+    }
+
+    public String getAdresse() {
+        return adresse;
+    }
+
+    public void setAdresse(String adresse) {
+        this.adresse = adresse;
+    }
+
+    public String getVille() {
+        return ville;
+    }
+
+    public void setVille(String ville) {
+        this.ville = ville;
     }
 
     public LocalDateTime getDate() {
@@ -105,51 +162,36 @@ public class Commande {
         this.date = date;
     }
 
-    public Utilisateur getUser() {
+    public String getRemarque() {
+        return remarque;
+    }
+
+    public void setRemarque(String remarque) {
+        this.remarque = remarque;
+    }
+
+    public Utilisateur getUtilisateur() {
         return utilisateur;
     }
 
-    public void setUser(Utilisateur user) {
-        this.utilisateur = user;
+    public void setUtilisateur(Utilisateur utilisateur) {
+        this.utilisateur = utilisateur;
     }
 
-    public Restaurant getRestaurant() {
+    public Restaurant getRestaurants() {
         return restaurants;
     }
 
-    public void setRestaurant(Restaurant restaurant) {
-        this.restaurants = restaurant;
+    public void setRestaurants(Restaurant restaurants) {
+        this.restaurants = restaurants;
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof Commande)) return false;
-        Commande commande = (Commande) o;
-        return getNbrplat() == commande.getNbrplat() &&
-                getTotal() == commande.getTotal() &&
-                getFraislivraison() == commande.getFraislivraison() &&
-                getSousmontant() == commande.getSousmontant() &&
-                Objects.equals(getIdcom(), commande.getIdcom()) &&
-                Objects.equals(getDate(), commande.getDate()) &&
-                Objects.equals(getUser(), commande.getUser()) &&
-                Objects.equals(getRestaurant(), commande.getRestaurant());
+    public Set<Plat> getPlats() {
+        return plats;
     }
 
-    @Override
-    public int hashCode() {
-        return Objects.hash(getIdcom(), getNbrplat(), getTotal(), getFraislivraison(), getSousmontant(), getDate(), getUser(), getRestaurant());
+    public void setPlats(Set<Plat> plats) {
+        this.plats = plats;
     }
 
-    @Override
-    public String toString() {
-        return "Commande{" +
-                "idcom=" + idcom +
-                ", nbrplat=" + nbrplat +
-                ", total=" + total +
-                ", fraislivraison=" + fraislivraison +
-                ", sousmontant=" + sousmontant +
-                ", date=" + date +
-                '}';
-    }
 }

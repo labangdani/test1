@@ -66,7 +66,7 @@ public class UtilisateurController {
     }
 
     @RequestMapping(value="/signup", method = RequestMethod.POST)
-    public String registerUser(@ModelAttribute("utilisateur") @Validated UtilisateurDto utilisateurDto, BindingResult result) {
+    public String registerUser(@ModelAttribute("utilisateurDto") @Validated UtilisateurDto utilisateurDto, BindingResult result) {
         System.out.println("Bonjour");
         if (utilisateurRepository.existsByUsername(utilisateurDto.getUsername())) {
             result.rejectValue("Username", null, "Username is already taken!");

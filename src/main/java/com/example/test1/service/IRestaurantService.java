@@ -48,10 +48,14 @@ public class IRestaurantService implements RestaurantService {
         return restaurantRepository.findByLocalisation(localisation);
     }
 
-
        @Override
     public Restaurant findOne(Long idresto) {
         return restaurantRepository.findByIdresto(idresto);
+    }
+
+    @Override
+    public Restaurant findNom(String nom) {
+        return restaurantRepository.findByNomR(nom);
     }
 
 }

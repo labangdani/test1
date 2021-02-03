@@ -24,6 +24,8 @@
 
   <link rel="stylesheet" th:href="@{/css/icomoon.css}">
   <link rel="stylesheet" th:href="@{/css/style.css}">
+    <link rel="stylesheet" th:href="@{/css/paiement.css}">
+
 </head>
 <body data-spy="scroll" data-target="#site-navbar" data-offset="200">
 <nav class="navbar navbar-expand-lg navbar-dark site_navbar bg-dark site-navbar-light" id="site-navbar">
@@ -43,7 +45,7 @@
 </nav>
 
 <section class="site-section bg-light" id="section-news">
-    <div class="container">
+    <div class="container" th:object="${commande}">
         <div class="row">
             <div class="col-md-7 mb-5 site-animate">
 
@@ -55,7 +57,7 @@
                     </div>
                 </div>
 
-                <form class="probootstrap-form"   th:method="post"  th:action="@{/pay}">
+                <form class="probootstrap-form"   th:method="post"  th:action="@{'/pay/' + ${restaurant.getNomR()}}">
                     <hr>
                          <p>Où souhaitez-vous faire livrer votre commande?</p>
                                 <div class="form-group">
@@ -64,7 +66,7 @@
                                 </div>
                                 <div class="form-group">
                                     <label>Ville *</label>
-                                    <input type="text" class="form-control"  name="Ville" >
+                                    <input type="text" class="form-control"  name="Ville" value="Yaoundé" >
                                 </div>
                             <hr>
                             <p>Comment pouvons-nous vous joindre?</p>
@@ -91,59 +93,72 @@
                                 <div class="form-group">
                                     <label >Heure *</label>
                                     <select type="datetime-local" class="form-control" placeholder="sélectionnez une heure de livraison" name="heure" >
-                                        <option value="">12:15</option>
-                                        <option value="">12:30</option>
-                                        <option value="">12:45</option>
-                                        <option value="">13:00</option>
-                                        <option value="">13:15</option>
-                                        <option value="">13:30</option>
-                                        <option value="">13:45</option>
-                                        <option value="">14:00</option>
-                                        <option value="">14:15</option>
-                                        <option value="">14:30</option>
-                                        <option value="">14:45</option>
-                                        <option value="">15:00</option>
+                                        <option value="12:15">12:15</option>
+                                        <option value="12:30">12:30</option>
+                                        <option value="12:45">12:45</option>
+                                        <option value="13:00">13:00</option>
+                                        <option value="13:15">13:15</option>
+                                        <option value="13:30">13:30</option>
+                                        <option value="13:45">13:45</option>
+                                        <option value="14:00">14:00</option>
+                                        <option value="14:15">14:15</option>
+                                        <option value="14:30">14:30</option>
+                                        <option value="14:45">14:45</option>
+                                        <option value="15:00">15:00</option>
                                     </select>
                                 </div>
                                 <div class="form-group">
                                     <label >Remarque </label>
-                                    <textarea type="text" class="form-control" rows="5" name="Remarque"></textarea>
+                                    <textarea type="text" class="form-control" rows="5" name="remarque"></textarea>
                                 </div>
                             <hr>
                             <p>Comment souhaitez vous payer?</p>
-                                <div class="row">
-                                    <div class="col-xs-4 col-md-2">
-                                        <a href="#" class="thumbnail">
-                                            <img th:src="@{/images/especes.jpg}">
-                                        </a>
-                                    </div>
-                                    <div class="col-xs-4 col-md-2">
-                                        <a href="#" class="thumbnail">
-                                            <img th:src="@{/images/orange_money.jpg}">
-                                        </a>
-                                    </div>
-                                    <div class="col-xs-4 col-md-2">
-                                        <a href="#" class="thumbnail">
-                                            <img th:src="@{/images/mobile_money.jpg}">
-                                        </a>
-                                    </div>
-                                    <div class="col-xs-4 col-md-2">
-                                        <a href="#" class="thumbnail">
-                                            <img th:src="@{/images/paypal.png}">
-                                        </a>
-                                    </div>
-                                    <div class="col-xs-4 col-md-2">
-                                        <a href="#" class="thumbnail">
-                                            <img th:src="@{/images/mastercard.png}">
-                                        </a>
-                                    </div>
+                                <div class="form-group">
+                                    <label
+                                    >monnaie *</label>
+                                    <input type="text"  class="form-control"  name="currency" th:value="USD">
                                 </div>
-                                <br />
-                                <p align="right"><input type="submit" value="Commander et payer" class="btn btn-primary btn-lg">
+                                <div class="form-group">
+                                    <label >intent *</label>
+                                    <input type="text"  class="form-control"  name="intent" th:value="sale">
+                                </div>
+                                <div class="form-group">
+                                    <label >Mode *</label>
+                                        <select type="text" class="form-control" name="mode">
+                                            <option value="espece">Espèce</option>
+                                            <option value="orange_money">Orange money</option>
+                                            <option value="mobile_money">Mobile money</option>
+                                            <option value="paypal">Paypal</option>
+                                        </select>
+                                </div>
+                                <div class="form-group">
+                                    <label >Total</label>
+                                    <input type="int"  class="form-control mon-total"  name="total">
+                                </div>
+                            <!--<div class="row" id="mode-paiement2" type="text" name="mode">
+                                    <div class="col-xs-4 col-md-2 thumbnail" style="cursor:pointer;">
+&lt;!&ndash;                                        <img onclick="afficher(1)" value="espece" class="unselected" id="1" th:src="@{/images/especes.jpg}">&ndash;&gt;
+                                    </div>
+                                    <div class="col-xs-4 col-md-2 thumbnail" style="cursor:pointer;">
+                                        <img  onclick="afficher(2)" value="orange_money" class="unselected" id="2" th:src="@{/images/orange_money.jpg}">
+                                    </div>
+                                    <div class="col-xs-4 col-md-2 thumbnail" style="cursor:pointer;">
+                                        <img onclick="afficher(3)" class="unselected" id="3" th:src="@{/images/mobile_money.jpg}">
+                                    </div>
+                                    <div class="col-xs-4 col-md-2 thumbnail" style="cursor:pointer;">
+                                        <img onclick="afficher(4)" class="unselected" id="4" th:src="@{/images/paypal.png}">
+                                    </div>
+                                </div>-->
+                                <br>
+                                <p align="center"><input type="submit" value="Commander et payer" class="btn btn-primary cmd-payer btn-lg">
                                 </p>
                 </form>
             </div>
             </div>
+
+
+            <p align="center"><button onclick="savedata()" class="btn btn-primary ajax btn-lg">AJAX</button></p>
+
 
             <div class="sidenav">
                 <p class="text-black">
@@ -151,10 +166,9 @@
                 <hr>
                 <div class="flex-column" style="padding: 23px;">
                     <div class="row row-messi">
-                        <span class="col-4 cart-item cart-header cart-column text-black">PLAT</span>
+                        <span class="col-6 cart-item cart-header cart-column text-black">PLAT</span>
                         <span class="col-3 cart-price cart-header cart-column text-black">PRIX</span>
                         <span class="col-3 cart-quantity cart-header cart-column text-black">QUANTITE</span>
-                        <span class="col-2"></span>
 
                     </div>
                     <div class="cart-items">
@@ -165,18 +179,18 @@
                         <strong class="cart-total-title text-black">Sous Total:</strong>
                         <span class="cart-total-price text-black">0Fcfa</span>
                         <br><strong class="cart-fraislivraison-title text-black">Frais de livraison:</strong>
-                        <span class="cart-fraislivraison-price text-black"></span>
+                        <span class="cart-fraislivraison-price text-black" th:text="${restaurant.getFraisdelivraison()}"></span>
                         <br><strong class="cart-totalfinal-title text-black">Total:</strong>
                         <span class="cart-totalfinal-price text-black">0Fcfa</span>
                     </div>
 
                     <hr>
-                    <p align="center"> <a  th:href="@{'/plat/menuResto/' + ${restaurant.getNomR()}}" class="btn btn-primary btn-lg">Commander</a></p>
+                    <p align="center"> <a  th:href="@{'/plat/menuResto/' + ${restaurant.getNomR()}}" class="btn btn-primary btn-lg">Modifier</a></p>
                 </div>
             </div>
         </div>
-    </div>
-    </div>
+
+
 </section>
 
 
@@ -184,6 +198,7 @@
 <!-- END section -->
 <script src='https://kit.fontawesome.com/a076d05399.js'></script>
 <script th:src="@{/js/jquery.min.js}"></script>
+<script th:src="@{/js/addpanier.js}"></script>
 <script th:src="@{/js/popper.min.js}"></script>
 <script th:src="@{/js/bootstrap.min.js}"></script>
 <script th:src="@{/js/jquery.easing.1.3.js}"></script>

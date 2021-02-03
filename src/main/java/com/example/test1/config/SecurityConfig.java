@@ -37,8 +37,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .withUser("admin").password(passwordEncoder.encode("12343")).roles("USER","MODERATOR","ADMIN");
         auth.inMemoryAuthentication()
                 .withUser("mod").password(passwordEncoder.encode("12342")).roles("USER","MODERATOR");
+       auth.inMemoryAuthentication()
+               .withUser("kenne").password(passwordEncoder.encode("12342")).roles("USER","MODERATOR");
         auth.inMemoryAuthentication()
                 .withUser("user").password(passwordEncoder.encode("1234")).roles("USER");
+       auth.inMemoryAuthentication()
+               .withUser("Momene").password(passwordEncoder.encode("1234")).roles("USER");
 
 
       /* auth.jdbcAuthentication()
@@ -64,8 +68,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 // (After logout, go to home page)
                 .and().logout().logoutSuccessUrl("/");
 
-        http.authorizeRequests().antMatchers("/User/listeuser").hasRole("USER");
-        http.authorizeRequests().antMatchers("/plat/remplirPlatForm", "/command/listecommande").hasRole("MODERATOR");
+        http.authorizeRequests().antMatchers("/User/listecommanduser").hasRole("USER");
+        http.authorizeRequests().antMatchers("/plat/remplirPlatForm","/resto/allresto", "/command/listecommande").hasRole("MODERATOR");
         http.exceptionHandling().accessDeniedPage("/User/403");
+        //http.authorizeRequests().antMatchers("/api/auth/**").permitAll();
+
     }
 }

@@ -18,6 +18,9 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -25,6 +28,8 @@ import java.util.List;
 @Controller
 @RequestMapping("/plat")
 public class PlatController {
+
+    private final Path root = Paths.get("src\\main\\resources\\static\\images");
 
     @Autowired
     private PlatRepository platRepository;
@@ -35,29 +40,31 @@ public class PlatController {
     @Autowired
     private PlatService platService;
 
-   /* @RequestMapping(value = "/info/{nomp}")
-    public String showinfoplat(@PathVariable(name = "nomp")String nomp, Model model){
-        Plat plat = platRepository.findByNomP(nomp);
-        System.out.println(plat);
-        model.addAttribute("platinfo", plat);
-        return "menu";
-    }*/
-
    @RequestMapping(value = "/save/{nomR}", method = RequestMethod.POST)
-    public String CreatePlat(@Validated PlatDto platDto, BindingResult result, @PathVariable(name= "nomR") String nomR, @RequestParam("image") MultipartFile multipartFile)
-           throws IOException
+    public String CreatePlat(@Validated PlatDto platDto, BindingResult result, @PathVariable(name= "nomR") String nomR, @RequestParam("image") MultipartFile multipartFile) throws IOException
     {
         Plat existing = platRepository.findAllByNomP(platDto.getNomP());
         if(existing != null){
             result.rejectValue("nom", null, "There is already an account registered with that nom");
         }
-        String fileName = StringUtils.cleanPath(multipartFile.getOriginalFilename());
-        System.out.println(fileName);
-        if (result.hasErrors()){
+        
+      /*  if (result.hasErrors()){
             return "enregistrerplat";
-        }
+        }*/
         // Create new plat's account
 
+        String fileName = StringUtils.cleanPath(multipartFile.getOriginalFilename());
+        System.out.println(fileName);
+
+        if(Files.exists(this.root.resolve(multipartFile.getOriginalFilename())) == false)
+        {
+            try {
+                Files.copy(multipartFile.getInputStream(), this.root.resolve(multipartFile.getOriginalFilename()));
+            } catch (Exception e){
+                e.printStackTrace();
+                throw new RuntimeException("Could not store the file! error:" +e.getMessage());
+            }
+        }
         Plat plat = new Plat(platDto.getNomP(),
                 platDto.getPrix(),
                 platDto.getDescription());
@@ -67,8 +74,6 @@ public class PlatController {
         System.out.println(restaurant);
         plat.setRestaurants(restaurant);
         platRepository.save(plat);
-        String uploadDir = "images/";
-//        FileUploadUtil.saveFile(uploadDir, fileName, multipartFile);
         return "redirect:/plat/listeplat/{nomR}";
     }
 
@@ -81,19 +86,37 @@ public class PlatController {
     }
 
     @RequestMapping(value = "/update/{nomR}", method = RequestMethod.POST)
-    public String save (@Validated Plat plat, @PathVariable(name = "nomR") String nomR, BindingResult result){
-
+    public String save (@Validated Plat plat, @PathVariable(name = "nomR") String nomR, BindingResult result,  @RequestPart("image") MultipartFile multipartFile)
+    {
+        System.out.println("bonjour");
        if (result.hasErrors()){
             return "editPlatForm";
         }
-       Plat plats = platService.findOne(plat.getNomP());
+        Plat plats = platService.findOne(plat.getNomP());
+if(multipartFile != null){
+        String fileName = StringUtils.cleanPath(multipartFile.getOriginalFilename());
+        System.out.println(fileName);
+
+        if(Files.exists(this.root.resolve(multipartFile.getOriginalFilename())) == false) {
+            try {
+                Files.copy(multipartFile.getInputStream(), this.root.resolve(multipartFile.getOriginalFilename()));
+            } catch (Exception e) {
+                e.printStackTrace();
+                throw new RuntimeException("Could not store the file! error:" + e.getMessage());
+            }
+        }
+
        plats.setNomP(plat.getNomP());
        plats.setPrix(plat.getPrix());
        plats.setDescription(plat.getDescription());
-       plats.setImage(plat.getImage());
+       plats.setImage(fileName);
        Restaurant restaurant = restaurantRepository.findByNomR(nomR);
-        plat.setRestaurants(restaurant);
-        platRepository.save(plats);
+        plats.setRestaurants(restaurant);
+        platRepository.save(plats);}
+
+        else{
+            
+        }
 
         return "redirect:/plat/listeplat/{nomR}";
 

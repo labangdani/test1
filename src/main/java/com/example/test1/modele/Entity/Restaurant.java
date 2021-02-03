@@ -57,10 +57,9 @@ public class Restaurant {
     public Restaurant() {
     }
 
-    public Restaurant(String nomR, String localisation, String image, String description, String mailR, int tel, String type, int fraisdelivraison, Boolean lundi, Boolean mardi, Boolean mercredi, Boolean jeudi, Boolean vendredi, Boolean samedi, Boolean dimanche) {
+    public Restaurant(String nomR, String localisation, String description, String mailR, int tel, String type, int fraisdelivraison, Boolean lundi, Boolean mardi, Boolean mercredi, Boolean jeudi, Boolean vendredi, Boolean samedi, Boolean dimanche) {
         this.nomR = nomR;
         this.localisation = localisation;
-        this.image = image;
         this.description = description;
         this.mailR = mailR;
         this.tel = tel;
@@ -226,6 +225,14 @@ public class Restaurant {
     public void setCommande(List<Commande> commande) {
         this.commande = commande;
     }
+
+     @Transient
+    public String getPhotosImagePath() {
+        if (image == null) return null;
+         
+        return "/images/" + image;
+    }
+
 
     @Override
     public String toString() {

@@ -37,9 +37,7 @@
         <div class="collapse navbar-collapse" id="site-nav">
             <ul class="navbar-nav ml-auto">
                 <li class="nav-item active"><a href="#section-home" class="nav-link">Accueil</a></li>
-                <li class="nav-item"><a href="#section-about" class="nav-link">A propos</a></li>
-                <li class="nav-item"><a href="#section-offer" class="nav-link">Nos services</a></li>
-                <li class="nav-item"><a href="#section-contact" class="nav-link">Contact</a></li>
+                <li class="nav-item"><a href="/resto/allresto" class="nav-link">Mes restaurants</a></li>
                 <li class="nav-item" style="margin-top: 26px; margin-right: 10px;" th:text="${username}"></li>
                 <!-- Trigger the modal with a button -->
                 <td> <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#compteModal">Mon Compte</button></td>
@@ -372,14 +370,12 @@
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>
-                        <h1 class="mb-4">Mon compte</h1>
-                        <p class="mb-0"><a th:href="@{/User/connexion}" class="btn btn-outline-secondary btn-sm">Se connecter</a>
-                            <td><td><a th:href="@{/User/remplirUserForm}" class="btn btn-outline-secondary btn-sm">S'inscrire</a></td></td></p>
+                        <h1 class="mb-4" th:text="${username}"></h1>
+                        <p class="mb-0"><a href="#" class="btn btn-outline-secondary btn-sm">Se déconnecter</a>
                         <hr>
                         <h4>
                             <a th:href="@{/command/usercommand}"> Historiques de vos commandes </a>
-                            <hr>
-                            <a href="#"> Suivre l'évolution de votre commande </a></h4>
+                        </h4>
                     </div>
                 </div>
             </div>

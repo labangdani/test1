@@ -59,7 +59,7 @@
                                 <div  class="media-body">
                                     <h4 class="media-heading shop-item-title" id="${plat.getIdplat()}"  th:text="${plat.getNomP()}">nom</h4>
                                         <br class="mb-4" th:text="${plat.getDescription()}">
-                                    <br> <h5 align="left" class="mb-4 prix_plat shop-item-price" th:text="${plat.getPrix()}">prix</h5>
+                                    <br> <h5 align="left" class="mb-4 shop-item-price" th:text="${plat.getPrix()}">prix</h5>
                                      <a align="right" class="btn btn-primary btn-sm shop-item-button"> Ajouter </a>
                                 </div>
                             </div>
@@ -89,13 +89,14 @@
                             <strong class="cart-total-title text-black">Sous Total:</strong>
                             <span class="cart-total-price text-black">0Fcfa</span>
                             <br><strong class="cart-fraislivraison-title text-black">Frais de livraison:</strong>
-                            <span class="cart-fraislivraison-price text-black" th:text="${restaurant.getFraisdelivraison()}">Fcfa</span>
+                            <span class="cart-fraislivraison-price text-black" th:text="${restaurant.getFraisdelivraison()}"Fcfa></span>
                             <br><strong class="cart-totalfinal-title text-black">Total:</strong>
                             <span class="cart-totalfinal-price text-black">0Fcfa</span>
                         </div>
-                        
+
+
                         <hr>
-                        <p align="center"> <a onclick="storage()" th:href="@{'/plat/paiement/' + ${restaurant.getNomR()}}" class="btn btn-primary btn-lg">Commander</a></p>
+                        <p align="center"> <a onclick="storage()" th:href="@{'/plat/paiement/' + ${restaurant.getNomR()}}" class="btn btn-primary btn-lg btn-cmd" style="display: none;">Commander</a></p>
                     </div>
                 </div>
             </div>

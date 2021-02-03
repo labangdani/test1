@@ -35,7 +35,7 @@
         <div class="collapse navbar-collapse" id="site-nav">
             <ul class="navbar-nav ml-auto">
                 <li class="nav-item"><a th:href="@{/index.html#section-home}" class="nav-link">Accueil</a></li>
-                <li class="nav-item active"><a href="/resto/allresto" class="nav-link">Mes restaurants</a></li>
+                <li class="nav-item active"><a href="/resto/remplirRestoForm" class="nav-link">Nouveau restaurant</a></li>
                 <li class="nav-item" style="margin-top: 26px; margin-right: 10px;" th:text="${username}"></li>
 
             </ul>
@@ -49,8 +49,8 @@
 
         <!--            <% listresto.forEach(function(restaurant, index) { %>-->
 
-            <div class="col-4" th:each="restaurant : ${listResto}">
-                <div class="row">
+            <div class="row">
+                <div class="col-4" th:each="restaurant : ${listResto}">
                     <div class="media d-block mb-4 text-center site-media site-animate">
                         <a th:href="@{'/plat/listeplat/' + ${restaurant.getNomR()}}"><img   th:src="${restaurant.image}" alt="Free Template by colorlib.com" class="img-fluid"></a>
                         <div class="media-body p-md-5 p-4">

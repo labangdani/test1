@@ -30,7 +30,7 @@
                         <div class="col-md-7 col-md-push-1  probootstrap-animate" id="probootstrap-content">
                             <p><h2><b> Nouveau plat </b></h2></p>
                             <p>Les champs en * sont obloigatoire </p>
-                            <form class="probootstrap-form"   th:method="post" th:object="${plat}"  th:action="@{'/plat/update/' +${plat.getRestaurants().getNomR()}}">
+                            <form class="probootstrap-form" enctype="multipart/form-data"  th:method="post" th:object="${plat}"  th:action="@{'/plat/update/' +${plat.getRestaurants().getNomR()}}">
                                 <div class="form-group">
                                     <label > Nom du plat *</label>
                                     <input type="text" class="form-control"  name="nomP" th:value="${plat.getNomP()}">
@@ -44,7 +44,7 @@
                                     </div>
                                     <div class="form-group">
                                         <label >Image *</label>
-                                        <input type="file" class="form-control"  name="image" th:value="${plat.getImage()}">
+                                        <input type="file" class="form-control"  name="image" accept="image/png, image/jpeg"/>
                                     </div>
                                     <div class="form-group">
                                         <input type="submit" class="btn btn-primary btn-lg" id="submit" name="valider" value="Enregistrer">
