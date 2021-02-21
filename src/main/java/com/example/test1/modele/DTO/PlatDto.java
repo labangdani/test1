@@ -6,6 +6,7 @@ import org.hibernate.annotations.OnDeleteAction;
 
 import javax.persistence.*;
 
+
 public class PlatDto {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -22,25 +23,15 @@ public class PlatDto {
     @ManyToOne(fetch = FetchType.EAGER, optional = true)
     @JoinColumn(name = "idresto", nullable = false)
     @OnDelete(action = OnDeleteAction.NO_ACTION)
-    private Restaurant restaurant;
-    /*@ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
-    @JoinTable(name = "plat_commande",
-            joinColumns = {
-                    @JoinColumn(name = "idplat", referencedColumnName = "id",
-                            nullable = false, updatable = false)},
-            inverseJoinColumns = {
-                    @JoinColumn(name = "idcom", referencedColumnName = "id",
-                            nullable = false, updatable = false)})
-    private Collection<Commande> commandes;*/
+    private Restaurant restaurants;
 
     public PlatDto() {
     }
 
-    public PlatDto(String nomP, int prix, String description, String image) {
+    public PlatDto(String nomP, int prix, String description) {
         this.nomP = nomP;
         this.prix = prix;
         this.description = description;
-        this.image = image;
     }
 
     public Long getIdplat() {
@@ -83,12 +74,12 @@ public class PlatDto {
         this.image = image;
     }
 
-    public Restaurant getRestaurant() {
-        return restaurant;
+    public Restaurant getRestaurants() {
+        return restaurants;
     }
 
-    public void setRestaurant(Restaurant restaurant) {
-        this.restaurant = restaurant;
+    public void setRestaurants(Restaurant restaurant) {
+        this.restaurants = restaurant;
     }
 
     @Transient
@@ -97,4 +88,17 @@ public class PlatDto {
 
         return "/images/" + image;
     }
+
+    @Override
+    public String toString() {
+        return "Plat{" +
+                "idplat=" + idplat +
+                ", nomP='" + nomP + '\'' +
+                ", prix=" + prix +
+                ", description='" + description + '\'' +
+                ", image='" + image + '\'' +
+                ", restaurants=" + restaurants +
+                '}';
+    }
+
 }

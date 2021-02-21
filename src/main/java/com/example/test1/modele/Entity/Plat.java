@@ -2,7 +2,6 @@ package com.example.test1.modele.Entity;
 
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
-
 import javax.persistence.*;
 import java.util.List;
 
@@ -25,6 +24,9 @@ public class Plat {
     @JoinColumn(name = "idresto", nullable = false)
     @OnDelete(action = OnDeleteAction.NO_ACTION)
     private Restaurant restaurants;
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "plat")
+    //un sommaire peut avoir plusieur matieres
+    private List<Lignecommande> lignecommandes;
 
     public Plat() {
     }
@@ -83,11 +85,30 @@ public class Plat {
         this.restaurants = restaurant;
     }
 
-     @Transient
+    public List<Lignecommande> getLignecommandes() {
+        return lignecommandes;
+    }
+
+    public void setLignecommandes(List<Lignecommande> lignecommandes) {
+        this.lignecommandes = lignecommandes;
+    }
+
+    @Transient
     public String getPhotosImagePath() {
         if (image == null) return null;
          
         return "/images/" + image;
     }
 
+    @Override
+    public String toString() {
+        return "Plat{" +
+                "idplat=" + idplat +
+                ", nomP='" + nomP + '\'' +
+                ", prix=" + prix +
+                ", description='" + description + '\'' +
+                ", image='" + image + '\'' +
+                ", restaurants=" + restaurants +
+                '}';
+    }
 }

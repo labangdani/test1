@@ -35,7 +35,6 @@
         <div class="collapse navbar-collapse" id="site-nav">
             <ul class="navbar-nav ml-auto">
                 <li class="nav-item"><a th:href="@{/index.html#section-home}" class="nav-link">Accueil</a></li>
-                <li class="nav-item "><a href="/restaurant/listeresto" class="nav-link">Restaurants</a></li>
                 <li class="nav-item active"><a th:href="@{'/plat/menuResto/' +${nomR}}" class="nav-link">Menu</a></li>
             </ul>
         </div>
@@ -53,14 +52,14 @@
                             <div class="media">
                                 <div class="media-left">
                                     <a href="#">
-                                        <img class="media-object shop-item-image"  th:src="${plat.image}"  alt="Free Template by colorlib.com">
+                                        <img class="media-object shop-item-image"  th:src="${plat.image}" style="height: 100px; width: 100px"  alt="Free Template by colorlib.com">
                                     </a>
                                 </div>
                                 <div  class="media-body">
                                     <h4 class="media-heading shop-item-title" id="${plat.getIdplat()}"  th:text="${plat.getNomP()}">nom</h4>
-                                        <br class="mb-4" th:text="${plat.getDescription()}">
+                                        <br class="mb-4 text-black" th:text="${plat.getDescription()}">
                                     <br> <h5 align="left" class="mb-4 shop-item-price" th:text="${plat.getPrix()}">prix</h5>
-                                     <a align="right" class="btn btn-primary btn-sm shop-item-button"> Ajouter </a>
+                                     <a align="right" class="btn btn-primary btn-sm shop-item-button text-black"> Ajouter </a>
                                 </div>
                             </div>
                         </div></div>
@@ -114,29 +113,27 @@
                 <div class="row">
                     <div class="col-md-4 site-animate">
                         <h2 class="site-heading-2">A propos</h2>
-                        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Cumque, similique, delectus blanditiis odit expedita amet. Sed labore ipsum vel dolore, quis, culpa et magni autem sequi facere eos tenetur, ex?</p>
+                        <p>Notre  objectif est de vous aidez à choisir le meilleur restaurant qui vous conviendra le mieux.</p>
                     </div>
                     <div class="col-md-1"></div>
                     <div class="col-md-3 site-animate">
                         <div class="site-footer-widget mb-4">
-                            <h2 class="site-heading-2">The Restaurant</h2>
+                            <h2 class="site-heading-2">Les Restaurants</h2>
                             <ul class="list-unstyled">
-                                <li><a href="#" class="py-2 d-block">About Us</a></li>
-                                <li><a href="#" class="py-2 d-block">Chefs</a></li>
-                                <li><a href="#" class="py-2 d-block">Events</a></li>
+                                <li><a href="#" class="py-2 d-block">A propos</a></li>
                                 <li><a href="#" class="py-2 d-block">Contact</a></li>
                             </ul>
                         </div>
                     </div>
                     <div class="col-md-2 site-animate">
                         <div class="site-footer-widget mb-4">
-                            <h2 class="site-heading-2">Useful links</h2>
+                            <h2 class="site-heading-2">Nos services</h2>
                             <ul class="list-unstyled">
-                                <li><a href="#" class="py-2 d-block">Foods</a></li>
-                                <li><a href="#" class="py-2 d-block">Drinks</a></li>
-                                <li><a href="#" class="py-2 d-block">Breakfast</a></li>
-                                <li><a href="#" class="py-2 d-block">Brunch</a></li>
-                                <li><a href="#" class="py-2 d-block">Dinner</a></li>
+                                <li><a href="#" class="py-2 d-block">Repas</a></li>
+                                <li><a href="#" class="py-2 d-block">Boisson</a></li>
+                                <li><a href="#" class="py-2 d-block">Petit déjeuner</a></li>
+                                <li><a href="#" class="py-2 d-block">Déjeuner</a></li>
+                                <li><a href="#" class="py-2 d-block">Dîner</a></li>
                             </ul>
                         </div>
                     </div>
@@ -156,7 +153,7 @@
             </div>
             <div class="col-md-12 text-center">
                 <p>&copy; <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
-                    Copyright &copy;<script>document.write(new Date().getFullYear());</script> All rights reserved | This template is made with <i class="icon-heart" aria-hidden="true"></i> by <a href="https://colorlib.com" target="_blank">Colorlib</a>
+                    Copyright &copy;<script>document.write(new Date().getFullYear());</script> All rights reserved | Made <i class="icon-heart" aria-hidden="true"></i> by Lanbang
                     <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. --></p>
             </div>
         </div>

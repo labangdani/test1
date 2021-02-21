@@ -45,11 +45,11 @@
 </nav>
 
 <section class="site-section bg-light" id="section-news">
-    <div class="container" th:object="${commande}">
+    <div class="container">
         <div class="row">
             <div class="col-md-7 mb-5 site-animate">
-
-                <div class="col-md-12 text-center mb-5 site-animate"><h3 class="display-4">Prêt à commander</h3>
+               <div><h2 class="display-4 nom-resto" align="center" th:text="${restaurantDto.getNomR()}">nom</h2></div>
+                <div class="col-md-12 text-center mb-5 site-animate"><h3 class="display-5">Prêt à commander</h3>
                     <div class="row justify-content-center">
                         <div class="col-md-7">
                             <p class="text-black" align="left">Finalisez votre commande</p>
@@ -57,16 +57,20 @@
                     </div>
                 </div>
 
-                <form class="probootstrap-form"   th:method="post"  th:action="@{'/pay/' + ${restaurant.getNomR()}}">
+                <form class="probootstrap-form commande"  th:object="${command}" th:method="post"  th:action="@{'/pay/' +${restaurantDto.getNomR()}}">
                     <hr>
                          <p>Où souhaitez-vous faire livrer votre commande?</p>
                                 <div class="form-group">
                                     <label>Adresse *</label>
-                                    <input type="text" class="form-control"  name="Adresse" >
+                                    <input type="text" class="form-control class-adresse"  name="adresse" >
                                 </div>
                                 <div class="form-group">
                                     <label>Ville *</label>
-                                    <input type="text" class="form-control"  name="Ville" value="Yaoundé" >
+                                    <input type="text" class="form-control class-ville" disabled="disabled"  name="ville" value="Yaoundé" >
+                                </div>
+                                <div class="form-group">
+                                    <label>Date *</label>
+                                    <input type="date" class="form-control class-date"  name="datedujour">
                                 </div>
                             <hr>
                             <p>Comment pouvons-nous vous joindre?</p>
@@ -77,22 +81,23 @@
                                     </div>
                                     <div class="form-group">
                                         <label >Téléphone *</label>
-                                        <input type="tel"  class="form-control"  name="Téléphone" th:value="${user.getTelU()}">
+                                        <input type="tel"  class="form-control"  name="tel" th:value="${user.getTelU()}">
                                     </div>
                                     <div class="form-group">
                                         <label >Email *</label>
-                                        <input type="email" placeholder="adresse@gmail.com" class="form-control"  name="Email" th:value="${user.getMailU()}" >
+                                        <input type="email" placeholder="adresse@gmail.com" class="form-control"  name="mailU" th:value="${user.getMailU()}" >
                                     </div>
                                     <div class="form-group">
                                         <label >Nom d'entreprise </label>
-                                        <input type="text" class="form-control"  name="Nom_Entreprise" >
+                                        <input type="text" class="form-control nom-entreprise"  name="Nom_Entreprise" >
                                     </div>
                                 </div>
                             <hr>
                             <p>A quelle heure souhaitez-vous être livrer ?</p>
                                 <div class="form-group">
                                     <label >Heure *</label>
-                                    <select type="datetime-local" class="form-control" placeholder="sélectionnez une heure de livraison" name="heure" >
+<!--                                    <input type="time" class="form-control class-time"  name="heure">-->
+                                    <select type="text" class="form-control class-time" placeholder="sélectionnez une heure de livraison" name="heure" >
                                         <option value="12:15">12:15</option>
                                         <option value="12:30">12:30</option>
                                         <option value="12:45">12:45</option>
@@ -109,22 +114,21 @@
                                 </div>
                                 <div class="form-group">
                                     <label >Remarque </label>
-                                    <textarea type="text" class="form-control" rows="5" name="remarque"></textarea>
+                                    <textarea type="text" class="form-control class-remarque" rows="5" name="remarque"></textarea>
                                 </div>
                             <hr>
                             <p>Comment souhaitez vous payer?</p>
                                 <div class="form-group">
-                                    <label
-                                    >monnaie *</label>
-                                    <input type="text"  class="form-control"  name="currency" th:value="USD">
+                                    <label>monnaie *</label>
+                                    <input type="text"  class="form-control class-currency" disabled="disabled"  name="currency" th:value="USD">
                                 </div>
                                 <div class="form-group">
                                     <label >intent *</label>
-                                    <input type="text"  class="form-control"  name="intent" th:value="sale">
+                                    <input type="text"  class="form-control class-intent" disabled="disabled"  name="intent" th:value="sale">
                                 </div>
                                 <div class="form-group">
                                     <label >Mode *</label>
-                                        <select type="text" class="form-control" name="mode">
+                                        <select type="text" class="form-control class-mode" name="mode">
                                             <option value="espece">Espèce</option>
                                             <option value="orange_money">Orange money</option>
                                             <option value="mobile_money">Mobile money</option>
@@ -133,7 +137,7 @@
                                 </div>
                                 <div class="form-group">
                                     <label >Total</label>
-                                    <input type="int"  class="form-control mon-total"  name="total">
+                                    <input type="int"  class="form-control mon-total" name="total">
                                 </div>
                             <!--<div class="row" id="mode-paiement2" type="text" name="mode">
                                     <div class="col-xs-4 col-md-2 thumbnail" style="cursor:pointer;">
@@ -158,8 +162,6 @@
 
 
             <p align="center"><button onclick="savedata()" class="btn btn-primary ajax btn-lg">AJAX</button></p>
-
-
             <div class="sidenav">
                 <p class="text-black">
                 <h4 align="center"> Votre panier </h4>
@@ -179,15 +181,16 @@
                         <strong class="cart-total-title text-black">Sous Total:</strong>
                         <span class="cart-total-price text-black">0Fcfa</span>
                         <br><strong class="cart-fraislivraison-title text-black">Frais de livraison:</strong>
-                        <span class="cart-fraislivraison-price text-black" th:text="${restaurant.getFraisdelivraison()}"></span>
+                        <span class="cart-fraislivraison-price text-black" th:text="${restaurantDto.getFraisdelivraison()}"></span>
                         <br><strong class="cart-totalfinal-title text-black">Total:</strong>
                         <span class="cart-totalfinal-price text-black">0Fcfa</span>
                     </div>
 
                     <hr>
-                    <p align="center"> <a  th:href="@{'/plat/menuResto/' + ${restaurant.getNomR()}}" class="btn btn-primary btn-lg">Modifier</a></p>
+                    <p align="center"> <a  th:href="@{'/plat/menuResto/' + ${restaurantDto.getNomR()}}" class="btn btn-primary btn-lg">Modifier</a></p>
                 </div>
             </div>
+
         </div>
 
 
@@ -217,59 +220,57 @@
 
 <script th:src="@{/js/main.js}"></script>
 <footer class="site-footer site-bg-dark site-section">
-  <div class="container">
-    <div class="row mb-5">
-      <div class="col-md-12">
-        <div class="row">
-          <div class="col-md-4 site-animate">
-            <h2 class="site-heading-2">A propos</h2>
-            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Cumque, similique, delectus blanditiis odit expedita amet. Sed labore ipsum vel dolore, quis, culpa et magni autem sequi facere eos tenetur, ex?</p>
-          </div>
-          <div class="col-md-1"></div>
-          <div class="col-md-3 site-animate">
-            <div class="site-footer-widget mb-4">
-              <h2 class="site-heading-2">The Restaurant</h2>
-              <ul class="list-unstyled">
-                <li><a href="#" class="py-2 d-block">About Us</a></li>
-                <li><a href="#" class="py-2 d-block">Chefs</a></li>
-                <li><a href="#" class="py-2 d-block">Events</a></li>
-                <li><a href="#" class="py-2 d-block">Contact</a></li>
-              </ul>
+    <div class="container">
+        <div class="row mb-5">
+            <div class="col-md-12">
+                <div class="row">
+                    <div class="col-md-4 site-animate">
+                        <h2 class="site-heading-2">A propos</h2>
+                        <p>Notre  objectif est de vous aidez à choisir le meilleur restaurant qui vous conviendra le mieux.</p>
+                    </div>
+                    <div class="col-md-1"></div>
+                    <div class="col-md-3 site-animate">
+                        <div class="site-footer-widget mb-4">
+                            <h2 class="site-heading-2">Les Restaurants</h2>
+                            <ul class="list-unstyled">
+                                <li><a href="#" class="py-2 d-block">A propos</a></li>
+                                <li><a href="#" class="py-2 d-block">Contact</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="col-md-2 site-animate">
+                        <div class="site-footer-widget mb-4">
+                            <h2 class="site-heading-2">Nos services</h2>
+                            <ul class="list-unstyled">
+                                <li><a href="#" class="py-2 d-block">Repas</a></li>
+                                <li><a href="#" class="py-2 d-block">Boisson</a></li>
+                                <li><a href="#" class="py-2 d-block">Petit déjeuner</a></li>
+                                <li><a href="#" class="py-2 d-block">Déjeuner</a></li>
+                                <li><a href="#" class="py-2 d-block">Dîner</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
             </div>
-          </div>
-          <div class="col-md-2 site-animate">
-            <div class="site-footer-widget mb-4">
-              <h2 class="site-heading-2">Useful links</h2>
-              <ul class="list-unstyled">
-                <li><a href="#" class="py-2 d-block">Foods</a></li>
-                <li><a href="#" class="py-2 d-block">Drinks</a></li>
-                <li><a href="#" class="py-2 d-block">Breakfast</a></li>
-                <li><a href="#" class="py-2 d-block">Brunch</a></li>
-                <li><a href="#" class="py-2 d-block">Dinner</a></li>
-              </ul>
-            </div>
-          </div>
-        </div>
-      </div>
 
-    </div>
-    <div class="row site-animate">
-      <div class="col-md-12 text-center">
-        <div class="site-footer-widget mb-4">
-          <ul class="site-footer-social list-unstyled ">
-            <li class="site-animate"><a href="#"><span class="icon-twitter"></span></a></li>
-            <li class="site-animate"><a href="#"><span class="icon-facebook"></span></a></li>
-            <li class="site-animate"><a href="#"><span class="icon-instagram"></span></a></li>
-          </ul>
         </div>
-      </div>
-      <div class="col-md-12 text-center">
-        <p>&copy; <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
-          Copyright &copy;<script>document.write(new Date().getFullYear());</script> All rights reserved | This template is made with <i class="icon-heart" aria-hidden="true"></i> by <a href="https://colorlib.com" target="_blank">Colorlib</a>
-          <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. --></p>
-      </div>
+        <div class="row site-animate">
+            <div class="col-md-12 text-center">
+                <div class="site-footer-widget mb-4">
+                    <ul class="site-footer-social list-unstyled ">
+                        <li class="site-animate"><a href="#"><span class="icon-twitter"></span></a></li>
+                        <li class="site-animate"><a href="#"><span class="icon-facebook"></span></a></li>
+                        <li class="site-animate"><a href="#"><span class="icon-instagram"></span></a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="col-md-12 text-center">
+                <p>&copy; <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+                    Copyright &copy;<script>document.write(new Date().getFullYear());</script> All rights reserved | Made <i class="icon-heart" aria-hidden="true"></i> by Lanbang
+                    <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. --></p>
+            </div>
+        </div>
     </div>
-  </div>
 </footer>
 
 </body>

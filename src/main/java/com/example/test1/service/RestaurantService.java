@@ -7,8 +7,6 @@ import java.util.List;
 
 public interface RestaurantService {
     public Restaurant save(RestaurantDto restaurantDto);
-    public Restaurant rechercherRestaurant(String nom, String localisation);
-    public List<Restaurant> rechercherlocalisation(String localisation);
     public Restaurant findOne(Long idresto);
     public Restaurant findNom(String nom);
 

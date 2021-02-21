@@ -67,16 +67,52 @@ function updateSubCartTotal() {
     frais_livraison = document.getElementsByClassName('cart-fraislivraison-price')[0].innerText.replace('Fcfa', '');
     sub_total =(Math.round(sub_total * 100) / 100)  + parseFloat(frais_livraison);
     document.getElementsByClassName('cart-totalfinal-price')[0].innerText = sub_total + 'Fcfa';
-    document.getElementsByClassName('mon-total')[0].innerText = sub_total + 'Fcfa';
+    document.getElementsByClassName('mon-total')[0].value = sub_total ;
+}
+
+function getInput() {
+    var adresse = document.getElementsByClassName('class-adresse')[0].value;
+    var ville = document.getElementsByClassName('class-ville')[0].value;
+    var date = document.getElementsByClassName('class-date')[0].value;
+    var nomentreprise = document.getElementsByClassName('nom-entreprise')[0].value;
+    var time = document.getElementsByClassName('class-time')[0].value;
+    var remarque = document.getElementsByClassName('class-remarque')[0].value;
+    var currency = document.getElementsByClassName('class-currency')[0].value;
+    var intent = document.getElementsByClassName('class-intent')[0].value;
+    var mode = document.getElementsByClassName('class-mode')[0].value;
+    var total = document.getElementsByClassName('mon-total')[0].value;
+    commandeDto = {Adresse:adresse,
+        Ville:ville,
+            Date:date,
+            Nomentreprise:nomentreprise,
+            Time:time,
+            Remarque:remarque,
+            Currency:currency,
+            Intent:intent,
+            Mode:mode,
+            Total:total};
+    return commandeDto
 }
 
 function savedata(){
     console.log("hello world");
-
-        var data = window.sessionStorage.getItem("table")
-    $.post('http://localhost:8080/panier/save',
-            {data:data},
-            function(res){console.log(res,"##############################")}
+    var data = window.sessionStorage.getItem("table");
+    var commandeDto = getInput();
+    $.get('http://localhost:8080/panier/test',
+        {data:data, commandDto: commandeDto},
+        console.log(commandeDto)
             )
+
+/*        $.ajax({
+            url: 'http://192.168.10.214:8000/ws/api/v1/dany/test/',
+            type: 'GET',
+            success :  function(res){console.log(res,"##############################")},
+
+            error : function(resultat, statut, erreur){console.log("bienvenue dans le monde des erreurs ",erreur)},
+
+           /!* complete : function (rescom, statut) {
+                console.log("rescomrescom ",rescom)
+            }*!/
+        })*/
     console.log("##############################")
 }

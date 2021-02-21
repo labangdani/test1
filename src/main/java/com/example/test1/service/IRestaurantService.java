@@ -20,7 +20,6 @@ public class IRestaurantService implements RestaurantService {
             Restaurant restaurant = new Restaurant();
             restaurant.setNomR(restaurantDto.getNomR());
             restaurant.setIdresto(restaurantDto.getIdresto());
-            restaurant.setLocalisation(restaurantDto.getLocalisation());
             restaurant.setImage(restaurantDto.getImage());
             restaurant.setDescription(restaurantDto.getDescription());
             restaurant.setMailR(restaurantDto.getMailR());
@@ -37,17 +36,6 @@ public class IRestaurantService implements RestaurantService {
         return restaurantRepository.save(restaurant);
         }
 
-
-    @Override
-    public Restaurant rechercherRestaurant(String nom, String localisation) {
-        return restaurantRepository.findByNomRAndLocalisation(nom, localisation);
-    }
-
-    @Override
-    public List<Restaurant> rechercherlocalisation(String localisation) {
-        return restaurantRepository.findByLocalisation(localisation);
-    }
-
        @Override
     public Restaurant findOne(Long idresto) {
         return restaurantRepository.findByIdresto(idresto);
@@ -57,5 +45,7 @@ public class IRestaurantService implements RestaurantService {
     public Restaurant findNom(String nom) {
         return restaurantRepository.findByNomR(nom);
     }
+
+
 
 }

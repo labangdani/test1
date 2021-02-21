@@ -1,5 +1,8 @@
 package com.example.test1.modele.Entity;
 
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
+
 import javax.persistence.*;
 import java.util.HashSet;
 import java.util.List;
@@ -14,8 +17,6 @@ public class Restaurant {
     private Long idresto;
     @Column(name = "nomR")
     private String nomR;
-    @Column(name = "localisation")
-    private String localisation;
     @Column(name = "image")
     private String image;
     @Column(name = "description")
@@ -46,20 +47,23 @@ public class Restaurant {
     //un sommaire peut avoir plusieur matieres
     private List<Plat> plat;
    @OneToMany(fetch = FetchType.LAZY, mappedBy = "restaurants")
-    //un sommaire peut avoir plusieur matieres
+    //un restaurant peut avoir plusieur commandes
     private List<Commande> commande;
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "user_resto",
             joinColumns = @JoinColumn(name = "idresto"),
             inverseJoinColumns = @JoinColumn(name = "idU"))
     private Set<Utilisateur> utilisateurs = new HashSet<>();
+    @ManyToOne(fetch = FetchType.EAGER, optional = true)
+    @JoinColumn(name = "idL", nullable = false)
+    @OnDelete(action = OnDeleteAction.NO_ACTION)
+    private Localisation localisations;
 
     public Restaurant() {
     }
 
-    public Restaurant(String nomR, String localisation, String description, String mailR, int tel, String type, int fraisdelivraison, Boolean lundi, Boolean mardi, Boolean mercredi, Boolean jeudi, Boolean vendredi, Boolean samedi, Boolean dimanche) {
+    public Restaurant(String nomR, String description, String mailR, int tel, String type, int fraisdelivraison, Boolean lundi, Boolean mardi, Boolean mercredi, Boolean jeudi, Boolean vendredi, Boolean samedi, Boolean dimanche) {
         this.nomR = nomR;
-        this.localisation = localisation;
         this.description = description;
         this.mailR = mailR;
         this.tel = tel;
@@ -88,14 +92,6 @@ public class Restaurant {
 
     public void setNomR(String nomR) {
         this.nomR = nomR;
-    }
-
-    public String getLocalisation() {
-        return localisation;
-    }
-
-    public void setLocalisation(String localisation) {
-        this.localisation = localisation;
     }
 
     public String getImage() {
@@ -226,7 +222,15 @@ public class Restaurant {
         this.commande = commande;
     }
 
-     @Transient
+    public Localisation getLocalisations() {
+        return localisations;
+    }
+
+    public void setLocalisations(Localisation localisations) {
+        this.localisations = localisations;
+    }
+
+    @Transient
     public String getPhotosImagePath() {
         if (image == null) return null;
          
@@ -241,8 +245,4 @@ public class Restaurant {
                 ", nomR='" + nomR + '\'' +
                 '}';
     }
-
-
-
-
 }

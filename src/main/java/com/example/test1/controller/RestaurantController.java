@@ -1,8 +1,10 @@
 package com.example.test1.controller;
 
 import com.example.test1.modele.DTO.RestaurantDto;
+import com.example.test1.modele.Entity.Localisation;
 import com.example.test1.modele.Entity.Restaurant;
 import com.example.test1.modele.Entity.Utilisateur;
+import com.example.test1.repository.LocalisationRepository;
 import com.example.test1.repository.RestaurantRepository;
 import com.example.test1.repository.UtilisateurRepository;
 import com.example.test1.service.RestaurantService;
@@ -34,14 +36,15 @@ public class RestaurantController {
     private UtilisateurRepository utilisateurRepository;
     @Autowired
     private RestaurantRepository restaurantRepository;
+    @Autowired
+    private LocalisationRepository localisationRepository;
 
 
     @RequestMapping(value="/save", method= RequestMethod.POST)
     public String RestoAccount(@Validated RestaurantDto restaurantDto, BindingResult result, @RequestParam("image") MultipartFile multipartFile){
-        Restaurant existing = restoservice.rechercherRestaurant(restaurantDto.getNomR(), restaurantDto.getLocalisation());
+        Restaurant existing = restaurantRepository.findByNomR(restaurantDto.getNomR());
         if(existing != null){
             result.rejectValue("nom", null, "There is already an account registered with that matricule");
-            result.rejectValue("localisation", null, "There is already an account registered with that matricule");
         }
 
         String fileName = StringUtils.cleanPath(multipartFile.getOriginalFilename());
@@ -59,7 +62,6 @@ public class RestaurantController {
 
         // Create new restaurant's account
         Restaurant restaurant = new Restaurant(restaurantDto.getNomR(),
-                restaurantDto.getLocalisation(),
                 restaurantDto.getDescription(),
                 restaurantDto.getMailR(),
                 restaurantDto.getTel(),
@@ -74,7 +76,7 @@ public class RestaurantController {
                 restaurantDto.getDimanche());
 
                 restaurant.setImage(fileName);
-
+                restaurant.setLocalisations(restaurantDto.getLocalisations());
         Set<Utilisateur> utilisateurs = new HashSet<>();
 
         Authentication auth = (Authentication) SecurityContextHolder.getContext().getAuthentication();
@@ -89,50 +91,54 @@ public class RestaurantController {
         return "redirect:/resto/allresto";
     }
 
-       @RequestMapping(value = "/edit/{nomR}", method = RequestMethod.GET)
+    @RequestMapping(value = "/edit/{nomR}", method = RequestMethod.GET)
     public String edit (Model model, @PathVariable(name="nomR") String nomr){
         Restaurant restaurant = restoservice.findNom(nomr);
-        model.addAttribute("restaurant", restaurant);
+        List<Localisation> data = localisationRepository.selectall();
+           model.addAttribute("data", data);
+           model.addAttribute("restaurantDto", restaurant);
         return "editRestoForm";
     }
 
     @RequestMapping(value = "/update", method = RequestMethod.POST)
-    public String save (@Validated Restaurant restaurant, BindingResult result, @RequestPart("image") MultipartFile multipartFile){
-
-
-       if (result.hasErrors()){
+    public String save (@Validated RestaurantDto restaurantDto, BindingResult result, @RequestParam("image") MultipartFile multipartFile){
+      /*   if (result.hasErrors()){
             return "editRestoForm";
-        }
-        Restaurant restaurants = restoservice.findNom(restaurant.getNomR());
-        System.out.println(restaurant);
+        } */
+        Restaurant restaurants = restoservice.findNom(restaurantDto.getNomR());
+        System.out.println(restaurants);
+        if(multipartFile.isEmpty() == false){
+                String fileName = StringUtils.cleanPath(multipartFile.getOriginalFilename());
+                System.out.println(fileName);
 
-        String fileName = StringUtils.cleanPath(multipartFile.getOriginalFilename());
-        System.out.println(fileName);
-        if(Files.exists(this.root.resolve(multipartFile.getOriginalFilename())) == false) {
-            try {
-                Files.copy(multipartFile.getInputStream(), this.root.resolve(multipartFile.getOriginalFilename()));
-            } catch (Exception e) {
-                e.printStackTrace();
-                throw new RuntimeException("Could not store the file! error:" + e.getMessage());
-            }
-        }
+                if(Files.exists(this.root.resolve(multipartFile.getOriginalFilename())) == false) {
+                    try {
+                        Files.copy(multipartFile.getInputStream(), this.root.resolve(multipartFile.getOriginalFilename()));
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                        throw new RuntimeException("Could not store the file! error:" + e.getMessage());
+                    }
+                    restaurants.setImage(fileName);
+                }
 
                     // update restaurant's account
-                    restaurants.setNomR(restaurant.getNomR());
-                    restaurants.setLocalisation(restaurant.getLocalisation());
-                    restaurants.setDescription(restaurant.getDescription());
-                    restaurants.setMailR(restaurant.getMailR());
-                    restaurants.setTel(restaurant.getTel());
-                    restaurants.setType(restaurant.getType());
-                    restaurants.setFraisdelivraison(restaurant.getFraisdelivraison());
-                    restaurants.setLundi(restaurant.getLundi());
-                    restaurants.setMardi(restaurant.getMardi());
-                    restaurants.setMercredi(restaurant.getMercredi());
-                    restaurants.setJeudi(restaurant.getJeudi());
-                    restaurants.setVendredi(restaurant.getVendredi());
-                    restaurants.setSamedi(restaurant.getSamedi());
-                    restaurants.setDimanche(restaurant.getDimanche());
-                    restaurants.setImage(fileName);
+                    restaurants.setNomR(restaurantDto.getNomR());
+                    restaurants.setDescription(restaurantDto.getDescription());
+                    restaurants.setMailR(restaurantDto.getMailR());
+                    restaurants.setTel(restaurantDto.getTel());
+                    restaurants.setType(restaurantDto.getType());
+                    restaurants.setFraisdelivraison(restaurantDto.getFraisdelivraison());
+                    restaurants.setLundi(restaurantDto.getLundi());
+                    restaurants.setMardi(restaurantDto.getMardi());
+                    restaurants.setMercredi(restaurantDto.getMercredi());
+                    restaurants.setJeudi(restaurantDto.getJeudi());
+                    restaurants.setVendredi(restaurantDto.getVendredi());
+                    restaurants.setSamedi(restaurantDto.getSamedi());
+                    restaurants.setDimanche(restaurantDto.getDimanche());
+                     restaurants.setLocalisations(restaurantDto.getLocalisations());
+
+            restaurants.setImage(fileName);
+
 
                     Set<Utilisateur> utilisateurs = new HashSet<>();
 
@@ -140,14 +146,40 @@ public class RestaurantController {
                     System.out.println(auth.getName());
 
                     Utilisateur utilisateur = utilisateurRepository.findByUsername(auth.getName());
-
                     System.out.println(utilisateur.getIdU());
-
 
                     utilisateurs.add(utilisateur);
                     restaurants.setUtilisateurs(utilisateurs);
-                    restaurantRepository.save(restaurants);
+                    restaurantRepository.save(restaurants);}
+        else{
 
+            // update restaurant's account
+            restaurants.setNomR(restaurantDto.getNomR());
+            restaurants.setDescription(restaurantDto.getDescription());
+            restaurants.setMailR(restaurantDto.getMailR());
+            restaurants.setTel(restaurantDto.getTel());
+            restaurants.setType(restaurantDto.getType());
+            restaurants.setFraisdelivraison(restaurantDto.getFraisdelivraison());
+            restaurants.setLundi(restaurantDto.getLundi());
+            restaurants.setMardi(restaurantDto.getMardi());
+            restaurants.setMercredi(restaurantDto.getMercredi());
+            restaurants.setJeudi(restaurantDto.getJeudi());
+            restaurants.setVendredi(restaurantDto.getVendredi());
+            restaurants.setSamedi(restaurantDto.getSamedi());
+            restaurants.setDimanche(restaurantDto.getDimanche());
+
+            Set<Utilisateur> utilisateurs = new HashSet<>();
+
+            Authentication auth = (Authentication) SecurityContextHolder.getContext().getAuthentication();
+            System.out.println(auth.getName());
+
+            Utilisateur utilisateur = utilisateurRepository.findByUsername(auth.getName());
+            System.out.println(utilisateur.getIdU());
+
+            utilisateurs.add(utilisateur);
+            restaurants.setUtilisateurs(utilisateurs);
+            restaurantRepository.save(restaurants);
+        }
         return "redirect:/resto/allresto";
 
     }
@@ -168,7 +200,6 @@ public class RestaurantController {
             restoDto.setNomR(restaurants.getNomR());
             restoDto.setDescription(restaurants.getDescription());
             restoDto.setImage(restaurants.getPhotosImagePath());
-            restoDto.setLocalisation(restaurants.getLocalisation());
             restoDto.setMailR(restaurants.getMailR());
             restoDto.setTel(restaurants.getTel());
             restoDto.setType(restaurants.getType());
@@ -187,18 +218,20 @@ public class RestaurantController {
 
     @RequestMapping(value="/remplirRestoForm", method=RequestMethod.GET)
     public String pageEngregistrerRestaurant(Model model) {
-
+        List<Localisation> data = localisationRepository.selectall();
+        System.out.println(data);
+        model.addAttribute("data", data);
         model.addAttribute("restaurantDto", new RestaurantDto());
 
         return "enregistrerresto";
     }
 
     @RequestMapping(value="/listeresto", method = RequestMethod.GET)
-    public String listRestaurants(Model model, String localisation) {
+    public String listRestaurants(Model model, Long local) {
 
         //recuperation de la liste des Restaurants
-
-        final List<Restaurant> restaurant = restoservice.rechercherlocalisation(localisation);
+        final Localisation localisation = localisationRepository.findByIdL(local);
+        List<Restaurant> restaurant = localisation.getRestaurant();
 
         List<RestaurantDto> dtos= new ArrayList<RestaurantDto>();
 
@@ -208,7 +241,6 @@ public class RestaurantController {
             restaurantDto.setNomR(restaurants.getNomR());
             restaurantDto.setDescription(restaurants.getDescription());
             restaurantDto.setImage(restaurants.getPhotosImagePath());
-            restaurantDto.setLocalisation(restaurants.getLocalisation());
             restaurantDto.setMailR(restaurants.getMailR());
             restaurantDto.setTel(restaurants.getTel());
             restaurantDto.setType(restaurants.getType());
@@ -222,4 +254,38 @@ public class RestaurantController {
         model.addAttribute("listRestaurant", dtos);
         return "resto";
     }
+
+    @GetMapping("/detailresto/{id}")
+    public String detailRestaurant(@PathVariable(name = "id") Long id, Model model) {
+
+        //recuperation de la liste des Enseignants
+        System.out.println("bonjour");
+        final Restaurant restaurant = restoservice.findOne(id);
+
+        //RestaurantDto dtos = new RestaurantDto();
+
+
+        RestaurantDto restaurantDto = new RestaurantDto();
+        restaurantDto.setNomR(restaurant.getNomR());
+        restaurantDto.setImage(restaurant.getPhotosImagePath());
+        restaurantDto.setDescription(restaurant.getDescription());
+        restaurantDto.setTel(restaurant.getTel());
+        restaurantDto.setLocalisations(restaurant.getLocalisations());
+
+
+
+
+
+
+		/*final List<VehiculeDTO> dtos= Lists.transform(enseignants,
+				(Enseignant input) -> new EnseignantDTO(input.getNom(),
+						input.getTelephone(),input.getUe()));
+*/
+
+        //en registrement dans le model
+        model.addAttribute("restaurant", restaurantDto);
+
+        return "benana";
+    }
+
 }

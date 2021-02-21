@@ -1676,3 +1676,48 @@ hr.invis3 {
     -o-border-radius: 50%;
     border-radius: 50%
 }
+
+.autocomplete{
+    position: relative;
+    display: inline-block;
+}
+
+.autocomplete-items{
+    /*position: absolute;*/
+    /*border: 1px solid #dee2e6;*/
+
+    /*border-top: none;*/
+    /*z-index: 99;*/
+
+    /*top: 100%;*/
+    /*left: 0;*/
+    /*right: 0;*/
+
+    height:53px;
+    border:none;
+    color:#000;
+    font-size:18px;
+    border-radius: 5px; width: 370px;
+}
+
+.autocomplete-items div{
+    padding: 10px;
+    cursor: pointer;
+    background-color: #FFFFFF;
+    border: 1px solid #dee2e6;
+    border-left: none;
+    border-right: none;
+    border-bottom: none;
+    font-weight: 400;
+
+}
+
+.autocomplete-items div:hover{
+    background-color: #dee2e6;
+}
+
+.autocomplete-active{
+
+    background-color: #eb9316  !important;
+    color: #FFFFFF;
+}

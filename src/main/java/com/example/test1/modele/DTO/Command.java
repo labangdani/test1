@@ -1,6 +1,5 @@
 package com.example.test1.modele.DTO;
 
-
 import com.example.test1.modele.Entity.Lignecommande;
 import com.example.test1.modele.Entity.Restaurant;
 import com.example.test1.modele.Entity.Utilisateur;
@@ -12,9 +11,7 @@ import javax.persistence.*;
 import java.sql.Date;
 import java.util.List;
 
-
-
-public class CommandeDto {
+public class Command {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "idcom")
@@ -57,10 +54,10 @@ public class CommandeDto {
     //une commande peut avoir plusieurs lignes de commandes
     private List<Lignecommande> lignecommandes;
 
-    public CommandeDto() {
+    public Command() {
     }
 
-    public CommandeDto(int total, String currency, String intent, boolean validite, @NonNull String heure, @NonNull String mode, @NonNull String adresse, String ville, @NonNull Date datedujour, String remarque, String nom_entreprise) {
+    public Command(int total, String currency, String intent, boolean validite, @NonNull String heure, @NonNull String mode, @NonNull String adresse, String ville, @NonNull Date datedujour, String remarque, String nom_entreprise, Utilisateur utilisateur, Restaurant restaurants, List<Lignecommande> lignecommandes) {
         this.total = total;
         this.currency = currency;
         this.intent = intent;
@@ -72,6 +69,9 @@ public class CommandeDto {
         this.datedujour = datedujour;
         this.remarque = remarque;
         this.nom_entreprise = nom_entreprise;
+        this.utilisateur = utilisateur;
+        this.restaurants = restaurants;
+        this.lignecommandes = lignecommandes;
     }
 
     public Long getIdcom() {
@@ -94,16 +94,16 @@ public class CommandeDto {
         return currency;
     }
 
+    public void setCurrency(String currency) {
+        this.currency = currency;
+    }
+
     public String getIntent() {
         return intent;
     }
 
     public void setIntent(String intent) {
         this.intent = intent;
-    }
-
-    public void setCurrency(String currency) {
-        this.currency = currency;
     }
 
     public boolean isValidite() {
@@ -146,16 +146,16 @@ public class CommandeDto {
         this.ville = ville;
     }
 
-    public String getRemarque() {
-        return remarque;
-    }
-
     public Date getDatedujour() {
         return datedujour;
     }
 
     public void setDatedujour(Date datedujour) {
         this.datedujour = datedujour;
+    }
+
+    public String getRemarque() {
+        return remarque;
     }
 
     public void setRemarque(String remarque) {
@@ -187,7 +187,6 @@ public class CommandeDto {
     }
 
     public List<Lignecommande> getLignecommandes() {
-
         return lignecommandes;
     }
 

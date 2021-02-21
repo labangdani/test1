@@ -68,7 +68,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 // (After logout, go to home page)
                 .and().logout().logoutSuccessUrl("/");
 
-        http.authorizeRequests().antMatchers("/User/listecommanduser").hasRole("USER");
+        http.authorizeRequests().antMatchers("/User/listecommanduser", "/plat/paiement/{nomR}").hasRole("USER");
         http.authorizeRequests().antMatchers("/plat/remplirPlatForm","/resto/allresto", "/command/listecommande").hasRole("MODERATOR");
         http.exceptionHandling().accessDeniedPage("/User/403");
         //http.authorizeRequests().antMatchers("/api/auth/**").permitAll();

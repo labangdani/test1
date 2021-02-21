@@ -40,6 +40,12 @@ public class PlatController {
     @Autowired
     private PlatService platService;
 
+    @RequestMapping(value="/remplirPlatForm/{nomR}", method = RequestMethod.GET)
+    public String pageEngregistrerPlat(@PathVariable(name = "nomR") String nomR, Model model) {
+        model.addAttribute("nomR", nomR);
+        return "enregistrerplat";
+    }
+
    @RequestMapping(value = "/save/{nomR}", method = RequestMethod.POST)
     public String CreatePlat(@Validated PlatDto platDto, BindingResult result, @PathVariable(name= "nomR") String nomR, @RequestParam("image") MultipartFile multipartFile) throws IOException
     {
@@ -81,45 +87,50 @@ public class PlatController {
     public String edit (Model model, @PathVariable(name="nomp") String nomp){
         Plat plat = platService.findOne(nomp);
         System.out.println(plat.getRestaurants().getNomR());
+        System.out.println(plat);
         model.addAttribute("plat", plat);
         return "editPlatForm";
     }
 
     @RequestMapping(value = "/update/{nomR}", method = RequestMethod.POST)
-    public String save (@Validated Plat plat, @PathVariable(name = "nomR") String nomR, BindingResult result,  @RequestPart("image") MultipartFile multipartFile)
+    public String update (@Validated PlatDto platDto, @PathVariable("nomR") String nomR, @RequestParam("file") MultipartFile multipartFile)
     {
         System.out.println("bonjour");
-       if (result.hasErrors()){
+     /*  if (result.hasErrors()){
             return "editPlatForm";
-        }
-        Plat plats = platService.findOne(plat.getNomP());
-if(multipartFile != null){
-        String fileName = StringUtils.cleanPath(multipartFile.getOriginalFilename());
-        System.out.println(fileName);
+        }*/
+        Plat plats = platService.findOne(platDto.getNomP());
+        if(multipartFile.isEmpty() == false) {
+            String fileName = StringUtils.cleanPath(multipartFile.getOriginalFilename());
+            System.out.println(fileName);
 
-        if(Files.exists(this.root.resolve(multipartFile.getOriginalFilename())) == false) {
-            try {
-                Files.copy(multipartFile.getInputStream(), this.root.resolve(multipartFile.getOriginalFilename()));
-            } catch (Exception e) {
-                e.printStackTrace();
-                throw new RuntimeException("Could not store the file! error:" + e.getMessage());
+            if (Files.exists(this.root.resolve(multipartFile.getOriginalFilename())) == false) {
+                try {
+                    Files.copy(multipartFile.getInputStream(), this.root.resolve(multipartFile.getOriginalFilename()));
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    throw new RuntimeException("Could not store the file! error:" + e.getMessage());
+                }
+                plats.setImage(fileName);
             }
+
+            plats.setNomP(platDto.getNomP());
+            plats.setPrix(platDto.getPrix());
+            plats.setDescription(platDto.getDescription());
+            plats.setImage(fileName);
+            Restaurant restaurant = restaurantRepository.findByNomR(nomR);
+            plats.setRestaurants(restaurant);
+            platRepository.save(plats);
         }
-
-       plats.setNomP(plat.getNomP());
-       plats.setPrix(plat.getPrix());
-       plats.setDescription(plat.getDescription());
-       plats.setImage(fileName);
-       Restaurant restaurant = restaurantRepository.findByNomR(nomR);
-        plats.setRestaurants(restaurant);
-        platRepository.save(plats);}
-
         else{
-            
+            plats.setNomP(platDto.getNomP());
+            plats.setPrix(platDto.getPrix());
+            plats.setDescription(platDto.getDescription());
+            Restaurant restaurant = restaurantRepository.findByNomR(nomR);
+            plats.setRestaurants(restaurant);
+            platRepository.save(plats);
         }
-
         return "redirect:/plat/listeplat/{nomR}";
-
     }
 
 
@@ -131,12 +142,6 @@ if(multipartFile != null){
         return "menuresto";
     }
 
-
-    @RequestMapping(value="/remplirPlatForm/{nomR}", method = RequestMethod.GET)
-    public String pageEngregistrerPlat(@PathVariable(name = "nomR") String nomR, Model model) {
-        model.addAttribute("nomR", nomR);
-        return "enregistrerplat";
-    }
 
     @RequestMapping(value="/menuResto/{nomR}", method = RequestMethod.GET)
     public String pageMenu(@PathVariable(name = "nomR") String nomR, Model model) {
@@ -153,7 +158,7 @@ if(multipartFile != null){
             platDto.setDescription(plats.getDescription());
             platDto.setImage(plats.getPhotosImagePath());
             platDto.setPrix(plats.getPrix());
-            platDto.setRestaurant(plats.getRestaurants());
+            platDto.setRestaurants(plats.getRestaurants());
             System.out.println("les images de mes restos sont : " + plats.getPhotosImagePath());
 
             dtos.add(platDto);
@@ -182,7 +187,7 @@ if(multipartFile != null){
             platDto.setDescription(plats.getDescription());
             platDto.setImage(plats.getPhotosImagePath());
             platDto.setPrix(plats.getPrix());
-            platDto.setRestaurant(plats.getRestaurants());
+            platDto.setRestaurants(plats.getRestaurants());
             System.out.println("les images de mes restos sont : " + plats.getPhotosImagePath());
 
             dtos.add(platDto);
@@ -200,7 +205,7 @@ if(multipartFile != null){
         Restaurant restaurant = restaurantRepository.findByNomR(nomR);
         model.addAttribute("username", auth.getName());
         model.addAttribute("user", utilisateur);
-        model.addAttribute("restaurant", restaurant);
+        model.addAttribute("restaurantDto", restaurant);
         return "paiement";
     }
 }

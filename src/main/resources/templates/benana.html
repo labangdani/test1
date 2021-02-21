@@ -6,7 +6,7 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-<title>RESTOFIND</title>
+<title>EAT FAST</title>
 <meta name="keywords" content="">
 <meta name="description" content="">
 <meta name="author" content="">
@@ -32,16 +32,9 @@
 
                 <div class="page-wrapper">
                     <div  class="blog-title-area">
-
-                        <ol class="breadcrumb hidden-xs-down">
-                            <li class="breadcrumb-item"><a href="#">Accueil</a></li>
-                            <li class="breadcrumb-item"><a href="#">Restaurant</a></li>
-                            <li class="breadcrumb-item active">Nous sommes à votre service</li>
-                        </ol>
-
                         <span class="color-yellow"><a href="marketing-category.html" title="">Note: 9/10</a></span>
 
-                        <h3 th:text="${restaurant.nom}">nom </h3>
+                        <h3 th:text="${restaurant.getNomR()}">nom </h3>
 
 
                         <div class="post-sharing">
@@ -54,14 +47,12 @@
                     </div><!-- fin titre -->
 
                     <div class="single-post-media">
-                        <img th:src="${restaurant.image}" alt="" class="img-fluid">
+                        <img th:src="${restaurant.image}" style="width: 669px; height: 340px" class="img-fluid">
                     </div><!-- fin media -->
 
                     <div class="blog-content">
                         <div class="pp">
-
-
-                            <h3><strong> <p th:text="${restaurant.description}">Description</p>
+                            <h3><strong> <p th:text="${restaurant.getDescription()}">Description</p>
                             </strong></h3>
                         </div><!-- fin pp -->
 
@@ -70,22 +61,16 @@
 
             </div>
 
-
-
-
-
-<!--            <% listresto.forEach(function(restaurant, index) { %>-->
             <div class="col-lg-4 col-md-12 col-sm-12 col-xs-12">
 
                 <div class="sidebar">
                     <div class="widget-no-style">
                         <div class="newsletter-widget text-center align-self-center">
 
-                            <h3 th:text="${restaurant.nom}">nom</h3>
-                            <p>passez vos commandes dès maintenant</p>
-                            <p th:text="${restaurant.nom}">, Votre Meilleur restaurant ou manger</p>
-                            ADRESSE : <span th:text="${restaurant.localisation}"></span>
-                            CONTACT : <span th:text="${restaurant.contact}"></span>
+                            <h3 th:text="${restaurant.getNomR()}">nom</h3>
+                            <p th:text="${restaurant.getNomR()}">Votre Meilleur restaurant ou manger</p>
+                            ADRESSE : <span th:text="${restaurant.getLocalisations()}"></span>
+                            <br>CONTACT : <span th:text="${restaurant.getTel()}"></span>
                         </div><!-- fin newsletter -->
 
                     </div>

@@ -30,7 +30,7 @@
                         <div class="col-md-7 col-md-push-1  probootstrap-animate" id="probootstrap-content">
                           <p><h2><b> Créer un compte </b></h2></p>
                             <p>Les champs en * sont obloigatoire</p>
-                            <form class="probootstrap-form"   th:method="post" th:object="${utilisateurDto}"  th:action="@{/User/signup}">
+                            <form class="probootstrap-form"   th:method="post" th:object="${utilisateurDto}"  th:action="@{/User/signup}" autocomplete="off">
                                 <div class="form-group">
                                     <label >Username *</label>
                                     <input type="text" class="form-control"  name="username" >

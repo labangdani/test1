@@ -25,8 +25,8 @@
                     <div class="row probootstrap-gutter0">
                         <div class="col-md-7 col-md-push-1  probootstrap-animate" id="probootstrap-content">
                             <p><h2><b> Nouveau plat </b></h2></p>
-                            <p>Les champs en * sont obloigatoire </p>
-                            <form class="probootstrap-form"  enctype="multipart/form-data" th:method="post" th:object="${platDto}"  th:action="@{'/plat/save/' +${nomR}}">
+                            <p class="text-black">Les champs en * sont obloigatoire </p>
+                            <form class="probootstrap-form"  enctype="multipart/form-data" th:method="post" th:object="${platDto}"  th:action="@{'/plat/save/' +${nomR}}" autocomplete="off">
                                 <div class="form-group">
                                     <label > Nom du plat *</label>
                                     <input type="text" class="form-control"  name="nomP">
